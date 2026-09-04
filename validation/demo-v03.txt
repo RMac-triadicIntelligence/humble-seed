@@ -1,0 +1,46 @@
+========================================================================
+Humble Seed v0.3 — Schema / Chain / Seal Hardening
+========================================================================
+
+[1] Hatching...
+    Organism ID : 61f8e899-0598-48ee-bcb4-d3af4ea8382a
+
+[2] Public path (gate opened)...
+    Status: proposal
+    Change payload: {'verbosity': 0.25}
+
+[3] Invalid signature attempt...
+    Accepted? False  (expected False)
+
+[4] External owner authorization...
+    Applied? True
+    Character: {'verbosity': 0.25, 'formality': 0.5, 'curiosity': 0.6}
+
+[5] Type-invalid mutation attempt...
+    Rejected: Mutation value for verbosity must be a number, got str
+
+[6] Replay after successful apply...
+    Replay accepted? False  (expected False)
+    Last rejection reason: unknown or already-consumed proposal_id
+
+[7] Forged trace body (must be rejected on load)...
+    Rejected: Hash chain broken at index 2: entry_hash mismatch
+
+[8] first_commit_pending rewrite (must be rejected)...
+    Rejected: State seal mismatch — integrity check failed (corruption or rewrite of sealed fields).
+
+========================================================================
+v0.3 status:
+  ✓ Public path exercised and emits numeric change values only
+  ✓ Type/range validation rejects string labels
+  ✓ Full hash-chain walk on load rejects rewritten bodies
+  ✓ Seal covers pending root + first_commit_pending root
+  ✓ Honest seal semantics (corruption detection, not anti-tamper claim)
+  ✓ Replay after apply rejected
+========================================================================
+
+Remaining honesty limit:
+  The state seal is still an unkeyed hash of public material.
+  A file-write attacker who also recomputes the seal can forge.
+  Closing that requires an external HMAC key or an owner signature
+  over a state root (Genesis-style escalation).

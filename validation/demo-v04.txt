@@ -1,0 +1,65 @@
+==========================================================================
+Humble Seed v0.4 — Full-Coverage Seal / Genesis / Constitution Binding
+==========================================================================
+
+[1] Hatching...
+    Organism ID       : 6d939757-46ec-4035-ae7b-453d19ff4746
+    Genesis           : be7b79a7a94e22aa...
+    Constitution hash : 45d99812f7cc8b1f...
+
+[2] Public path (first-commit gate opened)...
+    Status : proposal
+    Change : {'verbosity': 0.25}
+
+[3] Invalid signature (must fail)...
+    Accepted? False  (expected False)
+
+[4] External owner authorization...
+    Applied?  True
+    Character: {'verbosity': 0.25, 'formality': 0.5, 'curiosity': 0.6}
+
+[5] Type-invalid mutation (must be rejected at issuance)...
+    Rejected: Mutation value for verbosity must be a number, got str
+
+[6] TRUE consumed-ledger replay (pending entry re-inserted)...
+    Replay accepted? False  (expected False)
+    Branch reached : replay of consumed proposal/nonce
+
+[7] Trace body rewritten, entry_hash LEFT INTACT (the real attack)...
+    rejected: Hash chain broken at index 2: entry_hash mismatch
+
+[8] Pending proposal body rewritten, same proposal_id (D1)...
+    rejected: State seal mismatch — corruption or rewrite of a sealed region (birth, constitution, character, basin, pending, consumed, gates, trace head)
+
+[9] Basin evidence wiped (D2)...
+    rejected: State seal mismatch — corruption or rewrite of a sealed region (birth, constitution, character, basin, pending, consumed, gates, trace head)
+
+[10] Constitution swapped for a permissive one (D3)...
+    rejected: Constitution does not match birth commitment — organism is not running under the constitution it was born with
+
+[11] Birth record edited to detach genesis (D3)...
+    rejected: Constitution does not match birth commitment — organism is not running under the constitution it was born with
+
+[12] Restart + independent verify()...
+    Identity matches  : True
+    Character         : {'curiosity': 0.6, 'formality': 0.3, 'verbosity': 0.25}
+    Trace length      : 5
+    Consumed entries  : 2
+    verify() passes   : True
+
+==========================================================================
+Closed in v0.4:
+  D1 seal covers full pending contents, not just proposal ids
+  D2 seal covers the basin (pre-authorization evidence)
+  D3 constitution persisted + rehashed; genesis re-derived; birth sealed
+  D4 signing moved out of the organism class entirely
+  D5 atomic state writes
+  D6 harness exercises the real replay and real chain attacks
+
+Still open — see FOR ADVERSARIAL REVIEWERS in the module docstring:
+  O1 seal is unkeyed; a file-write attacker who recomputes it forges freely
+  O2 owner tool runs in-process; the split is structural, not enforced
+  O3 interpret() is a keyword stub
+  O4 no key rotation, revocation, or proposal expiry
+  O5 single-writer assumption, no file locking
+==========================================================================

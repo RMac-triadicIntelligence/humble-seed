@@ -1,0 +1,13 @@
+created_at only        : rejected -> IntegrityError: Genesis hash does not re-derive from birth record
+organism_id in birth   : rejected -> IntegrityError: Genesis hash does not re-derive from birth record
+public key swapped     : rejected -> IntegrityError: Genesis hash does not re-derive from birth record
+genesis_hash only      : rejected -> IntegrityError: Genesis hash does not re-derive from birth record
+constitution deleted   : rejected -> IntegrityError: Constitution missing from state — cannot verify birth binding
+character out of range : rejected -> IntegrityError: Character field verbosity out of range: 5.0
+character string value : rejected -> IntegrityError: Character field verbosity is not numeric: str
+character extra field  : rejected -> IntegrityError: Character contains disallowed field: evil
+consumed entry dropped : rejected -> IntegrityError: State seal mismatch — corruption or rewrite of a sealed region (birth,
+trace truncated        : rejected -> IntegrityError: trace_head does not match final entry_hash
+schema_version bumped  : rejected -> IntegrityError: Schema version mismatch: file=9.9 expected=0.4
+O1 control            : rejected State seal mismatch — corruption or rewrite of a sealed region (birth, constitution, character, basin, pending, consumed, gates, trace head)
+apply-time tamper      : False -> schema violation at apply time: out-of-range value for formality

@@ -1,0 +1,8 @@
+G1 gate before: True
+   derived flag: True (param removed)
+G1 applied without first_commit flag: False | character: {'verbosity': 0.5, 'formality': 0.5, 'curiosity': 0.6}
+G2 gates flipped + resealed: rejected: First-commit gates do not match the attested checkpoint
+G3 constitution swapped: rejected: Birth trace entry does not match the birth record genesis
+G4 witness holds sequence: 1
+G4 rejected: Non-successor checkpoint: got sequence 99, expected 2
+G5 birth trace genesis: 6a1c89619844 | birth record genesis: 6a1c89619844 | cross-checked by verify(): no explicit check in verify()

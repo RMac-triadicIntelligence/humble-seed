@@ -1,0 +1,107 @@
+============================================================================
+Humble Seed v0.6 — Attestation Covers the Constitution
+============================================================================
+
+[1] Hatch + genesis attestation...
+    Organism  : 956a81ef-7d87-4445-b162-278fa556bf2d
+    Attested? : True (sequence 0)
+    State mode: 0o600
+
+[2] F1 — naturally hatched organism reaches a FLAGGED first proposal...
+    Status       : proposal
+    first_commit : True
+    Flag is inside the signed payload: True
+
+[3] F2 — evidence swapped after signature...
+    Accepted? False  (expected False)
+    Reason  : envelope inconsistency (evidence, distribution, or change altered)
+
+[4] F3 — category/change mismatch...
+    Rejected: Change keys ['formality'] must be exactly the proposed category {'verbosity'}
+
+[5] Legitimate authorization + attestation...
+    Applied?      True
+    Unattested load fails closed: rejected: First-commit gates do not match the attested che...
+    Attested?     True (sequence 1)
+    Character     : {'verbosity': 0.25, 'formality': 0.5, 'curiosity': 0.6}
+    Reload OK     : True
+
+[6] F4 — older signed proposal applied after a newer one...
+    Newer applied : 0.25
+    Older accepted? False  (expected False)
+    Reason        : stale proposal: character has advanced since issuance
+    Character     : 0.25 (unchanged)
+
+[7] Proposal expiry...
+    Expired accepted? False  (expected False)
+    Reason          : proposal expired
+
+[8] O1 — forge character, RE-CHAIN the trace, recompute the seal...
+    Attacker's chain is internally valid: True
+    rejected: Character does not match the attested checkpoint — unattested mutation or forged character
+    (v0.4 accepted this. The seal is still forgeable; the owner
+     signature over it is not.)
+
+[9] R6 — crash between apply and attestation fails closed...
+    rejected: First-commit gates do not match the attested checkpoint...
+
+[10] F5 — whole-file rollback...
+    Advanced to sequence 2, character {'verbosity': 0.25, 'formality': 0.25, 'curiosity': 0.6}
+    Organism's own verify() after rollback: True (sequence 1) — CANNOT detect it, as documented
+    Witness audit: Rollback: organism presents sequence 1, witness holds 2
+
+[11] Fork — a DIFFERENT state claiming the sequence the witness holds...
+    Fork: a different state also claims sequence 2
+
+[12] v0.4 checks still hold...
+    constitution swapped  : rejected: Constitution does not match birth commitme
+    birth created_at edit : rejected: Genesis hash does not re-derive from birth
+    trace body forged     : rejected: Hash chain broken at index 2: entry_hash m
+    basin wiped           : rejected: State seal mismatch — corruption or rewrit
+    character out of range: rejected: Character field verbosity out of range: 5.
+
+[13] G1 — first_commit forced False while the gate is genuinely pending...
+    Gate pending          : True
+    Flag in signed payload: True  (derived, not supplied)
+    Forced-false accepted?: False  (expected False)
+    Reason                : first_commit flag False contradicts gate state True
+
+[14] G2 — gates flipped, state RESEALED (only attestation can object)...
+    rejected: First-commit gates do not match the attested checkpoint
+
+[15] G3 — permissive constitution, competent attacker...
+    naive (no reseal)   : rejected: Hash chain broken at index 0: entry_hash mismatc
+    reseal + re-chain   : rejected: Birth record does not match the attested checkpoint — identity or genesis was rewritten
+    (v0.5 accepted the resealed variant. It is now inside the attestation.)
+
+[16] G4 — advancing fork: higher sequence, unrelated parent...
+    successor check: Forked parent at sequence 4: checkpoint is parented to a branch this witness never recorded
+    current check  : Unwitnessed advance: organism presents sequence 99, witness holds 3 — this branch was never attested here
+
+============================================================================
+Closed in v0.6:
+  G1 first_commit derived from state and revalidated at apply
+  G2 gates_root inside the owner attestation
+  G3 birth_root + constitution_root attested; birth trace cross-checked
+  G4 witness is a chain: exact successor, matching parent
+
+Carried from v0.5:
+  F1 first-commit flags rather than blocks — natural organism can propose
+  F2 evidence_root + distribution_root inside the signed envelope
+  F3 change keys must equal the proposed category
+  F4 envelope binds prior character root, trace head, mutation sequence
+  O1 owner-signed checkpoint over the state root; forging the seal is not enough
+  F5 rollback DETECTED — by the external witness only, never by the organism
+
+Still open — see FOR ADVERSARIAL REVIEWERS:
+  R1 witness is a local file standing in for hardware or a remote notary
+  R2 owner tool in-process; structural split only
+  R3 interpret() is a keyword stub
+  R4 no key rotation or revocation
+  R5 single-writer, no locking
+  R6 apply->attest window fails closed but needs owner to recover
+  R7 first_commit is visible to the owner; attention is not a control
+  R8 unattested trace tail is forgeable (record, not character)
+  R9 basin + pending sealed but not attested; pre-proposal evidence is advisory
+  R10 constitution_root is defence in depth; it never fires as sole objector
+============================================================================

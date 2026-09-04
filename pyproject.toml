@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "humble-seed"
+version = "0.6.0"
+description = "Research prototype for owner-authorized state changes and externally witnessed checkpoints"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "Rusty W. McMurray"}]
+dependencies = ["cryptography>=46.0.0"]
+
+[tool.setuptools]
+py-modules = ["humble_seed_v0_6"]

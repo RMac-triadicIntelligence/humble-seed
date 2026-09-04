@@ -1,0 +1,2 @@
+# Runtime dependency; validation uses Python's standard-library unittest.
+cryptography>=46.0.0

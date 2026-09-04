@@ -1,0 +1,7 @@
+* text=auto eol=lf
+
+# Preserve the uploaded research snapshots exactly, including on Windows.
+humble_seed_v0_6.py -text
+history/** -text
+variants/** -text
+probes/probe6_validation.py -text

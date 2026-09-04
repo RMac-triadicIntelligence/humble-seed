@@ -1,0 +1,6 @@
+P1 downgrade to old checkpoint : False (expect False)
+P2 foreign checkpoint installed: False (expect False)
+P3 fabricated non-authorizing tail: ACCEPTED
+P4 fabricated authorizing tail   : rejected: Unattested authorizing event at trace index 2: authorized_mutation — owner checkpoint required
+P5 basin rewritten + resealed    : ACCEPTED | evidence now: ['REWRITTEN AFTER ATTESTATION']
+P6 both-file rollback            : UNDETECTED, as documented (R1)

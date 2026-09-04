@@ -1,0 +1,17 @@
+Humble Seed installation validation: 2026-09-02
+Build/install command: python -m pip install --no-index --no-deps --no-build-isolation --disable-pip-version-check .
+Observed build/install result: exit 0; built and installed humble-seed 0.6.0.
+Environment: virtual environment with system-site-packages enabled.
+Runtime dependency reused from the supplied environment; online dependency resolution was not tested.
+Import check: Python isolated mode, working directory outside the source repository.
+Import-check exit code: 0
+{
+  "python": "3.12.13",
+  "distribution": "0.6.0",
+  "cryptography": "46.0.0",
+  "schema": "0.6",
+  "source_sha256": "32b195984e04c39e24fcd00127043aac64046ef9b0fd96c12e3497b42a70728a",
+  "import_from_installed_package": true
+}
+
+

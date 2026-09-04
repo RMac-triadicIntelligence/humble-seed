@@ -1,0 +1,5 @@
+Proposal issued; verbosity is still 0.5
+First commitment in this category: True
+Authorized and attested: verbosity 0.5 -> 0.25
+Mutation sequence: 1
+Reload and external witness audit succeeded.

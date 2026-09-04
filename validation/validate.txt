@@ -1,0 +1,6 @@
+F6 truthful first-commit: PASS
+F7 attested gates: PASS
+F8 birth/constitution binding: PASS
+F8 unique birth trace: PASS
+F9 linear, genesis-pinned witness: PASS
+Independent v0.6 regression suite: PASS

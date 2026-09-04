@@ -1,0 +1,87 @@
+{
+  "format_version": 1,
+  "packaged_on": "2026-09-02",
+  "note": "Every mapped file is byte-identical to its supplied upload. Directory and filename normalization only; no source-code edits. Branch labels describe implementation differences, not inferred historical order.",
+  "files": [
+    {
+      "uploaded_name": "humble_seed_v0_6(1).py",
+      "repository_path": "humble_seed_v0_6.py",
+      "variant": "v0.6 genesis-pinned witness",
+      "role": "Primary runnable snapshot",
+      "size_bytes": 63582,
+      "sha256": "32b195984e04c39e24fcd00127043aac64046ef9b0fd96c12e3497b42a70728a"
+    },
+    {
+      "uploaded_name": "humble_seed_v0_3(1).py",
+      "repository_path": "history/v0_3/humble_seed_v0_3.py",
+      "variant": "v0.3",
+      "role": "Historical kernel",
+      "size_bytes": 26818,
+      "sha256": "7446a4c352acbaa4a534ecec4d6f22859c05a6ae622d30378b6c88a7dd723b2b"
+    },
+    {
+      "uploaded_name": "humble seed v0 4(1).py",
+      "repository_path": "history/v0_4/humble_seed_v0_4.py",
+      "variant": "v0.4",
+      "role": "Historical kernel",
+      "size_bytes": 34538,
+      "sha256": "30c6be21e6901d7160478cfe3866faa94578f9385b65c65b303dc0deb2cd920a"
+    },
+    {
+      "uploaded_name": "probe4(1).py",
+      "repository_path": "history/v0_4/probe4.py",
+      "variant": "v0.4",
+      "role": "Historical print-based probe",
+      "size_bytes": 3384,
+      "sha256": "712d9855627cce60dea1667128b22f007ff22ae3513850336d748426c35c43c7"
+    },
+    {
+      "uploaded_name": "humble seed v0 5(1).py",
+      "repository_path": "history/v0_5/humble_seed_v0_5.py",
+      "variant": "v0.5",
+      "role": "Historical kernel",
+      "size_bytes": 51589,
+      "sha256": "dccafc92ba81cfafaa5856e8084f2d6a00fc68a1353b6173ebf769d48eb861bc"
+    },
+    {
+      "uploaded_name": "probe5(1).py",
+      "repository_path": "history/v0_5/probe5.py",
+      "variant": "v0.5",
+      "role": "Historical print-based probe",
+      "size_bytes": 3340,
+      "sha256": "de0b134563eaf1e87f0efd74f18053cb4c5352c9b0426010a4e5f2397e850acd"
+    },
+    {
+      "uploaded_name": "humble seed v0 6(1).py",
+      "repository_path": "variants/v0_6_birth_root/humble_seed_v0_6.py",
+      "variant": "v0.6 birth-root attestation",
+      "role": "Distinct alternative kernel",
+      "size_bytes": 63769,
+      "sha256": "94dc6d0fcc5247e3253568ebe1e753f4881fee33a8a249824fa542204e9e81ec"
+    },
+    {
+      "uploaded_name": "probe6.py",
+      "repository_path": "variants/v0_6_birth_root/probe6.py",
+      "variant": "v0.6 birth-root attestation",
+      "role": "Matching print-based probe",
+      "size_bytes": 3348,
+      "sha256": "52416e9fd1c419b273c2715e0f4b13b202422e688d2fe32b7dde7ad37bcc8fd6"
+    },
+    {
+      "uploaded_name": "triage6.py",
+      "repository_path": "variants/v0_6_birth_root/triage6.py",
+      "variant": "v0.6 birth-root attestation",
+      "role": "Matching triage probe",
+      "size_bytes": 4040,
+      "sha256": "82a8a032c92af581fe80201cb8ba46a1300ccc909d30377efc71d5e6750d47cf"
+    },
+    {
+      "uploaded_name": "probe6_validation(1).py",
+      "repository_path": "probes/probe6_validation.py",
+      "variant": "v0.6 genesis-pinned witness",
+      "role": "Matching assertion-based regression suite",
+      "size_bytes": 4730,
+      "sha256": "2a5fbe26bd71287e0b5dbbd3808df6f3187b8bdbd0f146c889c55e9143989f41"
+    }
+  ]
+}
