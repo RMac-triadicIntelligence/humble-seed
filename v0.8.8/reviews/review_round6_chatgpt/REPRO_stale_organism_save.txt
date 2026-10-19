@@ -1,0 +1,12 @@
+== hs085/humble_seed_v0_8_5_candidate.py
+before: saved checkpoint 1 | verbosity 0.25
+old session dwells: dwelling
+after:  saved checkpoint 0
+reload: succeeds | verbosity 0.5
+audit: RollbackDetected Rollback: organism presents sequence 0, witness holds 1
+== hs084/humble_seed_v0_8_4_candidate.py
+before: saved checkpoint 1 | verbosity 0.25
+old session dwells: dwelling
+after:  saved checkpoint 0
+reload: succeeds | verbosity 0.5
+audit: RollbackDetected Rollback: organism presents sequence 0, witness holds 1

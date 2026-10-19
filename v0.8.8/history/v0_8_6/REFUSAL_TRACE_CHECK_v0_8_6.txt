@@ -1,0 +1,40 @@
+T57_failed_checkpoint_save_changes_nothing: PASS
+  declared: audit -> _recover abandons (L1939) -> verify -> _verify_attestation (L1058) -> category-sequence check (L827) raises first. Every earlier check in verify passes for a legitimately unattested state; the unattested-tail check (L851) comes later.
+  raised at L799 in install_checkpoint: OSError: injected: the checkpoint save failed before writing
+      L799: self._save()
+  raised at L828 in _verify_attestation: IntegrityError: Category sequences do not match the attested checkpoint
+      L828: raise IntegrityError("Category sequences do not match the attested checkpoint")
+T62_stale_object_cannot_overwrite_newer_state: PASS
+  declared: dwell_or_propose -> derive raises ValueError -> _dwell (L1112) -> _save -> generation check (L926) raises StaleOrganism 'stale organism object'
+  raised at L927 in _save: StaleOrganism: stale organism object: the saved state is at generation 4, this object
+      L927: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "
+T63_stale_write_during_attest_is_refused: PASS
+  declared: dwell_or_propose -> derive raises ValueError -> _dwell (L1112) -> _save -> generation check (L926) raises StaleOrganism 'stale organism object' (inside the witness.commit hook; the lock is reentrant within the thread, so the generation check decides)
+  raised at L927 in _save: StaleOrganism: stale organism object: the saved state is at generation 4, this object
+      L927: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "
+T64_interrupted_commit_then_stale_write_keeps_signoff: PASS
+  declared: dwell_or_propose -> derive raises ValueError -> _dwell (L1112) -> _save -> generation check (L926) raises StaleOrganism 'stale organism object'; then audit -> _recover -> saved state verifies (L1927) -> commit (L1932)
+  raised at L1962 in _attest_under_organism_lock: OSError: injected: interrupted after the organism saved, before the witness adv
+      L1962: self.witness.commit(cp)                 # [COMMIT-2] the witness advances
+  raised at L927 in _save: StaleOrganism: stale organism object: the saved state is at generation 4, this object
+      L927: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "
+T65_failure_after_replace_keeps_memory_with_disk: PASS
+  declared: _save -> _durable_write -> injected directory-fsync OSError after os.replace -> landed generation recorded (L935) -> install keeps memory (rollback L802 not taken) -> OSError propagates; retry -> _recover verifies (L1927) and commits -> _require_current passes (L1953)
+  raised at L217 in _durable_write: OSError: injected: directory fsync failed after the organism's replace
+      L217: os.fsync(dfd)
+T66_recovery_refuses_a_saved_state_that_does_not_verify: PASS
+  declared: audit -> _recover -> saved state names the intent -> _saved_state_refusal -> load -> verify: earlier checks pass (0.99 is in range), seal check (L1056) raises -> RollbackDetected 'claims it but does not verify' (L1930)
+  raised at L1959 in _attest_under_organism_lock: OSError: interrupted before the organism installed
+      L1959: if not seed.install_checkpoint(cp, sig):
+  raised at L1056 in verify: IntegrityError: State seal mismatch — corruption or rewrite of a sealed region
+      L1056: raise IntegrityError("State seal mismatch — corruption or rewrite of a sealed region")
+  raised at L1929 in _recover: RollbackDetected: A pending checkpoint commit cannot be completed: the saved state claim
+      L1929: raise RollbackDetected("A pending checkpoint commit cannot be completed: the saved state "
+T67_hatch_cannot_overwrite_an_existing_organism: PASS
+  declared: hatch builds everything in memory and saves on the line after L664 -> generation check (L926): the saved generation is 0, this object's is None
+  raised at L927 in _save: StaleOrganism: stale organism object: the saved state is at generation 1, this object
+      L927: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "
+T68_attest_refuses_a_stale_object_before_signing: PASS
+  declared: attest -> organism lock -> _recover (nothing pending) -> _require_current (L1953) raises StaleOrganism (L893) before checkpoint_request or any signature
+  raised at L898 in _require_current: StaleOrganism: stale organism object: the saved state is at generation 2, this object
+      L898: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "

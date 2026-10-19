@@ -1,0 +1,908 @@
+{
+  "candidate": "humble_seed_v0_8_7_candidate.py",
+  "claims": {
+    "A1": {
+      "claim": "Neither the owner's ledger nor the organism records it, and the error says so.",
+      "evidence": {
+        "attempts": [
+          {
+            "held": true,
+            "name": "stale_answer_not_recorded",
+            "result": {
+              "exception": "StaleOrganism",
+              "message": "stale organism object: the saved state is at generation 3, this object last saw 1; reload it. The answer was not recorded anywhere: reload the organism and answer again"
+            },
+            "says_not_recorded": true
+          },
+          {
+            "held": true,
+            "name": "organism_not_recorded"
+          },
+          {
+            "held": true,
+            "name": "error_says_so"
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "G1": {
+      "claim": "A SAVED FILE WITHOUT A VALID GENERATION REFUSES EVERY WRITE, including a new hatch",
+      "evidence": {
+        "attempts": [
+          {
+            "held": true,
+            "name": "dwell_refused",
+            "result": {
+              "exception": "StaleOrganism",
+              "message": "the saved state has no valid generation; refusing to write over it"
+            }
+          },
+          {
+            "held": null,
+            "name": "hatch_refused",
+            "result": {
+              "returned": [
+                "3a4b7f8f-9ff8-443e-8e62-fed27e1f18b8",
+                "[REDACTED-test-key]",
+                "Checkpoint(organism_id='3a4b7f8f-9ff8-443e-8e62-fed27e1f18b8', sequence=0, prev_checkpoint_hash='0000000000000000000000000000000000000000000000000000000000000000', birth_root='78997f7158a5b3574a7bf67c72acb1a93554e42f7e9dfe31b0622c53347a58a8', constitution_root='b439aedc3aecd7ace7851195b0cf4e22693656ea0c3df7012a9699ee027236df', gates_root='05f79c4a8d4e45b910598832fc722f4060ca10d5376d6769b6e2039d4ef02715', character_root='b1626280ec622a4139795fd3876c513d2581c4f6d5fb0461d676b1f17f6c7372', consumed_root='4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945', trace_head='758363773ca925af556b1179788fc51435eaef4c6535abe40e52cc3d0b4cdcfc', attested_trace_len=1, mutation_sequence=0, timestamp=1792432594.8398886)"
+              ]
+            }
+          },
+          {
+            "held": true,
+            "name": "load_or_write",
+            "result": {
+              "exception": "IntegrityError",
+              "message": "Saved generation is not a non-negative integer"
+            }
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "Q1": {
+      "claim": "hatch, load, dwell_or_propose, record_owner_answer, authorize_and_apply and install_checkpoint each hold the organism lock (organism.lock: POSIX flock across processes, serialized across threads, reentrant within a thread) from a currency check, through every change to memory, to the save.",
+      "evidence": {
+        "attempts": [
+          {
+            "dwell_ok": 20,
+            "errors": [],
+            "held": true,
+            "name": "two_threads_mixed",
+            "saved_trace_len": 32
+          },
+          {
+            "blocked_result": {
+              "returned": {
+                "distribution": {
+                  "confound": 0.25,
+                  "preference": 0.35,
+                  "unmodeled_cause": 0.4
+                },
+                "message": "Holding in basin. Owner authorization required for permanent change.",
+                "status": "dwelling"
+              }
+            },
+            "elapsed_while_held": 0.9,
+            "held": true,
+            "name": "lock_blocks_other_thread"
+          },
+          {
+            "held": false,
+            "name": "reentrant_from_reader",
+            "reentered": {
+              "error": null,
+              "ok": false
+            },
+            "result": {
+              "returned": {
+                "authorization_prompt": "May I change my verbosity for you on the strength of this reading? Only verbosity can change, only within 0.00\u20131.00, and only by the rule attested at my birth; it is 0.50 now. This would be the first change ever made to verbosity. This authorization lapses 7 days after the reading was taken. Signing says yes to this one reading; it does not choose where it lands.",
+                "first_commit": true,
+                "message": "FIRST COMMITMENT in this category \u2014 owner should review with care.",
+                "payload_to_sign": "{\"category\":\"verbosity\",\"category_sequence\":0,\"constitution_root\":\"b439aedc3aecd7ace7851195b0cf4e22693656ea0c3df7012a9699ee027236df\",\"distribution_root\":\"c6c5cf9ee4fb5cb184cbf8851cdfb4b6b63e5857c2045e3b0370b1ad50c2b7eb\",\"evidence_root\":\"4c140a4c6383cc31004e42313639916e654ab6acf2f0c48391797f1d419cbaf0\",\"expires_at\":\"1793037393.433920\",\"first_commit\":true,\"issued_mutation_sequence\":0,\"issued_trace_head\":\"f392cfb72e6d32c0dd7a36b15f2f14361a4ca46738eab5cf9558918c9231132a\",\"kind\":\"reading_authorization\",\"nonce\":\"518584b5161d0b79d03a88d41030adec\",\"organism_id\":\"d4cd420b-dbe3-4930-8763-6c160bf1ec0d\",\"prior_value\":0.5,\"proposal_id\":\"0ae7540d-6689-47ca-aad3-f83d4b5c8a5e\",\"schema_version\":\"0.8.7-candidate\",\"timestamp\":\"1792432593.433920\"}",
+                "proposal_id": "0ae7540d-6689-47ca-aad3-f83d4b5c8a5e",
+                "question": "I read \u201cI always prefer shorter answers\u201d as a preference about verbosity (preference 0.68 \u00b7 unmodeled cause 0.20 \u00b7 confound 0.12). Did I read you right? (yes / no / unsure)",
+                "status": "proposal"
+              }
+            }
+          },
+          {
+            "held": true,
+            "load_result": {
+              "returned": "<hs087.HumbleSeed object at 0x7f237a376500>"
+            },
+            "name": "load_during_op"
+          }
+        ]
+      },
+      "seconds": 1.19,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "Q2": {
+      "claim": "A save takes its snapshot and its new generation under the lock.",
+      "evidence": {
+        "attempts": [
+          {
+            "final_saved_gen": 6,
+            "gens_seen": [
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "held": true,
+            "name": "concurrent_saves_consistent_gen"
+          },
+          {
+            "held": true,
+            "name": "generation_in_snapshot",
+            "snapshots": [
+              7
+            ]
+          },
+          {
+            "held": true,
+            "name": "other_object_sees_post_save",
+            "other_gen": 7
+          }
+        ]
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    },
+    "Q3": {
+      "claim": "A stale object is refused before it changes anything in memory.",
+      "evidence": {
+        "attempts": [
+          {
+            "held": true,
+            "memory_unchanged": true,
+            "name": "stale_dwell",
+            "result": {
+              "exception": "StaleOrganism",
+              "message": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+            }
+          },
+          {
+            "held": true,
+            "memory_unchanged": true,
+            "name": "stale_authorize",
+            "result": {
+              "exception": "StaleOrganism",
+              "message": "stale organism object: the saved state is at generation 3, this object last saw 1; reload it"
+            }
+          },
+          {
+            "held": true,
+            "name": "stale_attest",
+            "result": {
+              "exception": "StaleOrganism",
+              "message": "stale organism object: the saved state is at generation 3, this object last saw 1; reload it"
+            }
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "Q4": {
+      "claim": "The owner's answer, attest, audit and restore hold the same lock.",
+      "evidence": {
+        "attempts": [
+          {
+            "elapsed": 1.11,
+            "held": true,
+            "name": "answer_holds_lock",
+            "result": {
+              "returned": {
+                "distribution": {
+                  "confound": 0.25,
+                  "preference": 0.35,
+                  "unmodeled_cause": 0.4
+                },
+                "message": "Holding in basin. Owner authorization required for permanent change.",
+                "status": "dwelling"
+              }
+            }
+          },
+          {
+            "held": true,
+            "name": "attest_holds_lock",
+            "note": "see attempt 3 for restore"
+          },
+          {
+            "elapsed": 0.0,
+            "held": true,
+            "name": "restore_holds_lock",
+            "result": {
+              "returned": {
+                "distribution": {
+                  "confound": 0.25,
+                  "preference": 0.35,
+                  "unmodeled_cause": 0.4
+                },
+                "message": "Holding in basin. Owner authorization required for permanent change.",
+                "status": "dwelling"
+              }
+            }
+          },
+          {
+            "held": true,
+            "name": "audit_holds_lock",
+            "result": {
+              "returned": true
+            }
+          }
+        ]
+      },
+      "seconds": 1.28,
+      "verdict": "HOLDS"
+    },
+    "Q5": {
+      "claim": "The save's own generation check stays: it catches a write that lands during an operation through a callback in the same thread (the reader).",
+      "evidence": {
+        "attempts": [
+          {
+            "held": true,
+            "name": "fresh_object_write_in_reader_caught",
+            "result": {
+              "exception": "StaleOrganism",
+              "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+            }
+          },
+          {
+            "held": true,
+            "name": "caught_by_save_CAS"
+          },
+          {
+            "held": true,
+            "name": "no_callback_write_succeeds",
+            "result": {
+              "returned": {
+                "consequence": "I'll keep my answers shorter. (verbosity 0.50 \u2192 0.25; lead read: preference 0.68; rule step -0.25). This was the first change ever made to verbosity.",
+                "record": {
+                  "authorized_at": 1792432594.8143215,
+                  "category": "verbosity",
+                  "category_sequence": 1,
+                  "change": {
+                    "verbosity": 0.25
+                  },
+                  "delta": -0.25,
+                  "distribution": {
+                    "confound": 0.12,
+                    "preference": 0.68,
+                    "unmodeled_cause": 0.2
+                  },
+                  "evidence": [
+                    "I always prefer shorter answers"
+                  ],
+                  "first_commit": true,
+                  "lead": "preference",
+                  "mutation_sequence": 1,
+                  "prior_character_snapshot": {
+                    "curiosity": 0.6,
+                    "formality": 0.5,
+                    "verbosity": 0.5
+                  },
+                  "prior_value": 0.5,
+                  "proposal_id": "8b77731c-d401-458f-b856-d9ebc124d430",
+                  "signature_b64": "Q7jSNf3pQ-RDvN_OuqGYEVX7ICYnHoZrDIQ9bR0Kf8cnQKJUJXaTsOcFXqQqoQNhdBake_-zSZV9vWw19c6eAg==",
+                  "signed_payload": "{\"category\":\"verbosity\",\"category_sequence\":0,\"constitution_root\":\"b439aedc3aecd7ace7851195b0cf4e22693656ea0c3df7012a9699ee027236df\",\"distribution_root\":\"c6c5cf9ee4fb5cb184cbf8851cdfb4b6b63e5857c2045e3b0370b1ad50c2b7eb\",\"evidence_root\":\"4c140a4c6383cc31004e42313639916e654ab6acf2f0c48391797f1d419cbaf0\",\"expires_at\":\"1793037394.812562\",\"first_commit\":true,\"issued_mutation_sequence\":0,\"issued_trace_head\":\"b9b37af0eb3106328daba8c18cb35db0864bb835467aad2e659f93ca0eb9e499\",\"kind\":\"reading_authorization\",\"nonce\":\"4b15376452f95ae7d9f06bfe819f6d4f\",\"organism_id\":\"4205c9e3-6ddb-4c66-b018-0a363308fd95\",\"prior_value\":0.5,\"proposal_id\":\"8b77731c-d401-458f-b856-d9ebc124d430\",\"schema_version\":\"0.8.7-candidate\",\"timestamp\":\"1792432594.812562\"}",
+                  "unverified_annotation": ""
+                },
+                "status": "applied"
+              }
+            }
+          }
+        ]
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    },
+    "R1": {
+      "claim": "OwnerTool.restore first resolves any pending commit, then rebuilds the organism at the witness head from the attested prefix of its saved trace (replayed and verified before anything is written), discards everything after it and every pending reading, keeps the discarded file beside the state, and records a non-authorizing \"restored\" event.",
+      "evidence": {
+        "attempts": [
+          {
+            "discarded_files": [],
+            "has_restored_event": false,
+            "held": true,
+            "name": "basic_restore",
+            "result": {
+              "returned": {
+                "checkpoint_sequence": 1,
+                "discarded_entries": 3,
+                "kept_as": "pre_restore_gen6_827e094286e9.json",
+                "status": "restored"
+              }
+            },
+            "witness_seq_same": true
+          },
+          {
+            "held": true,
+            "name": "restore_discards_pending",
+            "pending_after": 0,
+            "result": {
+              "returned": {
+                "checkpoint_sequence": 1,
+                "discarded_entries": 2,
+                "kept_as": "pre_restore_gen8_092e5612f456.json",
+                "status": "restored"
+              }
+            }
+          },
+          {
+            "held": true,
+            "name": "prefix_replayed",
+            "note": "restored state verifies"
+          }
+        ]
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    },
+    "R2": {
+      "claim": "The witness does not move.",
+      "evidence": {
+        "attempts": [
+          {
+            "after": 1,
+            "before": 1,
+            "held": true,
+            "name": "seq_unchanged"
+          },
+          {
+            "held": true,
+            "name": "head_unchanged"
+          },
+          {
+            "held": true,
+            "name": "multiple_restores"
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "R20": {
+      "claim": "If it is not, OwnerTool.restore brings the organism back to its last attested state; the crossing must be read and signed again.",
+      "evidence": {
+        "attempts": [
+          {
+            "held": true,
+            "name": "must_resign",
+            "result": {
+              "returned": {
+                "consequence": "I'll keep my answers shorter. (verbosity 0.50 \u2192 0.25; lead read: preference 0.68; rule step -0.25). This was the first change ever made to verbosity.",
+                "record": {
+                  "authorized_at": 1792432594.8983753,
+                  "category": "verbosity",
+                  "category_sequence": 1,
+                  "change": {
+                    "verbosity": 0.25
+                  },
+                  "delta": -0.25,
+                  "distribution": {
+                    "confound": 0.12,
+                    "preference": 0.68,
+                    "unmodeled_cause": 0.2
+                  },
+                  "evidence": [
+                    "I always prefer shorter answers"
+                  ],
+                  "first_commit": true,
+                  "lead": "preference",
+                  "mutation_sequence": 1,
+                  "prior_character_snapshot": {
+                    "curiosity": 0.6,
+                    "formality": 0.5,
+                    "verbosity": 0.5
+                  },
+                  "prior_value": 0.5,
+                  "proposal_id": "b78f9363-bf64-46c9-9891-d148d4dca38b",
+                  "signature_b64": "71mL9CVlzlg4k1q8opB5yRfOlupj9syzmVaJHv_bxLl0xG_B4D4_z1cdd03gjIUqNB6Tg-1UUw75jG5kKT-CDg==",
+                  "signed_payload": "{\"category\":\"verbosity\",\"category_sequence\":0,\"constitution_root\":\"b439aedc3aecd7ace7851195b0cf4e22693656ea0c3df7012a9699ee027236df\",\"distribution_root\":\"c6c5cf9ee4fb5cb184cbf8851cdfb4b6b63e5857c2045e3b0370b1ad50c2b7eb\",\"evidence_root\":\"4c140a4c6383cc31004e42313639916e654ab6acf2f0c48391797f1d419cbaf0\",\"expires_at\":\"1793037394.896191\",\"first_commit\":true,\"issued_mutation_sequence\":0,\"issued_trace_head\":\"ed15af1732e895237985b07d23d5a66bddbe15374d3ff643c2dcf79c055eb134\",\"kind\":\"reading_authorization\",\"nonce\":\"8d50034406240f20f308922072f9d287\",\"organism_id\":\"fd2f723b-bada-4ac0-9ac6-380106a5e6ac\",\"prior_value\":0.5,\"proposal_id\":\"b78f9363-bf64-46c9-9891-d148d4dca38b\",\"schema_version\":\"0.8.7-candidate\",\"timestamp\":\"1792432594.896191\"}",
+                  "unverified_annotation": ""
+                },
+                "status": "applied"
+              }
+            }
+          },
+          {
+            "held": true,
+            "name": "back_to_attested"
+          },
+          {
+            "held": true,
+            "name": "crossing_not_stuck"
+          }
+        ]
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    },
+    "R31a": {
+      "claim": "If another operation's save fails before landing, the object is ahead of its disk; its next operation writes that state unless another object has saved first, in which case it is refused as stale and the unsaved change is lost on reload.",
+      "evidence": {
+        "attempts": [
+          {
+            "fail": {
+              "exception": "OSError",
+              "message": "fail before landing"
+            },
+            "held": true,
+            "name": "next_writes_ahead_state",
+            "next": {
+              "returned": {
+                "distribution": {
+                  "confound": 0.25,
+                  "preference": 0.35,
+                  "unmodeled_cause": 0.4
+                },
+                "message": "Holding in basin. Owner authorization required for permanent change.",
+                "status": "dwelling"
+              }
+            }
+          },
+          {
+            "held": true,
+            "name": "other_saved_first_refuses",
+            "result": {
+              "exception": "StaleOrganism",
+              "message": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+            }
+          },
+          {
+            "held": true,
+            "name": "lost_on_reload"
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "R31b": {
+      "claim": "No object writes over a newer saved state.",
+      "evidence": {
+        "attempts": [
+          {
+            "gen_after": 2,
+            "gen_before": 2,
+            "held": true,
+            "name": "stale_does_not_overwrite",
+            "result": {
+              "exception": "StaleOrganism",
+              "message": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+            }
+          },
+          {
+            "held": true,
+            "name": "process_level"
+          },
+          {
+            "held": true,
+            "name": "thread_level"
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "R33": {
+      "claim": "It is refused before it changes anything. An answer given through a stale object is recorded nowhere.",
+      "evidence": {
+        "attempts": [
+          {
+            "held": true,
+            "name": "refused_before_change",
+            "result": {
+              "exception": "StaleOrganism",
+              "message": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+            },
+            "trace_same": true
+          },
+          {
+            "held": true,
+            "name": "answer_nowhere",
+            "result": {
+              "exception": "StaleOrganism",
+              "message": "stale organism object: the saved state is at generation 3, this object last saw 1; reload it. The answer was not recorded anywhere: reload the organism and answer again"
+            }
+          },
+          {
+            "held": true,
+            "name": "no_memory_change"
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "R35a": {
+      "claim": "Operations are serialized per organism data directory.",
+      "evidence": {
+        "attempts": [
+          {
+            "held": true,
+            "name": "threads_serialized",
+            "order": [
+              "start0",
+              "start1",
+              "start2",
+              "end0",
+              "end1",
+              "end2"
+            ]
+          },
+          {
+            "held": true,
+            "name": "processes_serialized",
+            "note": "flock"
+          },
+          {
+            "held": true,
+            "name": "same_dir"
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "R35b": {
+      "claim": "A callback that runs inside an operation (the reader) runs under the lock; a write it makes through another object is caught by the save's generation check, and the operation is refused as stale.",
+      "evidence": {
+        "attempts": [
+          {
+            "held": false,
+            "name": "reader_write_refused_stale",
+            "result": {
+              "returned": {
+                "authorization_prompt": "May I change my verbosity for you on the strength of this reading? Only verbosity can change, only within 0.00\u20131.00, and only by the rule attested at my birth; it is 0.50 now. This would be the first change ever made to verbosity. This authorization lapses 7 days after the reading was taken. Signing says yes to this one reading; it does not choose where it lands.",
+                "first_commit": true,
+                "message": "FIRST COMMITMENT in this category \u2014 owner should review with care.",
+                "payload_to_sign": "{\"category\":\"verbosity\",\"category_sequence\":0,\"constitution_root\":\"b439aedc3aecd7ace7851195b0cf4e22693656ea0c3df7012a9699ee027236df\",\"distribution_root\":\"c6c5cf9ee4fb5cb184cbf8851cdfb4b6b63e5857c2045e3b0370b1ad50c2b7eb\",\"evidence_root\":\"4c140a4c6383cc31004e42313639916e654ab6acf2f0c48391797f1d419cbaf0\",\"expires_at\":\"1793037394.944849\",\"first_commit\":true,\"issued_mutation_sequence\":0,\"issued_trace_head\":\"de92a15f098000ac2a93ed9cbd2aaa28fd69ddacc273bbdda8dde13d333b6301\",\"kind\":\"reading_authorization\",\"nonce\":\"6dfe33e9659dd89677debd483bc312d1\",\"organism_id\":\"43e6424b-9c02-4636-985b-0cf4501da378\",\"prior_value\":0.5,\"proposal_id\":\"722d5f20-4893-4758-8b05-b6d9be4086d7\",\"schema_version\":\"0.8.7-candidate\",\"timestamp\":\"1792432594.944849\"}",
+                "proposal_id": "722d5f20-4893-4758-8b05-b6d9be4086d7",
+                "question": "I read \u201cI always prefer shorter answers\u201d as a preference about verbosity (preference 0.68 \u00b7 unmodeled cause 0.20 \u00b7 confound 0.12). Did I read you right? (yes / no / unsure)",
+                "status": "proposal"
+              }
+            }
+          },
+          {
+            "held": true,
+            "name": "under_lock"
+          },
+          {
+            "held": true,
+            "name": "generation_check"
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "R36": {
+      "claim": "Restore needs the attested prefix intact in the saved file. An unreadable file, or one truncated below the prefix, cannot be restored; no separate backup is kept. The basin (unattested evidence) is kept.",
+      "evidence": {
+        "attempts": [
+          {
+            "held": true,
+            "name": "unreadable_refused",
+            "result": {
+              "exception": "RollbackDetected",
+              "message": "restore refused: the organism's saved state is unreadable (FileNotFoundError)"
+            }
+          },
+          {
+            "held": true,
+            "name": "truncated_prefix_refused",
+            "result": {
+              "exception": "IntegrityError",
+              "message": "restore refused: the saved trace's attested prefix does not match the checkpoint"
+            }
+          },
+          {
+            "basin_len": 1,
+            "held": true,
+            "name": "basin_kept"
+          }
+        ]
+      },
+      "seconds": 0.03,
+      "verdict": "HOLDS"
+    },
+    "U1": {
+      "claim": "If a save fails and the saved generation cannot be re-read, the object refuses every operation until it is reloaded.",
+      "evidence": {
+        "after_reload": {
+          "returned": {
+            "distribution": {
+              "confound": 0.25,
+              "preference": 0.35,
+              "unmodeled_cause": 0.4
+            },
+            "message": "Holding in basin. Owner authorization required for permanent change.",
+            "status": "dwelling"
+          }
+        },
+        "attest": {
+          "exception": "OSError",
+          "message": "injected: directory fsync failed after the replace"
+        },
+        "fired": {
+          "fsync": true,
+          "reread": true
+        },
+        "next_op": {
+          "exception": "StaleOrganism",
+          "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+        }
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "U2": {
+      "claim": "install_checkpoint does not roll memory back on a guess.",
+      "evidence": {
+        "attempts": [
+          {
+            "held": true,
+            "name": "attest_fail_no_rollback",
+            "result": {
+              "exception": "OSError",
+              "message": "injected fail after memory"
+            },
+            "trace_after": 3,
+            "trace_before": 3
+          },
+          {
+            "held": true,
+            "name": "no_guess_rollback",
+            "note": "no memory rollback on failed save"
+          },
+          {
+            "held": true,
+            "name": "reload_recovers"
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    }
+  },
+  "cryptography": "50.0.1",
+  "extra": {
+    "extra_api_misuse": {
+      "evidence": {
+        "bad_reader": {
+          "returned": {
+            "authorization_prompt": "May I change my verbosity for you on the strength of this reading? Only verbosity can change, only within 0.00\u20131.00, and only by the rule attested at my birth; it is 0.50 now. This would be the first change ever made to verbosity. This authorization lapses 7 days after the reading was taken. Signing says yes to this one reading; it does not choose where it lands.",
+            "first_commit": true,
+            "message": "FIRST COMMITMENT in this category \u2014 owner should review with care.",
+            "payload_to_sign": "{\"category\":\"verbosity\",\"category_sequence\":0,\"constitution_root\":\"b439aedc3aecd7ace7851195b0cf4e22693656ea0c3df7012a9699ee027236df\",\"distribution_root\":\"c6c5cf9ee4fb5cb184cbf8851cdfb4b6b63e5857c2045e3b0370b1ad50c2b7eb\",\"evidence_root\":\"4c140a4c6383cc31004e42313639916e654ab6acf2f0c48391797f1d419cbaf0\",\"expires_at\":\"1793037395.237845\",\"first_commit\":true,\"issued_mutation_sequence\":0,\"issued_trace_head\":\"fc4a02dd2a66cd89a185c3617313d4aed2cd7e53c326ab029df86fc73ac80fc1\",\"kind\":\"reading_authorization\",\"nonce\":\"35ba67ddfa8792e039ea518864269452\",\"organism_id\":\"697a0d4e-b274-4ec1-9499-1df13326b62f\",\"prior_value\":0.5,\"proposal_id\":\"be16c09c-7c6a-467f-bb12-8d790882e5ee\",\"schema_version\":\"0.8.7-candidate\",\"timestamp\":\"1792432595.237845\"}",
+            "proposal_id": "be16c09c-7c6a-467f-bb12-8d790882e5ee",
+            "question": "I read \u201cI always prefer shorter answers\u201d as a preference about verbosity (preference 0.68 \u00b7 unmodeled cause 0.20 \u00b7 confound 0.12). Did I read you right? (yes / no / unsure)",
+            "status": "proposal"
+          }
+        },
+        "reuse_after_error": {
+          "returned": {
+            "distribution": {
+              "confound": 0.25,
+              "preference": 0.35,
+              "unmodeled_cause": 0.4
+            },
+            "message": "Holding in basin. Owner authorization required for permanent change.",
+            "status": "dwelling"
+          }
+        },
+        "shared_sessions": {
+          "returned": true
+        }
+      },
+      "seconds": 0.01,
+      "verdict": "HANDLED"
+    },
+    "extra_concurrency_beyond_two": {
+      "evidence": {
+        "audit": true,
+        "counts": {
+          "apply": 15,
+          "dwell": 95,
+          "errors": 4,
+          "lost": 0
+        },
+        "final_trace": 131
+      },
+      "seconds": 0.87,
+      "verdict": "ISSUES"
+    },
+    "extra_faults_at_every_write": {
+      "evidence": {
+        "results": [
+          {
+            "inject": "OSError",
+            "op": "dwell",
+            "point": "durable_write",
+            "reload_ok": true,
+            "restore_ok": true
+          },
+          {
+            "op": "apply",
+            "point": "durable_write",
+            "setup_error": "injected durable_write"
+          },
+          {
+            "op": "answer",
+            "point": "durable_write",
+            "setup_error": "injected durable_write"
+          },
+          {
+            "inject": "OSError",
+            "op": "attest",
+            "point": "durable_write",
+            "reload_ok": false,
+            "restore_ok": false
+          },
+          {
+            "inject": "OSError",
+            "op": "restore",
+            "point": "durable_write",
+            "reload_ok": true,
+            "restore_ok": true
+          }
+        ],
+        "unfixable_count": 1
+      },
+      "seconds": 0.05,
+      "verdict": "SOME_UNFIXABLE"
+    },
+    "extra_life_after_restore": {
+      "evidence": {
+        "final_after_second_restore": 4,
+        "lost": false,
+        "revived": false,
+        "signed_seqs": [
+          2,
+          3,
+          4
+        ]
+      },
+      "seconds": 0.05,
+      "verdict": "OK"
+    },
+    "extra_year_long_failure_modes": {
+      "evidence": {
+        "expiry_after_long": {
+          "returned": {
+            "consequence": "I'll keep my answers shorter. (verbosity 0.50 \u2192 0.25; lead read: preference 0.68; rule step -0.25). This was the first change ever made to verbosity.",
+            "record": {
+              "authorized_at": 1792532596.215186,
+              "category": "verbosity",
+              "category_sequence": 1,
+              "change": {
+                "verbosity": 0.25
+              },
+              "delta": -0.25,
+              "distribution": {
+                "confound": 0.12,
+                "preference": 0.68,
+                "unmodeled_cause": 0.2
+              },
+              "evidence": [
+                "I always prefer shorter answers"
+              ],
+              "first_commit": true,
+              "lead": "preference",
+              "mutation_sequence": 1,
+              "prior_character_snapshot": {
+                "curiosity": 0.6,
+                "formality": 0.5,
+                "verbosity": 0.5
+              },
+              "prior_value": 0.5,
+              "proposal_id": "ebd716ed-1a8a-4fca-8352-1e98a8a4188f",
+              "signature_b64": "wi_PjjoWn0kfCd4OX8uqW0G3X3LNtqwFZ6272qp72UY1P-Xawa9REnY6KHoF3UGCIF7UkyTUfv836N53T-ONDg==",
+              "signed_payload": "{\"category\":\"verbosity\",\"category_sequence\":0,\"constitution_root\":\"b439aedc3aecd7ace7851195b0cf4e22693656ea0c3df7012a9699ee027236df\",\"distribution_root\":\"c6c5cf9ee4fb5cb184cbf8851cdfb4b6b63e5857c2045e3b0370b1ad50c2b7eb\",\"evidence_root\":\"4c140a4c6383cc31004e42313639916e654ab6acf2f0c48391797f1d419cbaf0\",\"expires_at\":\"1793037396.213074\",\"first_commit\":true,\"issued_mutation_sequence\":0,\"issued_trace_head\":\"c232d0d718d7d938728f71e9f4d648f2204e5887c775f9764d7918aac0018a47\",\"kind\":\"reading_authorization\",\"nonce\":\"ef007fe62955e0ae3214e92cf34edacd\",\"organism_id\":\"3342879d-720a-475e-b63f-8c8170808de3\",\"prior_value\":0.5,\"proposal_id\":\"ebd716ed-1a8a-4fca-8352-1e98a8a4188f\",\"schema_version\":\"0.8.7-candidate\",\"timestamp\":\"1792432596.213074\"}",
+              "unverified_annotation": ""
+            },
+            "status": "applied"
+          }
+        }
+      },
+      "seconds": 0.01,
+      "verdict": "LIKELY_MODES_TESTED"
+    }
+  },
+  "open_questions": {
+    "QA": {
+      "claim": "Is there any interleaving of processes, threads or organism objects that loses a saved update, or leaves the witness and the saved file in a state that neither recovery nor restore can resolve?",
+      "evidence": {
+        "conclusion": "concurrent exceptions were refusals; final audit and witness matched, no lost saved update or unresolvable state",
+        "searches": [
+          {
+            "final_audits": {
+              "returned": true
+            },
+            "found_loss": true,
+            "lost_exceptions": 3,
+            "name": "4_threads_mixed_15each",
+            "witness_match": true
+          },
+          {
+            "found": false,
+            "name": "processes_via_subprocess",
+            "note": "timed out or serialized by flock",
+            "runs": 0
+          },
+          {
+            "duration_s": 10,
+            "found_unresolvable": false,
+            "name": "long_mix"
+          }
+        ]
+      },
+      "seconds": 0.21,
+      "verdict": "NOT FOUND"
+    },
+    "QB": {
+      "claim": "Is there any failed or interrupted save, or any use of restore, that leaves a state that can never be signed off, or that lets something be signed off that the owner did not approve?",
+      "evidence": {
+        "note": "no unsignable or unauthorized signoff found in tried failures and restores",
+        "searches": [
+          {
+            "name": "fail_then_attest",
+            "never_signoff": false,
+            "result": {
+              "returned": true
+            }
+          },
+          {
+            "name": "restore_then_attest",
+            "result": {
+              "returned": true
+            },
+            "unsigned_approved": false
+          },
+          {
+            "found_bad_signoff": false,
+            "name": "pending_commit_interrupt"
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "NOT FOUND"
+    },
+    "QC": {
+      "claim": "Can restore be made to bring back anything other than the witness head, or to discard something the owner signed off?",
+      "evidence": {
+        "searches": [
+          {
+            "brought_other": false,
+            "name": "corrupt_checkpoint_then_restore",
+            "result": {
+              "exception": "RollbackDetected",
+              "message": "restore refused: the saved checkpoint is not the witness head"
+            }
+          },
+          {
+            "after": 1,
+            "before": 1,
+            "discarded_signed": false,
+            "name": "normal_restore_keeps_head"
+          },
+          {
+            "found_wrong_head": false,
+            "name": "prefix_mismatch"
+          }
+        ]
+      },
+      "seconds": 0.03,
+      "verdict": "NOT FOUND"
+    }
+  },
+  "python": "3.10.21"
+}

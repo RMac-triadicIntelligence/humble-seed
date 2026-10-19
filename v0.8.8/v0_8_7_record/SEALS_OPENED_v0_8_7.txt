@@ -1,0 +1,17 @@
+OPENING OF THE v0.8.7 SEALS (after round 8: ChatGPT run-only and claims; Grok blind and claims; 2026-10-19 ~13:08 CT)
+
+Receipt commitment 3f14e8e04a27fbe222f1afaa7bfa0b5b4d663e4ca19490f513094ee7c3218ab2
+  salt    [WITHHELD-v0.8.7-salt]
+  receipt 8bbf49c074e5cf36c83dbc026f5dfdd6c4a1eb9f351bad6b897a3ca8d0ab663e
+  sha256(salt + receipt) == commitment: True
+  Reported receipts:
+  - author:  Python 3.13.16, cryptography 50.0.1; blind-pack clean extraction identical
+  - ChatGPT: Python 3.12.14, cryptography 50.0.2 (run-only pack, byte-identical code)
+  - Grok:    Python 3.10.21, cryptography 50.0.1 (blind pack)
+  All identical, including the one mismatch (XO1, deviation E1).
+
+Author findings commitment 1dae66bb1fad27c68e3cc1361a5aec922af59781249f079a3af223ce2c02c955  (sealed 2026-10-19T16:44:22Z)
+  salt [WITHHELD-v0.8.7-salt]
+  sha256(salt + AUTHOR_FINDINGS_v0_8_7.txt) == commitment: True
+  Released with it: AUTHOR_FINDINGS_v0_8_7.txt, AUTHOR_FINDINGS_SALT_v0_8_7.txt, author_probe_v0_8_7.py,
+  AUTHOR_PROBE_v0_8_7.txt.

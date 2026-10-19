@@ -1,0 +1,103 @@
+Q1a_dwell_vs_dwell done
+Q1a_dwell_vs_attest done
+Q1c_two_real_threads done
+I2_double_fault done
+{
+  "Q1a_dwell_vs_dwell": {
+    "A": {
+      "returned": "dwelling"
+    },
+    "B": {
+      "returned": "dwelling"
+    },
+    "middle": {
+      "generation": 2,
+      "checkpoint": 0,
+      "dwellings": [
+        "formality"
+      ]
+    },
+    "final": {
+      "generation": 3,
+      "checkpoint": 0,
+      "dwellings": [
+        "formality",
+        "curiosity"
+      ]
+    },
+    "witness": 0,
+    "fresh_load": {
+      "returned": null
+    },
+    "fresh_audit": {
+      "returned": true
+    }
+  },
+  "Q1a_dwell_vs_attest": {
+    "A": {
+      "returned": "dwelling"
+    },
+    "B": {
+      "returned": true
+    },
+    "middle": {
+      "generation": 4,
+      "checkpoint": 1,
+      "dwellings": []
+    },
+    "final": {
+      "generation": 5,
+      "checkpoint": 1,
+      "dwellings": [
+        "curiosity"
+      ]
+    },
+    "witness": 1,
+    "fresh_load": {
+      "returned": null
+    },
+    "fresh_audit": {
+      "returned": true
+    }
+  },
+  "Q1c_two_real_threads": {
+    "A_dwells_returned": 584,
+    "A_errors": {},
+    "B_attests_returned": 178,
+    "B_errors": {},
+    "formality_dwellings_saved": 584,
+    "lost_dwellings": 0,
+    "saved_checkpoint": 178,
+    "witness": 178,
+    "fresh_load": {
+      "returned": null
+    },
+    "fresh_audit": {
+      "returned": true
+    }
+  },
+  "I2_double_fault": {
+    "attest": {
+      "exception": "OSError",
+      "message": "injected: directory fsync failed after replace"
+    },
+    "after": {
+      "memory_checkpoint": 1,
+      "disk_checkpoint": 1,
+      "memory_generation": -1,
+      "disk_generation": 4
+    },
+    "same_object_next_dwell": {
+      "exception": "StaleOrganism",
+      "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+    },
+    "same_object_retry_attest": {
+      "exception": "StaleOrganism",
+      "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+    },
+    "witness_after_retry": 1,
+    "fresh_audit": {
+      "returned": true
+    }
+  }
+}

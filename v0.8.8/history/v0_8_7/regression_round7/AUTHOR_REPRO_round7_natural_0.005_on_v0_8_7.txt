@@ -1,0 +1,54 @@
+{
+ "switch_interval": 0.005,
+ "seconds_per_run": 15.0,
+ "runs": [
+  {
+   "A_dwells_returned": 494,
+   "A_errors": {},
+   "B_attests_returned": 146,
+   "B_errors": {},
+   "formality_dwellings_saved": 494,
+   "lost_dwellings": 0,
+   "saved_checkpoint": 146,
+   "witness": 146,
+   "fresh_load": {
+    "returned": null
+   },
+   "fresh_audit": {
+    "returned": true
+   }
+  },
+  {
+   "A_dwells_returned": 503,
+   "A_errors": {},
+   "B_attests_returned": 143,
+   "B_errors": {},
+   "formality_dwellings_saved": 503,
+   "lost_dwellings": 0,
+   "saved_checkpoint": 143,
+   "witness": 143,
+   "fresh_load": {
+    "returned": null
+   },
+   "fresh_audit": {
+    "returned": true
+   }
+  },
+  {
+   "A_dwells_returned": 508,
+   "A_errors": {},
+   "B_attests_returned": 141,
+   "B_errors": {},
+   "formality_dwellings_saved": 508,
+   "lost_dwellings": 0,
+   "saved_checkpoint": 141,
+   "witness": 141,
+   "fresh_load": {
+    "returned": null
+   },
+   "fresh_audit": {
+    "returned": true
+   }
+  }
+ ]
+}

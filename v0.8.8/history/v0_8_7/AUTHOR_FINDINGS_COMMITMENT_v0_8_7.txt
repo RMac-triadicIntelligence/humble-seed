@@ -1,0 +1,2 @@
+1dae66bb1fad27c68e3cc1361a5aec922af59781249f079a3af223ce2c02c955
+# sha256(salt + AUTHOR_FINDINGS_v0_8_7.txt). Sealed 2026-10-19T16:44:22Z, before reviewers see v0.8.7; salt and text released after they report.

@@ -1,0 +1,102 @@
+{
+  "P1_hatch_over_a_state_without_generation": {
+    "a_v086_file": {
+      "saved_file_unchanged": true,
+      "saved_organism_id_now": "original",
+      "second_hatch": "StaleOrganism: stale organism object: the saved state is at generation 1, this object last saw None; reload it"
+    },
+    "b_file_without_generation": {
+      "saved_file_unchanged": false,
+      "saved_organism_id_now": "replaced",
+      "second_hatch": "returned '39aa6823-b8b9-445a-9af6-dcfd9c0bc44e'"
+    }
+  },
+  "P2_resealed_forgery_claiming_the_pending_checkpoint": {
+    "a_content_as_approved": {
+      "audit": "returned True",
+      "intent_pending": false,
+      "protocol_save": "returned None",
+      "witness": 1
+    },
+    "b_character_forged": {
+      "audit": "RollbackDetected: A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+      "intent_pending": true,
+      "protocol_save": "returned None",
+      "witness": 0
+    }
+  },
+  "P3_concurrent_writers_and_attester": {
+    "expected": 200,
+    "expected_witness": 10,
+    "fresh_audit": "returned True",
+    "new_dwelling_events_saved": 200,
+    "seconds": 1.5,
+    "witness": 10,
+    "workers": [
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 71
+      },
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 71
+      },
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 89
+      },
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 85
+      },
+      {
+        "done": 10,
+        "role": "attester",
+        "stale_retries": 36
+      }
+    ]
+  },
+  "P4_owner_refusal_wording_names_the_right_answer": {
+    "a_this_reading": {
+      "applied": true,
+      "attest": "AttestationRefused: trace index 4: owner's position: its latest answer to this reading is 'no'"
+    },
+    "b_other_reading": {
+      "applied": true,
+      "attest": "AttestationRefused: trace index 4: owner's position: its latest answer in verbosity since its record began is 'no'"
+    }
+  },
+  "P5_save_cost_grows_with_the_trace": {
+    "trace_len_2000": "39.54 ms per dwell",
+    "trace_len_22": "2.62 ms per dwell",
+    "trace_len_500": "13.36 ms per dwell"
+  },
+  "P6_failed_non_install_saves": {
+    "a_dir_fsync_fails": {
+      "first": "OSError: injected directory fsync failure after replace",
+      "object_trace_len": 4,
+      "saved_trace_len": 4,
+      "second_same_object": "returned 'dwelling'"
+    },
+    "b_replace_fails": {
+      "first": "OSError: injected replace failure",
+      "object_trace_len": 4,
+      "other_current_object_writes_between": "returned 'dwelling'",
+      "saved_trace_len": 3,
+      "second_same_object": "StaleOrganism: stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+    }
+  },
+  "P7_owner_answer_through_a_stale_object": {
+    "answer_via_stale_object": "StaleOrganism: stale organism object: the saved state is at generation 3, this object last saw 2; reload it",
+    "attest": "AttestationRefused: trace index 3: owner's position: its latest answer to this reading is 'no'",
+    "fresh_object_applies": true,
+    "organism_trace_answers": [],
+    "owner_ledger": [
+      "no"
+    ]
+  }
+}

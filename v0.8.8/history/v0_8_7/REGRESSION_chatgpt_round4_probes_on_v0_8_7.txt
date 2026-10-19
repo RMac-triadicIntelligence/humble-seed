@@ -1,0 +1,3 @@
+forged_record_metadata (adapted) -> attest: refused: AttestationRefused: trace index 2: record metadata invalid: ['authorized_at is not a finite number', 'event timestamp differs from authorized_at', 'unverified_annotation is not a short string
+witness write 1 (intent) fails -> retry attest: ACCEPTED (True) | reload+audit: ACCEPTED (True)
+witness write 2 (commit) fails -> reopen audit: ACCEPTED (True) | witness seq: 1

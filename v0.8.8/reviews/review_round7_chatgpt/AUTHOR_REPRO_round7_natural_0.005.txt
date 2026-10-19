@@ -1,0 +1,53 @@
+{
+ "switch_interval": 0.005,
+ "seconds_per_run": 15.0,
+ "runs": [
+  {
+   "A_dwells_returned": 540,
+   "A_errors": {},
+   "B_attests_returned": 151,
+   "B_errors": {},
+   "formality_dwellings_saved": 540,
+   "lost_dwellings": 0,
+   "saved_checkpoint": 151,
+   "witness": 151,
+   "fresh_load": {
+    "returned": null
+   },
+   "fresh_audit": {
+    "returned": true
+   }
+  },
+  {
+   "A_dwells_returned": 518,
+   "A_errors": {},
+   "B_attests_returned": 145,
+   "B_errors": {},
+   "formality_dwellings_saved": 518,
+   "lost_dwellings": 0,
+   "saved_checkpoint": 145,
+   "witness": 145,
+   "fresh_load": {
+    "returned": null
+   },
+   "fresh_audit": {
+    "returned": true
+   }
+  },
+  {
+   "A_dwells_returned": 533,
+   "A_errors": {},
+   "B_attests_returned": 143,
+   "B_errors": {},
+   "formality_dwellings_saved": 533,
+   "lost_dwellings": 0,
+   "saved_checkpoint": 142,
+   "witness": 143,
+   "fresh_load": {
+    "exception": "IntegrityError",
+    "message": "Category sequences do not match the attested checkpoint"
+   },
+   "fresh_audit": null
+  }
+ ]
+}

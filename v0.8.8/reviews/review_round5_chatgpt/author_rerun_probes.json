@@ -1,0 +1,100 @@
+{
+  "failed_install_then_ram_recovery": {
+    "after_recovery": {
+      "disk_checkpoint": 0,
+      "ram_checkpoint": 1,
+      "witness_checkpoint": 1
+    },
+    "audit_same_object": {
+      "returned": true
+    },
+    "before_recovery": {
+      "disk_checkpoint": 0,
+      "ram_checkpoint": 1,
+      "witness_checkpoint": 0
+    },
+    "interruption": {
+      "exception": "OSError",
+      "message": "injected state-save failure before durable write"
+    },
+    "restart_attest": {
+      "exception": "RollbackDetected",
+      "message": "Non-successor checkpoint: organism presents sequence 1, expected 2"
+    },
+    "restart_load": {
+      "exception": "IntegrityError",
+      "message": "Category sequences do not match the attested checkpoint"
+    }
+  },
+  "long_annotation_strands_valid_crossing": {
+    "annotation_length": 2001,
+    "apply": "applied",
+    "attest": {
+      "exception": "AttestationRefused",
+      "message": "trace index 2: record metadata invalid: ['unverified_annotation is not a short string']"
+    },
+    "proposal_still_pending": false,
+    "restart_load": {
+      "exception": "IntegrityError",
+      "message": "Category sequences do not match the attested checkpoint"
+    }
+  },
+  "mutant_diagnostics": {
+    "XD4a_attest_without_replay": {
+      "exception": "Fail",
+      "message": "another process could take the owner lock during attest: []"
+    },
+    "XP1_authorized_at_finite_check_removed": {
+      "exception": "Fail",
+      "message": "refused for a different reason: \"trace index 2: malformed authorized mutation (ValueError: could not convert string to float: 'not a timestamp')\""
+    },
+    "XS2_ledger_not_reread": {
+      "returned": "trace index 2: reading is past its lifetime by the owner's clock"
+    }
+  },
+  "pre_sign_category_no_bypass": {
+    "applied_X_verbosity": 0.25,
+    "attest": {
+      "returned": true
+    },
+    "authoritative_owner_answers_to_Y": [
+      "no"
+    ],
+    "organism_only_forged_Y_answer": "yes",
+    "restart_audit": {
+      "returned": true
+    },
+    "signed_X_after_owner_no": true
+  },
+  "stale_object_abandons_installed_intent": {
+    "after": {
+      "disk_checkpoint": 1,
+      "pending": false,
+      "witness_checkpoint": 0
+    },
+    "attest_actual_disk_state": {
+      "exception": "RollbackDetected",
+      "message": "Non-successor checkpoint: organism presents sequence 2, expected 1"
+    },
+    "audit_actual_disk_state": {
+      "exception": "RollbackDetected",
+      "message": "Unwitnessed advance: organism presents sequence 1, witness holds 0"
+    },
+    "audit_stale": {
+      "returned": true
+    },
+    "before": {
+      "disk_checkpoint": 1,
+      "pending": true,
+      "witness_checkpoint": 0
+    },
+    "interruption": {
+      "exception": "OSError",
+      "message": "injected interruption after durable organism install"
+    }
+  },
+  "xp1_still_refuses_malformed_metadata": {
+    "exception": "AttestationRefused",
+    "message": "trace index 2: malformed authorized mutation (ValueError: could not convert string to float: 'not a timestamp')"
+  }
+}

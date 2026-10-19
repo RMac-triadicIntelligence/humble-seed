@@ -1,0 +1,147 @@
+Humble Seed v0.8.7 — independent documentation-accuracy battery
+2026-10-19
+
+All 18 claims and all 3 open questions received executable checks. One extra
+check tests lock-order deadlock. No claim is NOT TESTED and no check is ERROR.
+The final battery ran in separate fresh processes with a 30-second deadline
+per check, plus explicit shorter deadlines in concurrent/process tests.
+
+RESULT: 8 HOLDS; 5 HOLDS WITH CAVEATS; 5 WRONG.
+QA, QB and QC: FOUND. Extra lock-order deadlock: FOUND.
+The battery's exit code 0 means execution completed, not that all claims hold.
+
+The candidate file was never edited. All original ZIP manifest entries verified.
+Every working input remains byte-identical except the scaffold deliberately
+filled in as requested. The original MANIFEST.sha256 therefore still covers
+the original scaffold, not this completed battery. Archive SHA256SUMS.txt covers
+the delivered completed files. No other reviews or sealed author findings were
+used. The frozen falsification suite is included as supplied for reference; this
+claims task uses new checks rather than rerunning that suite.
+
+Claim-by-claim interpretation (full observations and exceptions are in JSON):
+Q1  HOLDS WITH CAVEATS: all six operation bodies ran with lock ownership;
+    load refreshes stale memory and does not perform a currency check.
+Q2  HOLDS: direct _save sampled generation, sealed its snapshot, and serialized
+    its next generation with organism lock ownership observed at each stage.
+Q3  WRONG: a reader saves through another object; outer apply changes character
+    and other memory before its eventual StaleOrganism exception. Disk remains
+    protected in this reader scenario.
+Q4  HOLDS: answer, attest, audit, restore each waited for the organism lock held
+    by another thread and completed after it was released.
+Q5  HOLDS: the save-generation check catches another object's write through a
+    reader. The outer operation nevertheless has unsaved memory changes (Q3).
+U1  HOLDS WITH CAVEATS: ordinary state-changing seed operations and attest refuse
+    the unusable object. Audit and read-only methods can still operate; audit
+    may complete the pending witness commit without reloading that object.
+U2  WRONG: after replace lands and directory fsync fails, KeyboardInterrupt
+    during generation reread bypasses Exception handling. install_checkpoint
+    rolls memory back to checkpoint 0 while disk contains checkpoint 1.
+    The ordinary OSError reread-failure control correctly retains checkpoint 1
+    in memory and marks the object unusable.
+G1  HOLDS: missing, null, Boolean, negative, fractional and string generations
+    all refused direct save, dwell, new hatch and restore; bytes did not change.
+A1  HOLDS: stale owner answer and direct seed answer changed neither memory,
+    saved state nor the owner ledger. Owner error says not recorded anywhere.
+R1  HOLDS WITH CAVEATS: normal restore correctly reconstructs the attested
+    character/prefix, drops pending readings and tail, preserves basin and an
+    exact discarded-file copy, records non-authorizing restored event, and
+    permits later audit/attest. An installed pending checkpoint resolves first.
+    An installed pending checkpoint followed by an unattested crossing instead
+    blocks recovery and restore (R20, QB).
+R2  WRONG: restore advances witness 0 -> 1 when it first completes an installed
+    pending checkpoint. With no pending commit the witness stays unchanged.
+R20 WRONG: expiry/restore/re-read/re-sign works in the normal case. A failed
+    witness commit followed by another applied crossing blocks restore even
+    after the later crossing's lifetime has elapsed.
+R31a HOLDS: pre-replace failed save leaves unsaved memory; next dwell persists
+    it, or another object's intervening save causes stale refusal and reload
+    loses only that unsaved change.
+R31b WRONG: a real same-thread signal handler saves through another object after
+    the outer _save's check/snapshot. Outer save overwrites the newer saved
+    update with the same generation. Reload and audit still succeed, silently
+    missing that saved dwelling event.
+R33 HOLDS WITH CAVEATS: already-stale-at-entry mutators refuse without changing
+    records; objects becoming stale during the reader can change memory before
+    refusal. load refreshes memory by design.
+R35a HOLDS WITH CAVEATS: tested threads and processes serialized, including a
+    whole operation, not just its write. Same-thread reentrant operations can
+    interleave; the signal example loses a saved update.
+R35b HOLDS: the specific other-object write inside the reader is detected at
+    save; its saved update is preserved.
+R36 HOLDS: successful restore preserved basin and discarded bytes. Unreadable,
+    truncated and rewritten attested prefixes refused without writing a new
+    state or creating a backup. There was no independent prefix backup before
+    the first restore.
+
+OPEN QUESTIONS AND ADDITIONAL FINDING
+QA FOUND: actual saved update loss (R31b), plus the pending-commit recovery trap.
+QB FOUND: pending recovery trap and a persisted restore/signoff race dead end.
+   Fresh-process attest/audit/restore attempts all refuse. This is an operational
+   dead end in those APIs; arbitrary manual reconstruction is outside this claim.
+   No unauthorized-signoff result is claimed.
+QC FOUND: while restore saves its already-verified old-head snapshot, a signal
+   handler completes a new owner attestation (signature, checkpoint hash and
+   witness agreement verified). Restore then writes checkpoint 0, returns
+   success, while witness holds checkpoint 1 and no pending intent remains.
+   A new process with the legitimate owner's key loads the old checkpoint but
+   cannot attest, audit or restore it through OwnerTool.
+Extra FOUND: reader holds organism lock; another thread holds owner lock while
+   waiting for organism; reader calls owner API and waits for owner. Both cycle
+   markers printed; the isolated child hung until its 3-second timeout, then was
+   killed and reaped.
+
+TEST CONDITIONS AND LIMITS
+The lost-update and restore/signoff race probes use a real POSIX SIGUSR1 whose
+exact delivery point is chosen by sys.settrace immediately before _durable_write,
+after _save's generation check and snapshot. The signal handler calls public APIs.
+No lock, generation guard, serialization routine, I/O function or candidate method
+is removed in those probes. They establish a same-thread API-reentry case and
+are not claims about an observed ordinary two-thread race.
+The commit trap injects one OSError before witness commit writes, followed by
+ordinary signed apply and owner APIs, without corrupting or editing saved files.
+U2 separately injects an fsync failure and a KeyboardInterrupt during reread.
+HOLDS means held in these executed cases, not an exhaustive correctness proof.
+Verdicts concern individual documentation claims, not counts of distinct defects.
+Temporary fixture state, including generated test owner keys, is not retained.
+
+REPRODUCE
+Unzip archive, enter pack/, then:
+    python3 -I claims_battery_v0_8_7.py
+Requires Python 3.10+ and cryptography on a POSIX system supporting SIGUSR1.
+The table and JSON are regenerated. Keys, IDs, timestamps, hashes and timings
+vary; the verdicts are the comparison target. All check functions and their
+helpers are in the one delivered battery file.
+
+ENVIRONMENT
+Python: 3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]
+cryptography: 50.0.2
+Elapsed: 6.320 seconds
+Battery exit code: 0
+Candidate SHA256: 0292c032770ff65e07491c169ed9e86d381e75b8911c554a03cd0e1644a42430
+Input ZIP SHA256: 7509aead09257a20c1c2bdfe8cd894340b6ec037baddacb203d742d0ec7f6b25
+
+PRINTED TABLE
+Humble Seed v0.8.7 claims battery  (Python 3.12.14, cryptography 50.0.2)
+  Q1                           HOLDS WITH CAVEATS
+  Q2                           HOLDS
+  Q3                           WRONG
+  Q4                           HOLDS
+  Q5                           HOLDS
+  U1                           HOLDS WITH CAVEATS
+  U2                           WRONG
+  G1                           HOLDS
+  A1                           HOLDS
+  R1                           HOLDS WITH CAVEATS
+  R2                           WRONG
+  R20                          WRONG
+  R31a                         HOLDS
+  R31b                         WRONG
+  R33                          HOLDS WITH CAVEATS
+  R35a                         HOLDS WITH CAVEATS
+  R35b                         HOLDS
+  R36                          HOLDS
+  QA                           FOUND
+  QB                           FOUND
+  QC                           FOUND
+  extra_lock_inversion         FOUND
+written CLAIMS_RESULTS_v0_8_7.json

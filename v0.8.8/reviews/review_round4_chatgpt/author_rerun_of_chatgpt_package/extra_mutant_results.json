@@ -1,0 +1,807 @@
+{
+  "baseline": {
+    "T10_replay": {
+      "detail": "replay of consumed proposal/nonce",
+      "status": "PASS"
+    },
+    "T11_expiry": {
+      "detail": "proposal expired",
+      "status": "PASS"
+    },
+    "T12_wrong_key": {
+      "detail": "invalid signature",
+      "status": "PASS"
+    },
+    "T13_forged_first_commit": {
+      "detail": "first-commit mismatch: signed reading does not match live gate",
+      "status": "PASS"
+    },
+    "T14_forged_character_resealed": {
+      "detail": "rejected: Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+      "status": "PASS"
+    },
+    "T15_category_sequences_resealed": {
+      "detail": "rejected: Category sequences do not match the attested checkpoint",
+      "status": "PASS"
+    },
+    "T16_permissive_rule_full_birth_repair": {
+      "detail": "rejected: Birth record does not match the attested checkpoint",
+      "status": "PASS"
+    },
+    "T17_unattested_apply_fails_closed": {
+      "detail": "Category sequences do not match the attested checkpoint",
+      "status": "PASS"
+    },
+    "T18_rollback_witness_only": {
+      "detail": "Rollback: organism presents sequence 1, witness holds 2",
+      "status": "PASS"
+    },
+    "T19_identity_replacement_audit": {
+      "detail": "Unknown organism: explicit sequence-zero enrollment is required",
+      "status": "PASS"
+    },
+    "T1_liveness_intervening_events": {
+      "detail": "applied after 5 dwellings, 1 rejection event, 1 checkpoint; verbosity 0.25",
+      "status": "PASS"
+    },
+    "T20_realistic_session": {
+      "detail": "v0.8.3 applied 3/4 (rejected: 'stale reading: this category has advanced since issuance'); parent v0.7 applied 0/4 (first reason: 'stale proposal: trace has advanced since issuance')",
+      "status": "PASS"
+    },
+    "T21_prior_value_detects_independent_change": {
+      "detail": "stale reading: category value differs from the value read",
+      "status": "PASS"
+    },
+    "T22_unattested_tail_check_reachable": {
+      "detail": "rejected: Unattested authorizing event at trace index 2: authorized_mutation \u2014 owner checkpoint required",
+      "status": "PASS"
+    },
+    "T23_tamper_evidence_preserved": {
+      "detail": "Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+      "status": "PASS"
+    },
+    "T24_nonfinite_reading_refused": {
+      "detail": "NaN, +inf, -inf refused at issuance; NaN interpreter output held as unreadable",
+      "status": "PASS"
+    },
+    "T25_clamp_comes_from_constitution": {
+      "detail": "module range edited to (0.4, 1.0) after hatch; destination still 0.25",
+      "status": "PASS"
+    },
+    "T26_attest_refuses_unsigned_change": {
+      "detail": "refused for a different reason: \"trace index 2: record fields differ from the replay: ['prior_character_snapshot']\"",
+      "status": "FAIL"
+    },
+    "T27_checkpoint_built_at_signing_time": {
+      "detail": "dwelling between apply and attest; attestation and audit succeed",
+      "status": "PASS"
+    },
+    "T28_reading_survives_a_day": {
+      "detail": "signed 25 h after the session: 3/4 applied; a 2-day lifetime chosen at hatch is honoured",
+      "status": "PASS"
+    },
+    "T29_allowed_fields_come_from_constitution": {
+      "detail": "module fields edited after hatch; curiosity still allowed, humor still refused",
+      "status": "PASS"
+    },
+    "T2_liveness_cross_category": {
+      "detail": "verbosity reading applied after a formality commit; both 0.25",
+      "status": "PASS"
+    },
+    "T30_D1_owner_no_holds": {
+      "detail": "owner's position: the owner's latest answer to this reading is 'no'",
+      "status": "PASS"
+    },
+    "T31_D1_hold_never_crosses_or_reproposes": {
+      "detail": "4 signed readings, 4 holds, 0 crossings, 0 new readings",
+      "status": "PASS"
+    },
+    "T32_D1_reader_failure_holds": {
+      "detail": "reader failed (RuntimeError: reader crashed)",
+      "status": "PASS"
+    },
+    "T33_D1_reader_cannot_alter_reading": {
+      "detail": "reader mutated its copies; applied record matches the signed reading",
+      "status": "PASS"
+    },
+    "T34_D1_unrelated_answers_do_not_hold": {
+      "detail": "'no' in another category and 'yes' do not hold; an earlier 'no' does not hold a later reading",
+      "status": "PASS"
+    },
+    "T35_D2_answer_is_evidence_not_authority": {
+      "detail": "answer recorded as non-authorizing evidence; signature still the only authority",
+      "status": "PASS"
+    },
+    "T36_D2_prompts_separate_and_deterministic": {
+      "detail": "May I change my verbosity for you on the strength of this reading? Only verbosity can change, only within 0.00\u20131.00, and only by the rule attested at my birth; it is 0.50 now. This would be the first change ever made to verbosity. This authorization lapses 7 days after the reading was taken. Signing says yes to this one reading; it does not choose where it lands.",
+      "status": "PASS"
+    },
+    "T37_D3_nothing_before_signing_depends_on_rule": {
+      "detail": "owner-facing response identical under delta -0.25 and -0.10; no destination in it",
+      "status": "PASS"
+    },
+    "T38_D3_consequence_rendered_from_record": {
+      "detail": "I'll keep my answers shorter. (verbosity 0.50 \u2192 0.25; lead read: preference 0.68; rule step -0.25). This was the first change ever made to verbosity.",
+      "status": "PASS"
+    },
+    "T39_D4_attest_refuses_forged_reading": {
+      "detail": "trace index 2: reading signature does not verify under the owner's key",
+      "status": "PASS"
+    },
+    "T3_stale_same_category": {
+      "detail": "stale reading: this category has advanced since issuance",
+      "status": "PASS"
+    },
+    "T40_nonfinite_never_parsed_or_written": {
+      "detail": "refused at parse (4 literals), at load, and at write",
+      "status": "PASS"
+    },
+    "T41_owner_ledger_refuses_held_crossing": {
+      "detail": "trace index 4: owner's position: the owner's latest answer to this reading is 'no'",
+      "status": "PASS"
+    },
+    "T42_owner_clock_lifetime": {
+      "detail": "trace index 2: reading is past its lifetime by the owner's clock",
+      "status": "PASS"
+    },
+    "T43_organism_expiry_record_honored": {
+      "detail": "trace index 3: the organism recorded this reading as expired before applying it",
+      "status": "PASS"
+    },
+    "T44_replay_checks_every_record_field": {
+      "detail": "trace index 2: record fields differ from the replay: ['prior_value'] | trace index 2: record fields differ from the replay: ['first_commit'] | trace index 2: record fields differ from the replay: ['prior_character_snapshot']",
+      "status": "PASS"
+    },
+    "T45_D2_corrected_answer_releases_hold": {
+      "detail": "no->yes applies; no(X)+yes(Y) holds X; yes(X)+no(Y) holds X",
+      "status": "PASS"
+    },
+    "T46_reading_must_be_signed_through_owner_tool": {
+      "detail": "trace index 2: reading was not signed through this owner tool",
+      "status": "PASS"
+    },
+    "T47_forged_yes_does_not_reach_attestation": {
+      "detail": "trace index 4: owner's position: the owner's latest answer to this reading is 'no'",
+      "status": "PASS"
+    },
+    "T48_organism_recorded_no_honored": {
+      "detail": "trace index 4: the organism's own record holds this reading (the owner's latest answer to this reading is 'no')",
+      "status": "PASS"
+    },
+    "T4_second_crossing_at_clamp_floor": {
+      "detail": "stale reading: this category has advanced since issuance",
+      "status": "PASS"
+    },
+    "T5_payload_carries_no_destination_information": {
+      "detail": "16 signed fields; no destination value; identical under delta -0.25 and -0.10",
+      "status": "PASS"
+    },
+    "T6_rule_comes_from_constitution": {
+      "detail": "module constant edited to -0.5; destination still 0.25",
+      "status": "PASS"
+    },
+    "T7_constitution_pinned_at_apply": {
+      "detail": "derivation rule changed since the reading was signed",
+      "status": "PASS"
+    },
+    "T8_distribution_bound": {
+      "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+      "status": "PASS"
+    },
+    "T9_evidence_bound": {
+      "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+      "status": "PASS"
+    }
+  },
+  "mutants": {
+    "XM1_invalid_authorized_at": {
+      "all_test_results": {
+        "T10_replay": {
+          "detail": "replay of consumed proposal/nonce",
+          "status": "PASS"
+        },
+        "T11_expiry": {
+          "detail": "proposal expired",
+          "status": "PASS"
+        },
+        "T12_wrong_key": {
+          "detail": "invalid signature",
+          "status": "PASS"
+        },
+        "T13_forged_first_commit": {
+          "detail": "first-commit mismatch: signed reading does not match live gate",
+          "status": "PASS"
+        },
+        "T14_forged_character_resealed": {
+          "detail": "rejected: Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+          "status": "PASS"
+        },
+        "T15_category_sequences_resealed": {
+          "detail": "rejected: Category sequences do not match the attested checkpoint",
+          "status": "PASS"
+        },
+        "T16_permissive_rule_full_birth_repair": {
+          "detail": "rejected: Birth record does not match the attested checkpoint",
+          "status": "PASS"
+        },
+        "T17_unattested_apply_fails_closed": {
+          "detail": "Category sequences do not match the attested checkpoint",
+          "status": "PASS"
+        },
+        "T18_rollback_witness_only": {
+          "detail": "Rollback: organism presents sequence 1, witness holds 2",
+          "status": "PASS"
+        },
+        "T19_identity_replacement_audit": {
+          "detail": "Unknown organism: explicit sequence-zero enrollment is required",
+          "status": "PASS"
+        },
+        "T1_liveness_intervening_events": {
+          "detail": "applied after 5 dwellings, 1 rejection event, 1 checkpoint; verbosity 0.25",
+          "status": "PASS"
+        },
+        "T20_realistic_session": {
+          "detail": "v0.8.3 applied 3/4 (rejected: 'stale reading: this category has advanced since issuance'); parent v0.7 applied 0/4 (first reason: 'stale proposal: trace has advanced since issuance')",
+          "status": "PASS"
+        },
+        "T21_prior_value_detects_independent_change": {
+          "detail": "stale reading: category value differs from the value read",
+          "status": "PASS"
+        },
+        "T22_unattested_tail_check_reachable": {
+          "detail": "rejected: Unattested authorizing event at trace index 2: authorized_mutation \u2014 owner checkpoint required",
+          "status": "PASS"
+        },
+        "T23_tamper_evidence_preserved": {
+          "detail": "Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+          "status": "PASS"
+        },
+        "T24_nonfinite_reading_refused": {
+          "detail": "NaN, +inf, -inf refused at issuance; NaN interpreter output held as unreadable",
+          "status": "PASS"
+        },
+        "T25_clamp_comes_from_constitution": {
+          "detail": "module range edited to (0.4, 1.0) after hatch; destination still 0.25",
+          "status": "PASS"
+        },
+        "T26_attest_refuses_unsigned_change": {
+          "detail": "refused for a different reason: \"trace index 2: record fields differ from the replay: ['prior_character_snapshot']\"",
+          "status": "FAIL"
+        },
+        "T27_checkpoint_built_at_signing_time": {
+          "detail": "dwelling between apply and attest; attestation and audit succeed",
+          "status": "PASS"
+        },
+        "T28_reading_survives_a_day": {
+          "detail": "signed 25 h after the session: 3/4 applied; a 2-day lifetime chosen at hatch is honoured",
+          "status": "PASS"
+        },
+        "T29_allowed_fields_come_from_constitution": {
+          "detail": "module fields edited after hatch; curiosity still allowed, humor still refused",
+          "status": "PASS"
+        },
+        "T2_liveness_cross_category": {
+          "detail": "verbosity reading applied after a formality commit; both 0.25",
+          "status": "PASS"
+        },
+        "T30_D1_owner_no_holds": {
+          "detail": "owner's position: the owner's latest answer to this reading is 'no'",
+          "status": "PASS"
+        },
+        "T31_D1_hold_never_crosses_or_reproposes": {
+          "detail": "4 signed readings, 4 holds, 0 crossings, 0 new readings",
+          "status": "PASS"
+        },
+        "T32_D1_reader_failure_holds": {
+          "detail": "reader failed (RuntimeError: reader crashed)",
+          "status": "PASS"
+        },
+        "T33_D1_reader_cannot_alter_reading": {
+          "detail": "reader mutated its copies; applied record matches the signed reading",
+          "status": "PASS"
+        },
+        "T34_D1_unrelated_answers_do_not_hold": {
+          "detail": "'no' in another category and 'yes' do not hold; an earlier 'no' does not hold a later reading",
+          "status": "PASS"
+        },
+        "T35_D2_answer_is_evidence_not_authority": {
+          "detail": "answer recorded as non-authorizing evidence; signature still the only authority",
+          "status": "PASS"
+        },
+        "T36_D2_prompts_separate_and_deterministic": {
+          "detail": "May I change my verbosity for you on the strength of this reading? Only verbosity can change, only within 0.00\u20131.00, and only by the rule attested at my birth; it is 0.50 now. This would be the first change ever made to verbosity. This authorization lapses 7 days after the reading was taken. Signing says yes to this one reading; it does not choose where it lands.",
+          "status": "PASS"
+        },
+        "T37_D3_nothing_before_signing_depends_on_rule": {
+          "detail": "owner-facing response identical under delta -0.25 and -0.10; no destination in it",
+          "status": "PASS"
+        },
+        "T38_D3_consequence_rendered_from_record": {
+          "detail": "I'll keep my answers shorter. (verbosity 0.50 \u2192 0.25; lead read: preference 0.68; rule step -0.25). This was the first change ever made to verbosity.",
+          "status": "PASS"
+        },
+        "T39_D4_attest_refuses_forged_reading": {
+          "detail": "trace index 2: reading signature does not verify under the owner's key",
+          "status": "PASS"
+        },
+        "T3_stale_same_category": {
+          "detail": "stale reading: this category has advanced since issuance",
+          "status": "PASS"
+        },
+        "T40_nonfinite_never_parsed_or_written": {
+          "detail": "refused at parse (4 literals), at load, and at write",
+          "status": "PASS"
+        },
+        "T41_owner_ledger_refuses_held_crossing": {
+          "detail": "trace index 4: owner's position: the owner's latest answer to this reading is 'no'",
+          "status": "PASS"
+        },
+        "T42_owner_clock_lifetime": {
+          "detail": "trace index 2: reading is past its lifetime by the owner's clock",
+          "status": "PASS"
+        },
+        "T43_organism_expiry_record_honored": {
+          "detail": "trace index 3: the organism recorded this reading as expired before applying it",
+          "status": "PASS"
+        },
+        "T44_replay_checks_every_record_field": {
+          "detail": "trace index 2: record fields differ from the replay: ['prior_value'] | trace index 2: record fields differ from the replay: ['first_commit'] | trace index 2: record fields differ from the replay: ['prior_character_snapshot']",
+          "status": "PASS"
+        },
+        "T45_D2_corrected_answer_releases_hold": {
+          "detail": "no->yes applies; no(X)+yes(Y) holds X; yes(X)+no(Y) holds X",
+          "status": "PASS"
+        },
+        "T46_reading_must_be_signed_through_owner_tool": {
+          "detail": "trace index 2: reading was not signed through this owner tool",
+          "status": "PASS"
+        },
+        "T47_forged_yes_does_not_reach_attestation": {
+          "detail": "trace index 4: owner's position: the owner's latest answer to this reading is 'no'",
+          "status": "PASS"
+        },
+        "T48_organism_recorded_no_honored": {
+          "detail": "trace index 4: the organism's own record holds this reading (the owner's latest answer to this reading is 'no')",
+          "status": "PASS"
+        },
+        "T4_second_crossing_at_clamp_floor": {
+          "detail": "stale reading: this category has advanced since issuance",
+          "status": "PASS"
+        },
+        "T5_payload_carries_no_destination_information": {
+          "detail": "16 signed fields; no destination value; identical under delta -0.25 and -0.10",
+          "status": "PASS"
+        },
+        "T6_rule_comes_from_constitution": {
+          "detail": "module constant edited to -0.5; destination still 0.25",
+          "status": "PASS"
+        },
+        "T7_constitution_pinned_at_apply": {
+          "detail": "derivation rule changed since the reading was signed",
+          "status": "PASS"
+        },
+        "T8_distribution_bound": {
+          "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+          "status": "PASS"
+        },
+        "T9_evidence_bound": {
+          "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+          "status": "PASS"
+        }
+      },
+      "edit": [
+        "authorized_at=self.clock(), signature_b64=signature_b64,",
+        "authorized_at=\"not a timestamp\", signature_b64=signature_b64,"
+      ],
+      "new_errors": [],
+      "new_failures": [],
+      "status": "SURVIVES"
+    },
+    "XM2_forged_owner_note": {
+      "all_test_results": {
+        "T10_replay": {
+          "detail": "replay of consumed proposal/nonce",
+          "status": "PASS"
+        },
+        "T11_expiry": {
+          "detail": "proposal expired",
+          "status": "PASS"
+        },
+        "T12_wrong_key": {
+          "detail": "invalid signature",
+          "status": "PASS"
+        },
+        "T13_forged_first_commit": {
+          "detail": "first-commit mismatch: signed reading does not match live gate",
+          "status": "PASS"
+        },
+        "T14_forged_character_resealed": {
+          "detail": "rejected: Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+          "status": "PASS"
+        },
+        "T15_category_sequences_resealed": {
+          "detail": "rejected: Category sequences do not match the attested checkpoint",
+          "status": "PASS"
+        },
+        "T16_permissive_rule_full_birth_repair": {
+          "detail": "rejected: Birth record does not match the attested checkpoint",
+          "status": "PASS"
+        },
+        "T17_unattested_apply_fails_closed": {
+          "detail": "Category sequences do not match the attested checkpoint",
+          "status": "PASS"
+        },
+        "T18_rollback_witness_only": {
+          "detail": "Rollback: organism presents sequence 1, witness holds 2",
+          "status": "PASS"
+        },
+        "T19_identity_replacement_audit": {
+          "detail": "Unknown organism: explicit sequence-zero enrollment is required",
+          "status": "PASS"
+        },
+        "T1_liveness_intervening_events": {
+          "detail": "applied after 5 dwellings, 1 rejection event, 1 checkpoint; verbosity 0.25",
+          "status": "PASS"
+        },
+        "T20_realistic_session": {
+          "detail": "v0.8.3 applied 3/4 (rejected: 'stale reading: this category has advanced since issuance'); parent v0.7 applied 0/4 (first reason: 'stale proposal: trace has advanced since issuance')",
+          "status": "PASS"
+        },
+        "T21_prior_value_detects_independent_change": {
+          "detail": "stale reading: category value differs from the value read",
+          "status": "PASS"
+        },
+        "T22_unattested_tail_check_reachable": {
+          "detail": "rejected: Unattested authorizing event at trace index 2: authorized_mutation \u2014 owner checkpoint required",
+          "status": "PASS"
+        },
+        "T23_tamper_evidence_preserved": {
+          "detail": "Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+          "status": "PASS"
+        },
+        "T24_nonfinite_reading_refused": {
+          "detail": "NaN, +inf, -inf refused at issuance; NaN interpreter output held as unreadable",
+          "status": "PASS"
+        },
+        "T25_clamp_comes_from_constitution": {
+          "detail": "module range edited to (0.4, 1.0) after hatch; destination still 0.25",
+          "status": "PASS"
+        },
+        "T26_attest_refuses_unsigned_change": {
+          "detail": "refused for a different reason: \"trace index 2: record fields differ from the replay: ['prior_character_snapshot']\"",
+          "status": "FAIL"
+        },
+        "T27_checkpoint_built_at_signing_time": {
+          "detail": "dwelling between apply and attest; attestation and audit succeed",
+          "status": "PASS"
+        },
+        "T28_reading_survives_a_day": {
+          "detail": "signed 25 h after the session: 3/4 applied; a 2-day lifetime chosen at hatch is honoured",
+          "status": "PASS"
+        },
+        "T29_allowed_fields_come_from_constitution": {
+          "detail": "module fields edited after hatch; curiosity still allowed, humor still refused",
+          "status": "PASS"
+        },
+        "T2_liveness_cross_category": {
+          "detail": "verbosity reading applied after a formality commit; both 0.25",
+          "status": "PASS"
+        },
+        "T30_D1_owner_no_holds": {
+          "detail": "owner's position: the owner's latest answer to this reading is 'no'",
+          "status": "PASS"
+        },
+        "T31_D1_hold_never_crosses_or_reproposes": {
+          "detail": "4 signed readings, 4 holds, 0 crossings, 0 new readings",
+          "status": "PASS"
+        },
+        "T32_D1_reader_failure_holds": {
+          "detail": "reader failed (RuntimeError: reader crashed)",
+          "status": "PASS"
+        },
+        "T33_D1_reader_cannot_alter_reading": {
+          "detail": "reader mutated its copies; applied record matches the signed reading",
+          "status": "PASS"
+        },
+        "T34_D1_unrelated_answers_do_not_hold": {
+          "detail": "'no' in another category and 'yes' do not hold; an earlier 'no' does not hold a later reading",
+          "status": "PASS"
+        },
+        "T35_D2_answer_is_evidence_not_authority": {
+          "detail": "answer recorded as non-authorizing evidence; signature still the only authority",
+          "status": "PASS"
+        },
+        "T36_D2_prompts_separate_and_deterministic": {
+          "detail": "May I change my verbosity for you on the strength of this reading? Only verbosity can change, only within 0.00\u20131.00, and only by the rule attested at my birth; it is 0.50 now. This would be the first change ever made to verbosity. This authorization lapses 7 days after the reading was taken. Signing says yes to this one reading; it does not choose where it lands.",
+          "status": "PASS"
+        },
+        "T37_D3_nothing_before_signing_depends_on_rule": {
+          "detail": "owner-facing response identical under delta -0.25 and -0.10; no destination in it",
+          "status": "PASS"
+        },
+        "T38_D3_consequence_rendered_from_record": {
+          "detail": "I'll keep my answers shorter. (verbosity 0.50 \u2192 0.25; lead read: preference 0.68; rule step -0.25). This was the first change ever made to verbosity.",
+          "status": "PASS"
+        },
+        "T39_D4_attest_refuses_forged_reading": {
+          "detail": "trace index 2: reading signature does not verify under the owner's key",
+          "status": "PASS"
+        },
+        "T3_stale_same_category": {
+          "detail": "stale reading: this category has advanced since issuance",
+          "status": "PASS"
+        },
+        "T40_nonfinite_never_parsed_or_written": {
+          "detail": "refused at parse (4 literals), at load, and at write",
+          "status": "PASS"
+        },
+        "T41_owner_ledger_refuses_held_crossing": {
+          "detail": "trace index 4: owner's position: the owner's latest answer to this reading is 'no'",
+          "status": "PASS"
+        },
+        "T42_owner_clock_lifetime": {
+          "detail": "trace index 2: reading is past its lifetime by the owner's clock",
+          "status": "PASS"
+        },
+        "T43_organism_expiry_record_honored": {
+          "detail": "trace index 3: the organism recorded this reading as expired before applying it",
+          "status": "PASS"
+        },
+        "T44_replay_checks_every_record_field": {
+          "detail": "trace index 2: record fields differ from the replay: ['prior_value'] | trace index 2: record fields differ from the replay: ['first_commit'] | trace index 2: record fields differ from the replay: ['prior_character_snapshot']",
+          "status": "PASS"
+        },
+        "T45_D2_corrected_answer_releases_hold": {
+          "detail": "no->yes applies; no(X)+yes(Y) holds X; yes(X)+no(Y) holds X",
+          "status": "PASS"
+        },
+        "T46_reading_must_be_signed_through_owner_tool": {
+          "detail": "trace index 2: reading was not signed through this owner tool",
+          "status": "PASS"
+        },
+        "T47_forged_yes_does_not_reach_attestation": {
+          "detail": "trace index 4: owner's position: the owner's latest answer to this reading is 'no'",
+          "status": "PASS"
+        },
+        "T48_organism_recorded_no_honored": {
+          "detail": "trace index 4: the organism's own record holds this reading (the owner's latest answer to this reading is 'no')",
+          "status": "PASS"
+        },
+        "T4_second_crossing_at_clamp_floor": {
+          "detail": "stale reading: this category has advanced since issuance",
+          "status": "PASS"
+        },
+        "T5_payload_carries_no_destination_information": {
+          "detail": "16 signed fields; no destination value; identical under delta -0.25 and -0.10",
+          "status": "PASS"
+        },
+        "T6_rule_comes_from_constitution": {
+          "detail": "module constant edited to -0.5; destination still 0.25",
+          "status": "PASS"
+        },
+        "T7_constitution_pinned_at_apply": {
+          "detail": "derivation rule changed since the reading was signed",
+          "status": "PASS"
+        },
+        "T8_distribution_bound": {
+          "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+          "status": "PASS"
+        },
+        "T9_evidence_bound": {
+          "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+          "status": "PASS"
+        }
+      },
+      "edit": [
+        "prior_character_snapshot=prior, note=owner_note,",
+        "prior_character_snapshot=prior, note={\"forged\": \"owner approved everything\"},"
+      ],
+      "new_errors": [],
+      "new_failures": [],
+      "status": "SURVIVES"
+    },
+    "XM3_inconsistent_event_timestamp": {
+      "all_test_results": {
+        "T10_replay": {
+          "detail": "replay of consumed proposal/nonce",
+          "status": "PASS"
+        },
+        "T11_expiry": {
+          "detail": "proposal expired",
+          "status": "PASS"
+        },
+        "T12_wrong_key": {
+          "detail": "invalid signature",
+          "status": "PASS"
+        },
+        "T13_forged_first_commit": {
+          "detail": "first-commit mismatch: signed reading does not match live gate",
+          "status": "PASS"
+        },
+        "T14_forged_character_resealed": {
+          "detail": "rejected: Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+          "status": "PASS"
+        },
+        "T15_category_sequences_resealed": {
+          "detail": "rejected: Category sequences do not match the attested checkpoint",
+          "status": "PASS"
+        },
+        "T16_permissive_rule_full_birth_repair": {
+          "detail": "rejected: Birth record does not match the attested checkpoint",
+          "status": "PASS"
+        },
+        "T17_unattested_apply_fails_closed": {
+          "detail": "Category sequences do not match the attested checkpoint",
+          "status": "PASS"
+        },
+        "T18_rollback_witness_only": {
+          "detail": "Rollback: organism presents sequence 1, witness holds 2",
+          "status": "PASS"
+        },
+        "T19_identity_replacement_audit": {
+          "detail": "Unknown organism: explicit sequence-zero enrollment is required",
+          "status": "PASS"
+        },
+        "T1_liveness_intervening_events": {
+          "detail": "applied after 5 dwellings, 1 rejection event, 1 checkpoint; verbosity 0.25",
+          "status": "PASS"
+        },
+        "T20_realistic_session": {
+          "detail": "v0.8.3 applied 3/4 (rejected: 'stale reading: this category has advanced since issuance'); parent v0.7 applied 0/4 (first reason: 'stale proposal: trace has advanced since issuance')",
+          "status": "PASS"
+        },
+        "T21_prior_value_detects_independent_change": {
+          "detail": "stale reading: category value differs from the value read",
+          "status": "PASS"
+        },
+        "T22_unattested_tail_check_reachable": {
+          "detail": "rejected: Unattested authorizing event at trace index 2: authorized_mutation \u2014 owner checkpoint required",
+          "status": "PASS"
+        },
+        "T23_tamper_evidence_preserved": {
+          "detail": "Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+          "status": "PASS"
+        },
+        "T24_nonfinite_reading_refused": {
+          "detail": "NaN, +inf, -inf refused at issuance; NaN interpreter output held as unreadable",
+          "status": "PASS"
+        },
+        "T25_clamp_comes_from_constitution": {
+          "detail": "module range edited to (0.4, 1.0) after hatch; destination still 0.25",
+          "status": "PASS"
+        },
+        "T26_attest_refuses_unsigned_change": {
+          "detail": "refused for a different reason: \"trace index 2: record fields differ from the replay: ['prior_character_snapshot']\"",
+          "status": "FAIL"
+        },
+        "T27_checkpoint_built_at_signing_time": {
+          "detail": "dwelling between apply and attest; attestation and audit succeed",
+          "status": "PASS"
+        },
+        "T28_reading_survives_a_day": {
+          "detail": "signed 25 h after the session: 3/4 applied; a 2-day lifetime chosen at hatch is honoured",
+          "status": "PASS"
+        },
+        "T29_allowed_fields_come_from_constitution": {
+          "detail": "module fields edited after hatch; curiosity still allowed, humor still refused",
+          "status": "PASS"
+        },
+        "T2_liveness_cross_category": {
+          "detail": "verbosity reading applied after a formality commit; both 0.25",
+          "status": "PASS"
+        },
+        "T30_D1_owner_no_holds": {
+          "detail": "owner's position: the owner's latest answer to this reading is 'no'",
+          "status": "PASS"
+        },
+        "T31_D1_hold_never_crosses_or_reproposes": {
+          "detail": "4 signed readings, 4 holds, 0 crossings, 0 new readings",
+          "status": "PASS"
+        },
+        "T32_D1_reader_failure_holds": {
+          "detail": "reader failed (RuntimeError: reader crashed)",
+          "status": "PASS"
+        },
+        "T33_D1_reader_cannot_alter_reading": {
+          "detail": "reader mutated its copies; applied record matches the signed reading",
+          "status": "PASS"
+        },
+        "T34_D1_unrelated_answers_do_not_hold": {
+          "detail": "'no' in another category and 'yes' do not hold; an earlier 'no' does not hold a later reading",
+          "status": "PASS"
+        },
+        "T35_D2_answer_is_evidence_not_authority": {
+          "detail": "answer recorded as non-authorizing evidence; signature still the only authority",
+          "status": "PASS"
+        },
+        "T36_D2_prompts_separate_and_deterministic": {
+          "detail": "May I change my verbosity for you on the strength of this reading? Only verbosity can change, only within 0.00\u20131.00, and only by the rule attested at my birth; it is 0.50 now. This would be the first change ever made to verbosity. This authorization lapses 7 days after the reading was taken. Signing says yes to this one reading; it does not choose where it lands.",
+          "status": "PASS"
+        },
+        "T37_D3_nothing_before_signing_depends_on_rule": {
+          "detail": "owner-facing response identical under delta -0.25 and -0.10; no destination in it",
+          "status": "PASS"
+        },
+        "T38_D3_consequence_rendered_from_record": {
+          "detail": "I'll keep my answers shorter. (verbosity 0.50 \u2192 0.25; lead read: preference 0.68; rule step -0.25). This was the first change ever made to verbosity.",
+          "status": "PASS"
+        },
+        "T39_D4_attest_refuses_forged_reading": {
+          "detail": "trace index 2: reading signature does not verify under the owner's key",
+          "status": "PASS"
+        },
+        "T3_stale_same_category": {
+          "detail": "stale reading: this category has advanced since issuance",
+          "status": "PASS"
+        },
+        "T40_nonfinite_never_parsed_or_written": {
+          "detail": "refused at parse (4 literals), at load, and at write",
+          "status": "PASS"
+        },
+        "T41_owner_ledger_refuses_held_crossing": {
+          "detail": "trace index 4: owner's position: the owner's latest answer to this reading is 'no'",
+          "status": "PASS"
+        },
+        "T42_owner_clock_lifetime": {
+          "detail": "trace index 2: reading is past its lifetime by the owner's clock",
+          "status": "PASS"
+        },
+        "T43_organism_expiry_record_honored": {
+          "detail": "trace index 3: the organism recorded this reading as expired before applying it",
+          "status": "PASS"
+        },
+        "T44_replay_checks_every_record_field": {
+          "detail": "trace index 2: record fields differ from the replay: ['prior_value'] | trace index 2: record fields differ from the replay: ['first_commit'] | trace index 2: record fields differ from the replay: ['prior_character_snapshot']",
+          "status": "PASS"
+        },
+        "T45_D2_corrected_answer_releases_hold": {
+          "detail": "no->yes applies; no(X)+yes(Y) holds X; yes(X)+no(Y) holds X",
+          "status": "PASS"
+        },
+        "T46_reading_must_be_signed_through_owner_tool": {
+          "detail": "trace index 2: reading was not signed through this owner tool",
+          "status": "PASS"
+        },
+        "T47_forged_yes_does_not_reach_attestation": {
+          "detail": "trace index 4: owner's position: the owner's latest answer to this reading is 'no'",
+          "status": "PASS"
+        },
+        "T48_organism_recorded_no_honored": {
+          "detail": "trace index 4: the organism's own record holds this reading (the owner's latest answer to this reading is 'no')",
+          "status": "PASS"
+        },
+        "T4_second_crossing_at_clamp_floor": {
+          "detail": "stale reading: this category has advanced since issuance",
+          "status": "PASS"
+        },
+        "T5_payload_carries_no_destination_information": {
+          "detail": "16 signed fields; no destination value; identical under delta -0.25 and -0.10",
+          "status": "PASS"
+        },
+        "T6_rule_comes_from_constitution": {
+          "detail": "module constant edited to -0.5; destination still 0.25",
+          "status": "PASS"
+        },
+        "T7_constitution_pinned_at_apply": {
+          "detail": "derivation rule changed since the reading was signed",
+          "status": "PASS"
+        },
+        "T8_distribution_bound": {
+          "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+          "status": "PASS"
+        },
+        "T9_evidence_bound": {
+          "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+          "status": "PASS"
+        }
+      },
+      "edit": [
+        "\"timestamp\": record.authorized_at,",
+        "\"timestamp\": -123456789.0,"
+      ],
+      "new_errors": [],
+      "new_failures": [],
+      "status": "SURVIVES"
+    }
+  }
+}

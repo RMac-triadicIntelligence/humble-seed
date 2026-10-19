@@ -1,0 +1,4 @@
+v0.8.5 len 22: 2.46 ms | len 500: 10.59 ms | len 2000: 34.25 ms
+v0.8.6 len 22: 2.94 ms | len 500: 12.44 ms | len 2000: 41.53 ms
+v0.8.5 len 22: 2.32 ms | len 500: 9.85 ms | len 2000: 31.87 ms
+v0.8.6 len 22: 3.01 ms | len 500: 11.59 ms | len 2000: 44.39 ms

@@ -1,0 +1,33 @@
+{
+  "annotation_2000_control": {
+    "attest": {
+      "returned": true
+    }
+  },
+  "direct_no_signed_after": {
+    "applied": true,
+    "attest": {
+      "exception": "AttestationRefused",
+      "message": "trace index 4: owner's position: the owner's latest answer to this reading is 'no'"
+    }
+  },
+  "no_forgery": {
+    "applied": false,
+    "attest": {
+      "not_attempted": "organism held reading"
+    }
+  },
+  "signed_after_no": {
+    "applied": true,
+    "attest": {
+      "returned": true
+    }
+  },
+  "signed_before_no": {
+    "applied": true,
+    "attest": {
+      "exception": "AttestationRefused",
+      "message": "trace index 4: owner's position: the owner's latest answer in this category since the reading was taken is 'no'"
+    }
+  }
+}

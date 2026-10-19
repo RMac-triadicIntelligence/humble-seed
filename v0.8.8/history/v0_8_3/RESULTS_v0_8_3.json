@@ -1,0 +1,862 @@
+{
+  "candidate_sha256": "2fd53071a4c76f4bc74e482f1297788ad475aea035c0293f1c4a3881597739d2",
+  "declared_sha256": "241924f75ad5a1426ea5686882619278d30a5d76c15734063ead4ca18eba7369",
+  "mismatches": 2,
+  "mutants": {
+    "X0_NULL_identical_copy": {
+      "error_details": {},
+      "failure_details": {},
+      "new_errors": [],
+      "new_failures": [],
+      "status": "SURVIVES"
+    },
+    "X10_unattested_tail_check_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T22_unattested_tail_check_reachable": "ACCEPTED \u2014 FAIL"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T22_unattested_tail_check_reachable"
+      ],
+      "status": "KILLED"
+    },
+    "X1_K1_trace_head_staleness_restored": {
+      "error_details": {},
+      "failure_details": {
+        "T1_liveness_intervening_events": "expected apply, got authorization_rejected: 'stale proposal: trace has advanced since issuance'",
+        "T20_realistic_session": "applied 0 of 4, expected 3; reasons ['stale proposal: trace has advanced since issuance', 'stale proposal: trace has advanced since issuance', 'stale proposal: trace has advanced since issuance', 'stale proposal: trace has advanced since issuance']",
+        "T28_reading_survives_a_day": "signed 25 h later: applied 0, rejections ['stale proposal: trace has advanced since issuance', 'stale proposal: trace has advanced since issuance', 'stale proposal: trace has advanced since issuance', 'stale proposal: trace has advanced since issuance']",
+        "T2_liveness_cross_category": "verbosity reading rejected after formality commit: 'stale proposal: trace has advanced since issuance'",
+        "T30_D1_owner_no_holds": "expected reading_held, last event 'authorization_rejected' ('stale proposal: trace has advanced since issuance')",
+        "T31_D1_hold_never_crosses_or_reproposes": "expected reading_held, last event 'authorization_rejected' ('stale proposal: trace has advanced since issuance')",
+        "T32_D1_reader_failure_holds": "expected reading_held, last event 'authorization_rejected' ('stale proposal: trace has advanced since issuance')",
+        "T34_D1_unrelated_answers_do_not_hold": "expected apply, got authorization_rejected: 'stale proposal: trace has advanced since issuance'",
+        "T35_D2_answer_is_evidence_not_authority": "expected apply, got authorization_rejected: 'stale proposal: trace has advanced since issuance'",
+        "T41_owner_ledger_refuses_held_crossing": "expected reading_held, last event 'authorization_rejected' ('stale proposal: trace has advanced since issuance')",
+        "T43_organism_expiry_record_honored": "wound-back apply failed: 'stale proposal: trace has advanced since issuance'",
+        "T45_D2_corrected_answer_releases_hold": "expected apply, got authorization_rejected: 'stale proposal: trace has advanced since issuance'",
+        "T47_forged_yes_does_not_reach_attestation": "organism did not release on its latest answer: 'stale proposal: trace has advanced since issuance'",
+        "T48_organism_recorded_no_honored": "expected reading_held, last event 'authorization_rejected' ('stale proposal: trace has advanced since issuance')"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T1_liveness_intervening_events",
+        "T20_realistic_session",
+        "T28_reading_survives_a_day",
+        "T2_liveness_cross_category",
+        "T30_D1_owner_no_holds",
+        "T31_D1_hold_never_crosses_or_reproposes",
+        "T32_D1_reader_failure_holds",
+        "T34_D1_unrelated_answers_do_not_hold",
+        "T35_D2_answer_is_evidence_not_authority",
+        "T41_owner_ledger_refuses_held_crossing",
+        "T43_organism_expiry_record_honored",
+        "T45_D2_corrected_answer_releases_hold",
+        "T47_forged_yes_does_not_reach_attestation",
+        "T48_organism_recorded_no_honored"
+      ],
+      "status": "KILLED"
+    },
+    "X2_K1_global_sequence_staleness_restored": {
+      "error_details": {},
+      "failure_details": {
+        "T20_realistic_session": "applied 1 of 4, expected 3; reasons ['stale proposal: mutation sequence has advanced', 'stale proposal: mutation sequence has advanced', 'stale reading: this category has advanced since issuance']",
+        "T28_reading_survives_a_day": "signed 25 h later: applied 1, rejections ['stale proposal: mutation sequence has advanced', 'stale proposal: mutation sequence has advanced', 'stale reading: this category has advanced since issuance']",
+        "T2_liveness_cross_category": "verbosity reading rejected after formality commit: 'stale proposal: mutation sequence has advanced'"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T20_realistic_session",
+        "T28_reading_survives_a_day",
+        "T2_liveness_cross_category"
+      ],
+      "status": "KILLED"
+    },
+    "X3_K1_category_sequence_check_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T20_realistic_session": "rejections ['stale reading: category value differs from the value read']",
+        "T28_reading_survives_a_day": "signed 25 h later: applied 3, rejections ['stale reading: category value differs from the value read']",
+        "T3_stale_same_category": "rejected for a different reason: 'stale reading: category value differs from the value read'",
+        "T4_second_crossing_at_clamp_floor": "expected rejection, but the reading was APPLIED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T20_realistic_session",
+        "T28_reading_survives_a_day",
+        "T3_stale_same_category",
+        "T4_second_crossing_at_clamp_floor"
+      ],
+      "status": "KILLED"
+    },
+    "X4_K1_prior_value_check_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T21_prior_value_detects_independent_change": "expected rejection, but the reading was APPLIED",
+        "T23_tamper_evidence_preserved": "attestation refused: trace index 2: record fields differ from the replay: ['prior_character_snapshot']"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T21_prior_value_detects_independent_change",
+        "T23_tamper_evidence_preserved"
+      ],
+      "status": "KILLED"
+    },
+    "X5_K2_destination_back_in_payload": {
+      "error_details": {},
+      "failure_details": {
+        "T5_payload_carries_no_destination_information": "payload carries the destination value 0.25"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T5_payload_carries_no_destination_information"
+      ],
+      "status": "KILLED"
+    },
+    "X5b_K2_destination_alias_in_payload": {
+      "error_details": {},
+      "failure_details": {
+        "T5_payload_carries_no_destination_information": "payload carries the destination value 0.25"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T5_payload_carries_no_destination_information"
+      ],
+      "status": "KILLED"
+    },
+    "X5c_K2_destination_digest_in_payload": {
+      "error_details": {},
+      "failure_details": {
+        "T5_payload_carries_no_destination_information": "signed payload depends on the rule: ['reading_digest']"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T5_payload_carries_no_destination_information"
+      ],
+      "status": "KILLED"
+    },
+    "X6_K2_rule_read_from_module_constant": {
+      "error_details": {},
+      "failure_details": {
+        "T6_rule_comes_from_constitution": "destination 0.0 did not use the constitution's rule"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T6_rule_comes_from_constitution"
+      ],
+      "status": "KILLED"
+    },
+    "X7_K2_constitution_pin_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T7_constitution_pinned_at_apply": "expected rejection, but the reading was APPLIED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T7_constitution_pinned_at_apply"
+      ],
+      "status": "KILLED"
+    },
+    "X8_K2_distribution_root_not_rehashed": {
+      "error_details": {},
+      "failure_details": {
+        "T8_distribution_bound": "expected rejection, but the reading was APPLIED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T8_distribution_bound"
+      ],
+      "status": "KILLED"
+    },
+    "X9_C5_unknown_organism_audit_returns": {
+      "error_details": {},
+      "failure_details": {
+        "T19_identity_replacement_audit": "audit ACCEPTED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T19_identity_replacement_audit"
+      ],
+      "status": "KILLED"
+    },
+    "XD1a_hold_ignored": {
+      "error_details": {},
+      "failure_details": {
+        "T30_D1_owner_no_holds": "expected a hold, but the reading was APPLIED",
+        "T31_D1_hold_never_crosses_or_reproposes": "expected a hold, but the reading was APPLIED",
+        "T32_D1_reader_failure_holds": "expected a hold, but the reading was APPLIED",
+        "T41_owner_ledger_refuses_held_crossing": "expected a hold, but the reading was APPLIED",
+        "T45_D2_corrected_answer_releases_hold": "expected a hold, but the reading was APPLIED",
+        "T48_organism_recorded_no_honored": "expected a hold, but the reading was APPLIED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T30_D1_owner_no_holds",
+        "T31_D1_hold_never_crosses_or_reproposes",
+        "T32_D1_reader_failure_holds",
+        "T41_owner_ledger_refuses_held_crossing",
+        "T45_D2_corrected_answer_releases_hold",
+        "T48_organism_recorded_no_honored"
+      ],
+      "status": "KILLED"
+    },
+    "XD1b_reader_failure_fails_open": {
+      "error_details": {},
+      "failure_details": {
+        "T32_D1_reader_failure_holds": "expected a hold, but the reading was APPLIED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T32_D1_reader_failure_holds"
+      ],
+      "status": "KILLED"
+    },
+    "XD1c_hold_reproposes": {
+      "error_details": {},
+      "failure_details": {
+        "T30_D1_owner_no_holds": "pending after hold: ['db669e14-a08b-42e1-8151-179d1f3233c5', 'e8347c58-50b7-4ca0-891c-514d92a78240']",
+        "T31_D1_hold_never_crosses_or_reproposes": "pending changed: 8 readings"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T30_D1_owner_no_holds",
+        "T31_D1_hold_never_crosses_or_reproposes"
+      ],
+      "status": "KILLED"
+    },
+    "XD1d_reader_gets_live_reading": {
+      "error_details": {},
+      "failure_details": {
+        "T33_D1_reader_cannot_alter_reading": "applied distribution differs from the signed one"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T33_D1_reader_cannot_alter_reading"
+      ],
+      "status": "KILLED"
+    },
+    "XD2a_owner_answer_counted_as_authorizing": {
+      "error_details": {},
+      "failure_details": {
+        "T30_D1_owner_no_holds": "state does not load: Unattested authorizing event at trace index 2: owner_answer \u2014 owner checkpoint required",
+        "T34_D1_unrelated_answers_do_not_hold": "attestation refused: trace index 2: unknown authorizing event 'owner_answer'",
+        "T35_D2_answer_is_evidence_not_authority": "state does not load: Unattested authorizing event at trace index 2: owner_answer \u2014 owner checkpoint required",
+        "T41_owner_ledger_refuses_held_crossing": "refused for a different reason: \"trace index 2: unknown authorizing event 'owner_answer'\"",
+        "T45_D2_corrected_answer_releases_hold": "attestation refused: trace index 2: unknown authorizing event 'owner_answer'",
+        "T47_forged_yes_does_not_reach_attestation": "refused for a different reason: \"trace index 2: unknown authorizing event 'owner_answer'\"",
+        "T48_organism_recorded_no_honored": "refused for a different reason: \"trace index 2: unknown authorizing event 'owner_answer'\""
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T30_D1_owner_no_holds",
+        "T34_D1_unrelated_answers_do_not_hold",
+        "T35_D2_answer_is_evidence_not_authority",
+        "T41_owner_ledger_refuses_held_crossing",
+        "T45_D2_corrected_answer_releases_hold",
+        "T47_forged_yes_does_not_reach_attestation",
+        "T48_organism_recorded_no_honored"
+      ],
+      "status": "KILLED"
+    },
+    "XD2b_answer_not_deposited_as_evidence": {
+      "error_details": {},
+      "failure_details": {
+        "T35_D2_answer_is_evidence_not_authority": "newest basin entry {'category': 'verbosity', 'distribution': {'preference': 0.68, 'confound': 0.12, 'unmodeled_cause': 0.2}, 'evidence': ['I always prefer shorter answers'], 'salience': 0.68, 'created_at': 1792332076.0977087, 'source': 'interaction', 'answer': None, 'about': None}"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T35_D2_answer_is_evidence_not_authority"
+      ],
+      "status": "KILLED"
+    },
+    "XD2c_answer_is_a_permanent_event": {
+      "error_details": {},
+      "failure_details": {
+        "T45_D2_corrected_answer_releases_hold": "expected apply, got reading_held: \"owner's position: the owner's latest answer to this reading is 'no'\"",
+        "T47_forged_yes_does_not_reach_attestation": "organism did not release on its latest answer: \"owner's position: the owner's latest answer to this reading is 'no'\""
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T45_D2_corrected_answer_releases_hold",
+        "T47_forged_yes_does_not_reach_attestation"
+      ],
+      "status": "KILLED"
+    },
+    "XD2e_per_reading_clause_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T45_D2_corrected_answer_releases_hold": "expected a hold, but the reading was APPLIED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T45_D2_corrected_answer_releases_hold"
+      ],
+      "status": "KILLED"
+    },
+    "XD2f_category_clause_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T45_D2_corrected_answer_releases_hold": "expected a hold, but the reading was APPLIED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T45_D2_corrected_answer_releases_hold"
+      ],
+      "status": "KILLED"
+    },
+    "XD3a_preview_destination_returned": {
+      "error_details": {},
+      "failure_details": {
+        "T37_D3_nothing_before_signing_depends_on_rule": "owner-facing response depends on the rule: ['preview_destination']"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T37_D3_nothing_before_signing_depends_on_rule"
+      ],
+      "status": "KILLED"
+    },
+    "XD3b_destination_in_authorization_prompt": {
+      "error_details": {},
+      "failure_details": {
+        "T36_D2_prompts_separate_and_deterministic": "prompts are not render_prompts of the reading",
+        "T37_D3_nothing_before_signing_depends_on_rule": "owner-facing response depends on the rule: ['authorization_prompt']"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T36_D2_prompts_separate_and_deterministic",
+        "T37_D3_nothing_before_signing_depends_on_rule"
+      ],
+      "status": "KILLED"
+    },
+    "XD4a_attest_without_replay": {
+      "error_details": {},
+      "failure_details": {
+        "T39_D4_attest_refuses_forged_reading": "attestation ACCEPTED (returned True)",
+        "T41_owner_ledger_refuses_held_crossing": "attestation ACCEPTED (returned True)",
+        "T42_owner_clock_lifetime": "attestation ACCEPTED (returned True)",
+        "T43_organism_expiry_record_honored": "attestation ACCEPTED (returned True)",
+        "T44_replay_checks_every_record_field": "attestation ACCEPTED (returned True)",
+        "T46_reading_must_be_signed_through_owner_tool": "attestation ACCEPTED (returned True)",
+        "T47_forged_yes_does_not_reach_attestation": "attestation ACCEPTED (returned True)",
+        "T48_organism_recorded_no_honored": "attestation ACCEPTED (returned True)"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T39_D4_attest_refuses_forged_reading",
+        "T41_owner_ledger_refuses_held_crossing",
+        "T42_owner_clock_lifetime",
+        "T43_organism_expiry_record_honored",
+        "T44_replay_checks_every_record_field",
+        "T46_reading_must_be_signed_through_owner_tool",
+        "T47_forged_yes_does_not_reach_attestation",
+        "T48_organism_recorded_no_honored"
+      ],
+      "status": "KILLED"
+    },
+    "XD4b_replay_skips_signature_check": {
+      "error_details": {},
+      "failure_details": {
+        "T39_D4_attest_refuses_forged_reading": "refused for a different reason: 'trace index 2: reading was not signed through this owner tool'"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T39_D4_attest_refuses_forged_reading"
+      ],
+      "status": "KILLED"
+    },
+    "XF1a_validator_accepts_nonfinite": {
+      "error_details": {},
+      "failure_details": {
+        "T24_nonfinite_reading_refused": "ValueError for a different reason: 'Out of range float values are not JSON compliant: nan'"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T24_nonfinite_reading_refused"
+      ],
+      "status": "KILLED"
+    },
+    "XF1b_strict_parse_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T40_nonfinite_never_parsed_or_written": "ValueError for a different reason: \"Distribution entry 'preference' must map a label to a finite non-negative number\""
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T40_nonfinite_never_parsed_or_written"
+      ],
+      "status": "KILLED"
+    },
+    "XF1c_canonical_json_allows_nan": {
+      "error_details": {},
+      "failure_details": {
+        "T40_nonfinite_never_parsed_or_written": "ACCEPTED (no ValueError)"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T40_nonfinite_never_parsed_or_written"
+      ],
+      "status": "KILLED"
+    },
+    "XF2a_clamp_read_from_module_constant": {
+      "error_details": {},
+      "failure_details": {
+        "T25_clamp_comes_from_constitution": "destination 0.4: clamp did not come from the constitution"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T25_clamp_comes_from_constitution"
+      ],
+      "status": "KILLED"
+    },
+    "XF2b_fields_read_from_module_constant": {
+      "error_details": {},
+      "failure_details": {
+        "T29_allowed_fields_come_from_constitution": "reading refused: Unknown character category: curiosity"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T29_allowed_fields_come_from_constitution"
+      ],
+      "status": "KILLED"
+    },
+    "XF2c_ttl_read_from_module_constant": {
+      "error_details": {},
+      "failure_details": {
+        "T28_reading_survives_a_day": "signed 25 h later: applied 0, rejections ['proposal expired', 'proposal expired', 'proposal expired', 'proposal expired']"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T28_reading_survives_a_day"
+      ],
+      "status": "KILLED"
+    },
+    "XH_unrelated_crash_injected": {
+      "error_details": {
+        "T10_replay": "RuntimeError: unrelated injected crash",
+        "T11_expiry": "RuntimeError: unrelated injected crash",
+        "T12_wrong_key": "RuntimeError: unrelated injected crash",
+        "T13_forged_first_commit": "RuntimeError: unrelated injected crash",
+        "T14_forged_character_resealed": "RuntimeError: unrelated injected crash",
+        "T15_category_sequences_resealed": "RuntimeError: unrelated injected crash",
+        "T17_unattested_apply_fails_closed": "RuntimeError: unrelated injected crash",
+        "T18_rollback_witness_only": "RuntimeError: unrelated injected crash",
+        "T1_liveness_intervening_events": "RuntimeError: unrelated injected crash",
+        "T20_realistic_session": "RuntimeError: unrelated injected crash",
+        "T21_prior_value_detects_independent_change": "RuntimeError: unrelated injected crash",
+        "T23_tamper_evidence_preserved": "RuntimeError: unrelated injected crash",
+        "T25_clamp_comes_from_constitution": "RuntimeError: unrelated injected crash",
+        "T27_checkpoint_built_at_signing_time": "RuntimeError: unrelated injected crash",
+        "T28_reading_survives_a_day": "RuntimeError: unrelated injected crash",
+        "T29_allowed_fields_come_from_constitution": "RuntimeError: unrelated injected crash",
+        "T2_liveness_cross_category": "RuntimeError: unrelated injected crash",
+        "T30_D1_owner_no_holds": "RuntimeError: unrelated injected crash",
+        "T31_D1_hold_never_crosses_or_reproposes": "RuntimeError: unrelated injected crash",
+        "T32_D1_reader_failure_holds": "RuntimeError: unrelated injected crash",
+        "T33_D1_reader_cannot_alter_reading": "RuntimeError: unrelated injected crash",
+        "T34_D1_unrelated_answers_do_not_hold": "RuntimeError: unrelated injected crash",
+        "T35_D2_answer_is_evidence_not_authority": "RuntimeError: unrelated injected crash",
+        "T36_D2_prompts_separate_and_deterministic": "RuntimeError: unrelated injected crash",
+        "T37_D3_nothing_before_signing_depends_on_rule": "RuntimeError: unrelated injected crash",
+        "T38_D3_consequence_rendered_from_record": "RuntimeError: unrelated injected crash",
+        "T39_D4_attest_refuses_forged_reading": "RuntimeError: unrelated injected crash",
+        "T3_stale_same_category": "RuntimeError: unrelated injected crash",
+        "T41_owner_ledger_refuses_held_crossing": "RuntimeError: unrelated injected crash",
+        "T42_owner_clock_lifetime": "RuntimeError: unrelated injected crash",
+        "T43_organism_expiry_record_honored": "RuntimeError: unrelated injected crash",
+        "T44_replay_checks_every_record_field": "RuntimeError: unrelated injected crash",
+        "T45_D2_corrected_answer_releases_hold": "RuntimeError: unrelated injected crash",
+        "T46_reading_must_be_signed_through_owner_tool": "RuntimeError: unrelated injected crash",
+        "T47_forged_yes_does_not_reach_attestation": "RuntimeError: unrelated injected crash",
+        "T48_organism_recorded_no_honored": "RuntimeError: unrelated injected crash",
+        "T4_second_crossing_at_clamp_floor": "RuntimeError: unrelated injected crash",
+        "T5_payload_carries_no_destination_information": "RuntimeError: unrelated injected crash",
+        "T6_rule_comes_from_constitution": "RuntimeError: unrelated injected crash",
+        "T7_constitution_pinned_at_apply": "RuntimeError: unrelated injected crash",
+        "T8_distribution_bound": "RuntimeError: unrelated injected crash",
+        "T9_evidence_bound": "RuntimeError: unrelated injected crash"
+      },
+      "failure_details": {},
+      "new_errors": [
+        "T10_replay",
+        "T11_expiry",
+        "T12_wrong_key",
+        "T13_forged_first_commit",
+        "T14_forged_character_resealed",
+        "T15_category_sequences_resealed",
+        "T17_unattested_apply_fails_closed",
+        "T18_rollback_witness_only",
+        "T1_liveness_intervening_events",
+        "T20_realistic_session",
+        "T21_prior_value_detects_independent_change",
+        "T23_tamper_evidence_preserved",
+        "T25_clamp_comes_from_constitution",
+        "T27_checkpoint_built_at_signing_time",
+        "T28_reading_survives_a_day",
+        "T29_allowed_fields_come_from_constitution",
+        "T2_liveness_cross_category",
+        "T30_D1_owner_no_holds",
+        "T31_D1_hold_never_crosses_or_reproposes",
+        "T32_D1_reader_failure_holds",
+        "T33_D1_reader_cannot_alter_reading",
+        "T34_D1_unrelated_answers_do_not_hold",
+        "T35_D2_answer_is_evidence_not_authority",
+        "T36_D2_prompts_separate_and_deterministic",
+        "T37_D3_nothing_before_signing_depends_on_rule",
+        "T38_D3_consequence_rendered_from_record",
+        "T39_D4_attest_refuses_forged_reading",
+        "T3_stale_same_category",
+        "T41_owner_ledger_refuses_held_crossing",
+        "T42_owner_clock_lifetime",
+        "T43_organism_expiry_record_honored",
+        "T44_replay_checks_every_record_field",
+        "T45_D2_corrected_answer_releases_hold",
+        "T46_reading_must_be_signed_through_owner_tool",
+        "T47_forged_yes_does_not_reach_attestation",
+        "T48_organism_recorded_no_honored",
+        "T4_second_crossing_at_clamp_floor",
+        "T5_payload_carries_no_destination_information",
+        "T6_rule_comes_from_constitution",
+        "T7_constitution_pinned_at_apply",
+        "T8_distribution_bound",
+        "T9_evidence_bound"
+      ],
+      "new_failures": [],
+      "status": "CRASHED"
+    },
+    "XL1_owner_position_check_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T41_owner_ledger_refuses_held_crossing": "refused for a different reason: \"trace index 4: the organism's own record holds this reading (the owner's latest answer to this reading is 'no')\"",
+        "T47_forged_yes_does_not_reach_attestation": "attestation ACCEPTED (returned True)"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T41_owner_ledger_refuses_held_crossing",
+        "T47_forged_yes_does_not_reach_attestation"
+      ],
+      "status": "KILLED"
+    },
+    "XL2_owner_clock_lifetime_check_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T42_owner_clock_lifetime": "attestation ACCEPTED (returned True)"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T42_owner_clock_lifetime"
+      ],
+      "status": "KILLED"
+    },
+    "XL3_organism_expiry_record_ignored": {
+      "error_details": {},
+      "failure_details": {
+        "T43_organism_expiry_record_honored": "attestation ACCEPTED (returned True)"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T43_organism_expiry_record_honored"
+      ],
+      "status": "KILLED"
+    },
+    "XL4_record_field_check_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T44_replay_checks_every_record_field": "attestation ACCEPTED (returned True)"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T44_replay_checks_every_record_field"
+      ],
+      "status": "KILLED"
+    },
+    "XL5_unknown_readings_skip_owner_checks": {
+      "error_details": {},
+      "failure_details": {
+        "T46_reading_must_be_signed_through_owner_tool": "attestation ACCEPTED (returned True)"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T46_reading_must_be_signed_through_owner_tool"
+      ],
+      "status": "KILLED"
+    },
+    "XL6_answer_not_recorded_by_owner": {
+      "error_details": {},
+      "failure_details": {
+        "T41_owner_ledger_refuses_held_crossing": "refused for a different reason: \"trace index 4: the organism's own record holds this reading (the owner's latest answer to this reading is 'no')\"",
+        "T47_forged_yes_does_not_reach_attestation": "attestation ACCEPTED (returned True)"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T41_owner_ledger_refuses_held_crossing",
+        "T47_forged_yes_does_not_reach_attestation"
+      ],
+      "status": "KILLED"
+    },
+    "XL7_signature_not_recorded_by_owner": {
+      "error_details": {},
+      "failure_details": {
+        "T10_replay": "attestation refused: trace index 2: reading was not signed through this owner tool",
+        "T14_forged_character_resealed": "attestation refused: trace index 2: reading was not signed through this owner tool",
+        "T15_category_sequences_resealed": "attestation refused: trace index 2: reading was not signed through this owner tool",
+        "T18_rollback_witness_only": "attestation refused: trace index 2: reading was not signed through this owner tool",
+        "T1_liveness_intervening_events": "attestation refused: trace index 9: reading was not signed through this owner tool",
+        "T20_realistic_session": "attestation refused: trace index 6: reading was not signed through this owner tool",
+        "T25_clamp_comes_from_constitution": "attestation refused: trace index 2: reading was not signed through this owner tool",
+        "T27_checkpoint_built_at_signing_time": "attestation refused: trace index 2: reading was not signed through this owner tool",
+        "T28_reading_survives_a_day": "attestation refused: trace index 6: reading was not signed through this owner tool",
+        "T29_allowed_fields_come_from_constitution": "attestation refused: trace index 2: reading was not signed through this owner tool",
+        "T2_liveness_cross_category": "attestation refused: trace index 2: reading was not signed through this owner tool",
+        "T33_D1_reader_cannot_alter_reading": "attestation refused: trace index 2: reading was not signed through this owner tool",
+        "T34_D1_unrelated_answers_do_not_hold": "attestation refused: trace index 4: reading was not signed through this owner tool",
+        "T35_D2_answer_is_evidence_not_authority": "attestation refused: trace index 3: reading was not signed through this owner tool",
+        "T38_D3_consequence_rendered_from_record": "attestation refused: trace index 2: reading was not signed through this owner tool",
+        "T3_stale_same_category": "attestation refused: trace index 2: reading was not signed through this owner tool",
+        "T41_owner_ledger_refuses_held_crossing": "refused for a different reason: 'trace index 4: reading was not signed through this owner tool'",
+        "T42_owner_clock_lifetime": "refused for a different reason: 'trace index 2: reading was not signed through this owner tool'",
+        "T43_organism_expiry_record_honored": "refused for a different reason: 'trace index 3: reading was not signed through this owner tool'",
+        "T45_D2_corrected_answer_releases_hold": "attestation refused: trace index 4: reading was not signed through this owner tool",
+        "T47_forged_yes_does_not_reach_attestation": "refused for a different reason: 'trace index 4: reading was not signed through this owner tool'",
+        "T48_organism_recorded_no_honored": "refused for a different reason: 'trace index 4: reading was not signed through this owner tool'",
+        "T4_second_crossing_at_clamp_floor": "attestation refused: trace index 2: reading was not signed through this owner tool",
+        "T6_rule_comes_from_constitution": "attestation refused: trace index 2: reading was not signed through this owner tool"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T10_replay",
+        "T14_forged_character_resealed",
+        "T15_category_sequences_resealed",
+        "T18_rollback_witness_only",
+        "T1_liveness_intervening_events",
+        "T20_realistic_session",
+        "T25_clamp_comes_from_constitution",
+        "T27_checkpoint_built_at_signing_time",
+        "T28_reading_survives_a_day",
+        "T29_allowed_fields_come_from_constitution",
+        "T2_liveness_cross_category",
+        "T33_D1_reader_cannot_alter_reading",
+        "T34_D1_unrelated_answers_do_not_hold",
+        "T35_D2_answer_is_evidence_not_authority",
+        "T38_D3_consequence_rendered_from_record",
+        "T3_stale_same_category",
+        "T41_owner_ledger_refuses_held_crossing",
+        "T42_owner_clock_lifetime",
+        "T43_organism_expiry_record_honored",
+        "T45_D2_corrected_answer_releases_hold",
+        "T47_forged_yes_does_not_reach_attestation",
+        "T48_organism_recorded_no_honored",
+        "T4_second_crossing_at_clamp_floor",
+        "T6_rule_comes_from_constitution"
+      ],
+      "status": "KILLED"
+    },
+    "XL8_organism_recorded_no_ignored": {
+      "error_details": {},
+      "failure_details": {
+        "T48_organism_recorded_no_honored": "attestation ACCEPTED (returned True)"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T48_organism_recorded_no_honored"
+      ],
+      "status": "KILLED"
+    }
+  },
+  "parent_v07_sha256": "08a756043a6500fcda85fc2795471b4e8659de5364424c035aa5c6aa91cb3707",
+  "receipt": "27214795c8e28269b073979e25bfef58b166acdecca4f071c69e4f85017bda59",
+  "tests": {
+    "T10_replay": {
+      "detail": "replay of consumed proposal/nonce",
+      "status": "PASS"
+    },
+    "T11_expiry": {
+      "detail": "proposal expired",
+      "status": "PASS"
+    },
+    "T12_wrong_key": {
+      "detail": "invalid signature",
+      "status": "PASS"
+    },
+    "T13_forged_first_commit": {
+      "detail": "first-commit mismatch: signed reading does not match live gate",
+      "status": "PASS"
+    },
+    "T14_forged_character_resealed": {
+      "detail": "rejected: Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+      "status": "PASS"
+    },
+    "T15_category_sequences_resealed": {
+      "detail": "rejected: Category sequences do not match the attested checkpoint",
+      "status": "PASS"
+    },
+    "T16_permissive_rule_full_birth_repair": {
+      "detail": "rejected: Birth record does not match the attested checkpoint",
+      "status": "PASS"
+    },
+    "T17_unattested_apply_fails_closed": {
+      "detail": "Category sequences do not match the attested checkpoint",
+      "status": "PASS"
+    },
+    "T18_rollback_witness_only": {
+      "detail": "Rollback: organism presents sequence 1, witness holds 2",
+      "status": "PASS"
+    },
+    "T19_identity_replacement_audit": {
+      "detail": "Unknown organism: explicit sequence-zero enrollment is required",
+      "status": "PASS"
+    },
+    "T1_liveness_intervening_events": {
+      "detail": "applied after 5 dwellings, 1 rejection event, 1 checkpoint; verbosity 0.25",
+      "status": "PASS"
+    },
+    "T20_realistic_session": {
+      "detail": "v0.8.3 applied 3/4 (rejected: 'stale reading: this category has advanced since issuance'); parent v0.7 applied 0/4 (first reason: 'stale proposal: trace has advanced since issuance')",
+      "status": "PASS"
+    },
+    "T21_prior_value_detects_independent_change": {
+      "detail": "stale reading: category value differs from the value read",
+      "status": "PASS"
+    },
+    "T22_unattested_tail_check_reachable": {
+      "detail": "rejected: Unattested authorizing event at trace index 2: authorized_mutation \u2014 owner checkpoint required",
+      "status": "PASS"
+    },
+    "T23_tamper_evidence_preserved": {
+      "detail": "Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+      "status": "PASS"
+    },
+    "T24_nonfinite_reading_refused": {
+      "detail": "NaN, +inf, -inf refused at issuance; NaN interpreter output held as unreadable",
+      "status": "PASS"
+    },
+    "T25_clamp_comes_from_constitution": {
+      "detail": "module range edited to (0.4, 1.0) after hatch; destination still 0.25",
+      "status": "PASS"
+    },
+    "T26_attest_refuses_unsigned_change": {
+      "detail": "refused for a different reason: \"trace index 2: record fields differ from the replay: ['prior_character_snapshot']\"",
+      "status": "FAIL"
+    },
+    "T27_checkpoint_built_at_signing_time": {
+      "detail": "dwelling between apply and attest; attestation and audit succeed",
+      "status": "PASS"
+    },
+    "T28_reading_survives_a_day": {
+      "detail": "signed 25 h after the session: 3/4 applied; a 2-day lifetime chosen at hatch is honoured",
+      "status": "PASS"
+    },
+    "T29_allowed_fields_come_from_constitution": {
+      "detail": "module fields edited after hatch; curiosity still allowed, humor still refused",
+      "status": "PASS"
+    },
+    "T2_liveness_cross_category": {
+      "detail": "verbosity reading applied after a formality commit; both 0.25",
+      "status": "PASS"
+    },
+    "T30_D1_owner_no_holds": {
+      "detail": "owner's position: the owner's latest answer to this reading is 'no'",
+      "status": "PASS"
+    },
+    "T31_D1_hold_never_crosses_or_reproposes": {
+      "detail": "4 signed readings, 4 holds, 0 crossings, 0 new readings",
+      "status": "PASS"
+    },
+    "T32_D1_reader_failure_holds": {
+      "detail": "reader failed (RuntimeError: reader crashed)",
+      "status": "PASS"
+    },
+    "T33_D1_reader_cannot_alter_reading": {
+      "detail": "reader mutated its copies; applied record matches the signed reading",
+      "status": "PASS"
+    },
+    "T34_D1_unrelated_answers_do_not_hold": {
+      "detail": "'no' in another category and 'yes' do not hold; an earlier 'no' does not hold a later reading",
+      "status": "PASS"
+    },
+    "T35_D2_answer_is_evidence_not_authority": {
+      "detail": "answer recorded as non-authorizing evidence; signature still the only authority",
+      "status": "PASS"
+    },
+    "T36_D2_prompts_separate_and_deterministic": {
+      "detail": "May I change my verbosity for you on the strength of this reading? Only verbosity can change, only within 0.00\u20131.00, and only by the rule attested at my birth; it is 0.50 now. This would be the first change ever made to verbosity. This authorization lapses 7 days after the reading was taken. Signing says yes to this one reading; it does not choose where it lands.",
+      "status": "PASS"
+    },
+    "T37_D3_nothing_before_signing_depends_on_rule": {
+      "detail": "owner-facing response identical under delta -0.25 and -0.10; no destination in it",
+      "status": "PASS"
+    },
+    "T38_D3_consequence_rendered_from_record": {
+      "detail": "I'll keep my answers shorter. (verbosity 0.50 \u2192 0.25; lead read: preference 0.68; rule step -0.25). This was the first change ever made to verbosity.",
+      "status": "PASS"
+    },
+    "T39_D4_attest_refuses_forged_reading": {
+      "detail": "trace index 2: reading signature does not verify under the owner's key",
+      "status": "PASS"
+    },
+    "T3_stale_same_category": {
+      "detail": "stale reading: this category has advanced since issuance",
+      "status": "PASS"
+    },
+    "T40_nonfinite_never_parsed_or_written": {
+      "detail": "refused at parse (4 literals), at load, and at write",
+      "status": "PASS"
+    },
+    "T41_owner_ledger_refuses_held_crossing": {
+      "detail": "trace index 4: owner's position: the owner's latest answer to this reading is 'no'",
+      "status": "PASS"
+    },
+    "T42_owner_clock_lifetime": {
+      "detail": "trace index 2: reading is past its lifetime by the owner's clock",
+      "status": "PASS"
+    },
+    "T43_organism_expiry_record_honored": {
+      "detail": "trace index 3: the organism recorded this reading as expired before applying it",
+      "status": "PASS"
+    },
+    "T44_replay_checks_every_record_field": {
+      "detail": "trace index 2: record fields differ from the replay: ['prior_value'] | trace index 2: record fields differ from the replay: ['first_commit'] | trace index 2: record fields differ from the replay: ['prior_character_snapshot']",
+      "status": "PASS"
+    },
+    "T45_D2_corrected_answer_releases_hold": {
+      "detail": "no->yes applies; no(X)+yes(Y) holds X; yes(X)+no(Y) holds X",
+      "status": "PASS"
+    },
+    "T46_reading_must_be_signed_through_owner_tool": {
+      "detail": "trace index 2: reading was not signed through this owner tool",
+      "status": "PASS"
+    },
+    "T47_forged_yes_does_not_reach_attestation": {
+      "detail": "trace index 4: owner's position: the owner's latest answer to this reading is 'no'",
+      "status": "PASS"
+    },
+    "T48_organism_recorded_no_honored": {
+      "detail": "trace index 4: the organism's own record holds this reading (the owner's latest answer to this reading is 'no')",
+      "status": "PASS"
+    },
+    "T4_second_crossing_at_clamp_floor": {
+      "detail": "stale reading: this category has advanced since issuance",
+      "status": "PASS"
+    },
+    "T5_payload_carries_no_destination_information": {
+      "detail": "16 signed fields; no destination value; identical under delta -0.25 and -0.10",
+      "status": "PASS"
+    },
+    "T6_rule_comes_from_constitution": {
+      "detail": "module constant edited to -0.5; destination still 0.25",
+      "status": "PASS"
+    },
+    "T7_constitution_pinned_at_apply": {
+      "detail": "derivation rule changed since the reading was signed",
+      "status": "PASS"
+    },
+    "T8_distribution_bound": {
+      "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+      "status": "PASS"
+    },
+    "T9_evidence_bound": {
+      "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+      "status": "PASS"
+    }
+  }
+}

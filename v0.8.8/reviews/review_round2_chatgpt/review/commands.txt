@@ -1,0 +1,18 @@
+Actual baseline command (cwd: unpacked original package):
+python3 -I falsify_v0_8_1.py
+Baseline stdout/stderr captured to baseline.stdout.txt / baseline.stderr.txt.
+Baseline observed process exit code: 0
+
+Actual independent command (cwd: original workspace):
+python3 -I review/independent_attacks.py audit/humble_seed_v0_8_1_candidate_BLIND
+Independent stdout/stderr captured in review/independent.stdout.txt / independent.stderr.txt.
+Independent observed process exit code: 0
+
+Verification:
+sha256sum -c MANIFEST.sha256
+sha256sum -c CANDIDATE_v0_8_1_AT_FREEZE.sha256
+sha256sum -c DECLARED_v0_8_1.sha256
+All verified.
+
+For portable reproduction after extracting this bundle:
+python3 -I run_review.py

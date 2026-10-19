@@ -1,0 +1,103 @@
+{
+  "P1_restore_forgets_answers_the_owner_still_holds": {
+    "attest": "AttestationRefused: trace index 3: owner's position: its latest answer in verbosity since its record began is 'no'",
+    "new_verbosity_crossing_applied_by_organism": true,
+    "organism_answers_after_restore": [],
+    "owner_can_answer_Y_again": "ValueError: No pending reading with that id",
+    "owner_ledger_answers_to_Y": [
+      "no"
+    ],
+    "restore": "returned {'status': 'restored', 'checkpoint_sequence': 0, 'discarded_entries': 3, 'kept_as': 'pre_restore_gen5_769901020db3.json'}"
+  },
+  "P2_restore_twice_and_from_a_stale_or_unusable_object": {
+    "early_object_after_its_own_restore": "returned 'dwelling'",
+    "first": "returned {'status': 'restored', 'checkpoint_sequence': 0, 'discarded_entries': 2, 'kept_as': 'pre_restore_gen2_272421282bb6.json'}",
+    "fresh_audit": "returned True",
+    "kept_files": [
+      "pre_restore_gen2_272421282bb6.json",
+      "pre_restore_gen3_8d1b4710f0a9.json",
+      "pre_restore_gen4_887a38c339ae.json"
+    ],
+    "restore_via_stale_object": "returned {'status': 'restored', 'checkpoint_sequence': 0, 'discarded_entries': 2, 'kept_as': 'pre_restore_gen4_887a38c339ae.json'}",
+    "s_after": "StaleOrganism: stale organism object: the saved state is at generation 6, this object last saw 4; reload it",
+    "second": "returned {'status': 'restored', 'checkpoint_sequence': 0, 'discarded_entries': 2, 'kept_as': 'pre_restore_gen3_8d1b4710f0a9.json'}"
+  },
+  "P3_cross_process_contention": {
+    "expected": 200,
+    "fresh_audit": "returned True",
+    "new_dwellings_saved": 200,
+    "seconds": 2.0,
+    "witness": 10,
+    "workers": [
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 47
+      },
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 53
+      },
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 20
+      },
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 33
+      },
+      {
+        "done": 10,
+        "role": "attester",
+        "stale_retries": 47
+      }
+    ]
+  },
+  "P4_threads_mixed_operations": {
+    "counts": {
+      "answer": 83,
+      "audit": 3,
+      "cross": 42,
+      "dwell": 204
+    },
+    "errors": [
+      "audit: IntegrityError: Category sequences do not match the attested checkpoint"
+    ],
+    "fresh_audit": "returned True",
+    "saved_checkpoint": 42,
+    "witness": 42
+  },
+  "P5_callback_calls_owner_while_another_thread_attests": {
+    "rc": 0,
+    "stderr": "",
+    "stdout": "{\"apply_thread_finished\": false, \"attest_thread_finished\": false}"
+  },
+  "P6_same_directory_through_a_symlink": {
+    "timed_out_after_s": 20
+  },
+  "P7_operation_cost": {
+    "v0.8.6": [
+      "len 22: 2.89 ms",
+      "len 500: 11.48 ms",
+      "len 2000: 40.97 ms"
+    ],
+    "v0.8.7": [
+      "len 22: 2.60 ms",
+      "len 500: 13.69 ms",
+      "len 2000: 46.93 ms"
+    ]
+  },
+  "P8_restore_with_a_tampered_basin_or_pending": {
+    "basin_evidence_after": [
+      [
+        "planted after attestation"
+      ]
+    ],
+    "load_after": "returned None",
+    "restore": "returned {'status': 'restored', 'checkpoint_sequence': 0, 'discarded_entries': 2, 'kept_as': 'pre_restore_gen2_c66f6e35b8ea.json'}",
+    "tampered_file_loads_before_restore": "returned 'loads'"
+  }
+}

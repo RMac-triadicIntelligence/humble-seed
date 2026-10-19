@@ -1,0 +1,28 @@
+Humble Seed v0.8.7 claims battery  (Python 3.13.16, cryptography 50.0.1)
+  Q1                           HOLDS WITH CAVEATS
+  Q2                           HOLDS
+  Q3                           HOLDS
+  Q4                           HOLDS
+  Q5                           HOLDS
+  U1                           HOLDS
+  U2                           HOLDS
+  G1                           HOLDS
+  A1                           HOLDS
+  R1                           HOLDS
+  R2                           HOLDS
+  R20                          HOLDS
+  R31a                         HOLDS
+  R31b                         HOLDS
+  R33                          HOLDS
+  R35a                         HOLDS
+  R35b                         HOLDS
+  R36                          HOLDS
+  QA                           NOT FOUND
+  QB                           NOT FOUND
+  QC                           NOT FOUND
+  extra_api_misuse             HANDLED
+  extra_concurrency_beyond_two ISSUES
+  extra_faults_at_every_write  SOME_UNFIXABLE
+  extra_life_after_restore     OK
+  extra_year_long_failure_modes LIKELY_MODES_TESTED
+written CLAIMS_RESULTS_on_v0_8_8.json

@@ -1,0 +1,58 @@
+[
+  {
+    "name": "harness",
+    "command": [
+      "/usr/bin/python3",
+      "-I",
+      "falsify_v0_8_3.py"
+    ],
+    "exit_code": 1,
+    "expected_exit_code": 1
+  },
+  {
+    "name": "independent_probes",
+    "command": [
+      "/usr/bin/python3",
+      "-I",
+      "/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/chatgpt083/Humble_Seed_v083_Review/code/independent_probes.py",
+      "/tmp/hs083_review_rerun_ilt0yp43/humble_seed_v0_8_3_candidate/humble_seed_v0_8_3_candidate.py",
+      "/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/chatgpt083_rerun"
+    ],
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  {
+    "name": "extra_mutants",
+    "command": [
+      "/usr/bin/python3",
+      "-I",
+      "/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/chatgpt083/Humble_Seed_v083_Review/code/extra_mutants.py",
+      "/tmp/hs083_review_rerun_ilt0yp43/humble_seed_v0_8_3_candidate",
+      "/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/chatgpt083_rerun"
+    ],
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  {
+    "name": "T26_diagnostic",
+    "command": [
+      "/usr/bin/python3",
+      "-I",
+      "/tmp/hs083_review_rerun_ilt0yp43/humble_seed_v0_8_3_candidate/diagnostic_T26_v0_8_3.py",
+      "/tmp/hs083_review_rerun_ilt0yp43/humble_seed_v0_8_3_candidate"
+    ],
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  {
+    "name": "corrected_answer",
+    "command": [
+      "/usr/bin/python3",
+      "-I",
+      "/tmp/hs083_review_rerun_ilt0yp43/humble_seed_v0_8_3_candidate/regression_corrected_answer_attest.py",
+      "/tmp/hs083_review_rerun_ilt0yp43/humble_seed_v0_8_3_candidate/humble_seed_v0_8_3_candidate.py"
+    ],
+    "exit_code": 0,
+    "expected_exit_code": 0
+  }
+]

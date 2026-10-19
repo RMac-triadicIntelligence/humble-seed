@@ -1,0 +1,13 @@
+{
+  "command": "python3 -I claims_battery_v0_8_7.py",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "cryptography": "50.0.2",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "started_utc": "2026-10-19T18:02:09.821195+00:00",
+  "candidate_sha256": "0292c032770ff65e07491c169ed9e86d381e75b8911c554a03cd0e1644a42430",
+  "input_zip_sha256": "7509aead09257a20c1c2bdfe8cd894340b6ec037baddacb203d742d0ec7f6b25",
+  "per_check_timeout_seconds": 30,
+  "exit_code": 0,
+  "elapsed_seconds": 6.3196210820024135,
+  "finished_utc": "2026-10-19T18:02:16.140829+00:00"
+}

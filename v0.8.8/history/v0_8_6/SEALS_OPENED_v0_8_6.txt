@@ -1,0 +1,19 @@
+OPENING OF THE v0.8.6 RECEIPT SEAL (after Grok and ChatGPT reported, 2026-10-19)
+
+Receipt commitment b88ab1e34cc0bc7d4f2dbbaf91002261920da5948015f4205369a4c3a04c0b6a
+  salt    c54cbbb7c07db3cb2a26ba99261493fb
+  receipt 6230c43e5df366cbb6e4e728258f337346ed8f5b44f76fdc8471c0e8b0ab7ca2
+  sha256(salt + receipt) == commitment: True
+
+  Reported receipts:
+  - author:  Python 3.13.16, cryptography 50.0.1; blind-pack clean extraction identical
+  - Grok:    Python 3.10.21, cryptography 50.0.1 (blind pack)
+  - ChatGPT: Python 3.12.14, cryptography 50.0.2 (run-only pack, byte-identical code)
+  All identical.
+
+Author findings commitment ffdf5a04c74502bf1de6b5c442bc1e279e2388d42c5c45be74fed0e65a74d335  (sealed 2026-10-19T14:33:59Z)
+  OPENED 2026-10-19 after both claims batteries were reported: ChatGPT and Grok, both relayed 10:37-10:38 CT.
+  salt 732ee8a104f1f273bbdf0bc744a6874c
+  sha256(salt + AUTHOR_FINDINGS_v0_8_6.txt) == commitment: True
+  Released with it: AUTHOR_FINDINGS_v0_8_6.txt, AUTHOR_FINDINGS_SALT_v0_8_6.txt, author_probe_v0_8_6.py,
+  author_probe_v0_8_6_run1.py, AUTHOR_PROBE_v0_8_6.txt, AUTHOR_PROBE_v0_8_6_run1.txt, baseline/.

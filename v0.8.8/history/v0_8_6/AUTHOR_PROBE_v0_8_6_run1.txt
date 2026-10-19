@@ -1,0 +1,92 @@
+{
+  "P1_hatch_over_a_state_without_generation": {
+    "a_v086_file": {
+      "saved_file_unchanged": true,
+      "saved_organism_id_now": "original",
+      "second_hatch": "StaleOrganism: stale organism object: the saved state is at generation 1, this object last saw None; reload it"
+    },
+    "b_file_without_generation": {
+      "saved_file_unchanged": false,
+      "saved_organism_id_now": "replaced",
+      "second_hatch": "returned 'a59e9d35-03e5-4e74-9158-b54e1535e2a2'"
+    }
+  },
+  "P2_resealed_forgery_claiming_the_pending_checkpoint": {
+    "ERROR": "Fail: state does not load: Category sequences do not match the attested checkpoint",
+    "tb": "t\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs086/author_probe_v0_8_6.py\", line 210, in <module>\n    try: out[fn.__name__] = fn(d)\n                            ~~^^^\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs086/author_probe_v0_8_6.py\", line 55, in P2_resealed_forgery_claiming_the_pending_checkpoint\n    f = H.expect_loads(K, s.data_dir)\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs086/falsify_v0_8_6.py\", line 153, in expect_loads\n    raise Fail(f\"state does not load: {e}\")\nap_harness.Fail: state does not load: Category sequences do not match the attested checkpoint\n"
+  },
+  "P3_concurrent_writers_and_attester": {
+    "expected": 200,
+    "expected_witness": 10,
+    "fresh_audit": "returned True",
+    "new_dwelling_events_saved": 200,
+    "seconds": 1.9,
+    "witness": 10,
+    "workers": [
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 91
+      },
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 87
+      },
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 48
+      },
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 64
+      },
+      {
+        "done": 10,
+        "role": "attester",
+        "stale_retries": 24
+      }
+    ]
+  },
+  "P4_owner_refusal_wording_names_the_right_answer": {
+    "a_this_reading": {
+      "applied": true,
+      "attest": "AttestationRefused: trace index 4: owner's position: its latest answer to this reading is 'no'"
+    },
+    "b_other_reading": {
+      "applied": true,
+      "attest": "AttestationRefused: trace index 4: owner's position: its latest answer in verbosity since its record began is 'no'"
+    }
+  },
+  "P5_save_cost_grows_with_the_trace": {
+    "trace_len_2000": "41.21 ms per dwell",
+    "trace_len_22": "3.73 ms per dwell",
+    "trace_len_500": "13.79 ms per dwell"
+  },
+  "P6_failed_non_install_saves": {
+    "a_dir_fsync_fails": {
+      "first": "OSError: injected directory fsync failure after replace",
+      "object_trace_len": 4,
+      "saved_trace_len": 4,
+      "second_same_object": "returned 'dwelling'"
+    },
+    "b_replace_fails": {
+      "first": "OSError: injected replace failure",
+      "object_trace_len": 4,
+      "other_current_object_writes_between": "returned 'dwelling'",
+      "saved_trace_len": 3,
+      "second_same_object": "StaleOrganism: stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+    }
+  },
+  "P7_owner_answer_through_a_stale_object": {
+    "answer_via_stale_object": "StaleOrganism: stale organism object: the saved state is at generation 3, this object last saw 2; reload it",
+    "attest": "AttestationRefused: trace index 3: owner's position: its latest answer to this reading is 'no'",
+    "fresh_object_applies": true,
+    "organism_trace_answers": [],
+    "owner_ledger": [
+      "no"
+    ]
+  }
+}

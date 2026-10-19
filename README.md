@@ -18,6 +18,16 @@ Witness**. It matches the supplied assertion-based validation suite. The other
 v0.6 implementation has its own directory and matching probes. See
 [version and interface mapping](docs/VERSIONS.md).
 
+## New: Humble Seed v0.8.8 (candidate, not canonical)
+
+[`v0.8.8/`](v0.8.8/) holds the final revision of the v0.8 line, a falsification-tested
+**candidate, not canonical**, published as work in progress under its own Apache-2.0
+`LICENSE` and `NOTICE` (the v0.6 files here keep the root license). All four round-5 review
+bugs (F1–F4) are fixed, and the scored harness reproduces receipt `3d3b3d1a…4224` with the
+known T88/XO1/XE7 mismatches. The v0.8.7 blind-round salt is held back, and a throwaway test
+key in Grok's round-8 results is redacted; see [`v0.8.8/README.md`](v0.8.8/README.md).
+Verify with `cd v0.8.8 && sha256sum -c SHA256SUMS`.
+
 ## Start here
 
 For uploading this package to GitHub, follow [START_HERE.md](START_HERE.md).

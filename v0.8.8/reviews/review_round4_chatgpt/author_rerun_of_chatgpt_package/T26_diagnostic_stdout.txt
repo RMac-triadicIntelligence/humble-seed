@@ -1,0 +1,4 @@
+objector: trace index 2: record fields differ from the replay: ['prior_character_snapshot']
+witness still at 0: True
+load fails: Category sequences do not match the attested checkpoint
+tamper preserved: True

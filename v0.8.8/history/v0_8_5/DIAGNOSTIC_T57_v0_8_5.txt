@@ -1,0 +1,5 @@
+candidate                                  PASS (IntegrityError: Category sequences do not match the attested checkpoint)
+XR4_install_keeps_memory_on_failed_save    FAIL: after the failed save: object at 1, saved state at 0
+XR2_recovery_never_abandons                FAIL: audit after the failed save: RollbackDetected: A pending checkpoint commit matches neither the organism's saved state nor the witness head
+X10_unattested_tail_check_removed          PASS (IntegrityError: Category sequences do not match the attested checkpoint)
+XR5_recovery_trusts_the_object             PASS (IntegrityError: Category sequences do not match the attested checkpoint)

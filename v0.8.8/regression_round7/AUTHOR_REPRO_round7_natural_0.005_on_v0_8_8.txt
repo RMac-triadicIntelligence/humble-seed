@@ -1,0 +1,54 @@
+{
+ "switch_interval": 0.005,
+ "seconds_per_run": 15.0,
+ "runs": [
+  {
+   "A_dwells_returned": 490,
+   "A_errors": {},
+   "B_attests_returned": 143,
+   "B_errors": {},
+   "formality_dwellings_saved": 490,
+   "lost_dwellings": 0,
+   "saved_checkpoint": 143,
+   "witness": 143,
+   "fresh_load": {
+    "returned": null
+   },
+   "fresh_audit": {
+    "returned": true
+   }
+  },
+  {
+   "A_dwells_returned": 491,
+   "A_errors": {},
+   "B_attests_returned": 143,
+   "B_errors": {},
+   "formality_dwellings_saved": 491,
+   "lost_dwellings": 0,
+   "saved_checkpoint": 143,
+   "witness": 143,
+   "fresh_load": {
+    "returned": null
+   },
+   "fresh_audit": {
+    "returned": true
+   }
+  },
+  {
+   "A_dwells_returned": 485,
+   "A_errors": {},
+   "B_attests_returned": 150,
+   "B_errors": {},
+   "formality_dwellings_saved": 485,
+   "lost_dwellings": 0,
+   "saved_checkpoint": 150,
+   "witness": 150,
+   "fresh_load": {
+    "returned": null
+   },
+   "fresh_audit": {
+    "returned": true
+   }
+  }
+ ]
+}

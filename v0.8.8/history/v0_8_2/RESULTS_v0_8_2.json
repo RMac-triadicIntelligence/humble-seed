@@ -1,0 +1,607 @@
+{
+  "candidate_sha256": "47d15ee332aa44eaba76ebb510cec85e1c748c23cb92354fe6d5dc99b15ee858",
+  "declared_sha256": "0e109c0e851956a3fdb464410446bc54aa03fc3ed936f4e1358272b865fb6e96",
+  "mismatches": 0,
+  "mutants": {
+    "X0_NULL_identical_copy": {
+      "error_details": {},
+      "failure_details": {},
+      "new_errors": [],
+      "new_failures": [],
+      "status": "SURVIVES"
+    },
+    "X10_unattested_tail_check_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T22_unattested_tail_check_reachable": "ACCEPTED \u2014 FAIL"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T22_unattested_tail_check_reachable"
+      ],
+      "status": "KILLED"
+    },
+    "X1_K1_trace_head_staleness_restored": {
+      "error_details": {},
+      "failure_details": {
+        "T1_liveness_intervening_events": "expected apply, got authorization_rejected: 'stale proposal: trace has advanced since issuance'",
+        "T20_realistic_session": "applied 0 of 4, expected 3; reasons ['stale proposal: trace has advanced since issuance', 'stale proposal: trace has advanced since issuance', 'stale proposal: trace has advanced since issuance', 'stale proposal: trace has advanced since issuance']",
+        "T28_reading_survives_a_day": "signed 25 h later: applied 0, rejections ['stale proposal: trace has advanced since issuance', 'stale proposal: trace has advanced since issuance', 'stale proposal: trace has advanced since issuance', 'stale proposal: trace has advanced since issuance']",
+        "T2_liveness_cross_category": "verbosity reading rejected after formality commit: 'stale proposal: trace has advanced since issuance'",
+        "T30_D1_owner_no_holds": "expected reading_held, last event 'authorization_rejected' ('stale proposal: trace has advanced since issuance')",
+        "T31_D1_hold_never_crosses_or_reproposes": "expected reading_held, last event 'authorization_rejected' ('stale proposal: trace has advanced since issuance')",
+        "T32_D1_reader_failure_holds": "expected reading_held, last event 'authorization_rejected' ('stale proposal: trace has advanced since issuance')",
+        "T34_D1_unrelated_answers_do_not_hold": "expected apply, got authorization_rejected: 'stale proposal: trace has advanced since issuance'",
+        "T35_D2_answer_is_evidence_not_authority": "expected apply, got authorization_rejected: 'stale proposal: trace has advanced since issuance'"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T1_liveness_intervening_events",
+        "T20_realistic_session",
+        "T28_reading_survives_a_day",
+        "T2_liveness_cross_category",
+        "T30_D1_owner_no_holds",
+        "T31_D1_hold_never_crosses_or_reproposes",
+        "T32_D1_reader_failure_holds",
+        "T34_D1_unrelated_answers_do_not_hold",
+        "T35_D2_answer_is_evidence_not_authority"
+      ],
+      "status": "KILLED"
+    },
+    "X2_K1_global_sequence_staleness_restored": {
+      "error_details": {},
+      "failure_details": {
+        "T20_realistic_session": "applied 1 of 4, expected 3; reasons ['stale proposal: mutation sequence has advanced', 'stale proposal: mutation sequence has advanced', 'stale reading: this category has advanced since issuance']",
+        "T28_reading_survives_a_day": "signed 25 h later: applied 1, rejections ['stale proposal: mutation sequence has advanced', 'stale proposal: mutation sequence has advanced', 'stale reading: this category has advanced since issuance']",
+        "T2_liveness_cross_category": "verbosity reading rejected after formality commit: 'stale proposal: mutation sequence has advanced'"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T20_realistic_session",
+        "T28_reading_survives_a_day",
+        "T2_liveness_cross_category"
+      ],
+      "status": "KILLED"
+    },
+    "X3_K1_category_sequence_check_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T20_realistic_session": "rejections ['stale reading: category value differs from the value read']",
+        "T28_reading_survives_a_day": "signed 25 h later: applied 3, rejections ['stale reading: category value differs from the value read']",
+        "T3_stale_same_category": "rejected for a different reason: 'stale reading: category value differs from the value read'",
+        "T4_second_crossing_at_clamp_floor": "expected rejection, but the reading was APPLIED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T20_realistic_session",
+        "T28_reading_survives_a_day",
+        "T3_stale_same_category",
+        "T4_second_crossing_at_clamp_floor"
+      ],
+      "status": "KILLED"
+    },
+    "X4_K1_prior_value_check_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T21_prior_value_detects_independent_change": "expected rejection, but the reading was APPLIED",
+        "T23_tamper_evidence_preserved": "load ACCEPTED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T21_prior_value_detects_independent_change",
+        "T23_tamper_evidence_preserved"
+      ],
+      "status": "KILLED"
+    },
+    "X5_K2_destination_back_in_payload": {
+      "error_details": {},
+      "failure_details": {
+        "T5_payload_carries_no_destination_information": "payload carries the destination value 0.25"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T5_payload_carries_no_destination_information"
+      ],
+      "status": "KILLED"
+    },
+    "X5b_K2_destination_alias_in_payload": {
+      "error_details": {},
+      "failure_details": {
+        "T5_payload_carries_no_destination_information": "payload carries the destination value 0.25"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T5_payload_carries_no_destination_information"
+      ],
+      "status": "KILLED"
+    },
+    "X5c_K2_destination_digest_in_payload": {
+      "error_details": {},
+      "failure_details": {
+        "T5_payload_carries_no_destination_information": "signed payload depends on the rule: ['reading_digest']"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T5_payload_carries_no_destination_information"
+      ],
+      "status": "KILLED"
+    },
+    "X6_K2_rule_read_from_module_constant": {
+      "error_details": {},
+      "failure_details": {
+        "T6_rule_comes_from_constitution": "destination 0.0 did not use the constitution's rule"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T6_rule_comes_from_constitution"
+      ],
+      "status": "KILLED"
+    },
+    "X7_K2_constitution_pin_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T7_constitution_pinned_at_apply": "expected rejection, but the reading was APPLIED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T7_constitution_pinned_at_apply"
+      ],
+      "status": "KILLED"
+    },
+    "X8_K2_distribution_root_not_rehashed": {
+      "error_details": {},
+      "failure_details": {
+        "T8_distribution_bound": "expected rejection, but the reading was APPLIED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T8_distribution_bound"
+      ],
+      "status": "KILLED"
+    },
+    "X9_C5_unknown_organism_audit_returns": {
+      "error_details": {},
+      "failure_details": {
+        "T19_identity_replacement_audit": "audit ACCEPTED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T19_identity_replacement_audit"
+      ],
+      "status": "KILLED"
+    },
+    "XD1a_hold_ignored": {
+      "error_details": {},
+      "failure_details": {
+        "T30_D1_owner_no_holds": "expected a hold, but the reading was APPLIED",
+        "T31_D1_hold_never_crosses_or_reproposes": "expected a hold, but the reading was APPLIED",
+        "T32_D1_reader_failure_holds": "expected a hold, but the reading was APPLIED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T30_D1_owner_no_holds",
+        "T31_D1_hold_never_crosses_or_reproposes",
+        "T32_D1_reader_failure_holds"
+      ],
+      "status": "KILLED"
+    },
+    "XD1b_reader_failure_fails_open": {
+      "error_details": {},
+      "failure_details": {
+        "T32_D1_reader_failure_holds": "expected a hold, but the reading was APPLIED"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T32_D1_reader_failure_holds"
+      ],
+      "status": "KILLED"
+    },
+    "XD1c_hold_reproposes": {
+      "error_details": {},
+      "failure_details": {
+        "T30_D1_owner_no_holds": "pending after hold: ['95c305da-a3d6-4f7a-826d-ced88228ce41', 'b752b6db-27cb-483e-9bb5-db2f85e26a4d']",
+        "T31_D1_hold_never_crosses_or_reproposes": "pending changed: 8 readings"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T30_D1_owner_no_holds",
+        "T31_D1_hold_never_crosses_or_reproposes"
+      ],
+      "status": "KILLED"
+    },
+    "XD1d_reader_gets_live_reading": {
+      "error_details": {},
+      "failure_details": {
+        "T33_D1_reader_cannot_alter_reading": "applied distribution differs from the signed one"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T33_D1_reader_cannot_alter_reading"
+      ],
+      "status": "KILLED"
+    },
+    "XD2a_owner_answer_counted_as_authorizing": {
+      "error_details": {},
+      "failure_details": {
+        "T30_D1_owner_no_holds": "state does not load: Unattested authorizing event at trace index 2: owner_answer \u2014 owner checkpoint required",
+        "T34_D1_unrelated_answers_do_not_hold": "attestation refused: trace index 2: unknown authorizing event 'owner_answer'",
+        "T35_D2_answer_is_evidence_not_authority": "state does not load: Unattested authorizing event at trace index 2: owner_answer \u2014 owner checkpoint required"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T30_D1_owner_no_holds",
+        "T34_D1_unrelated_answers_do_not_hold",
+        "T35_D2_answer_is_evidence_not_authority"
+      ],
+      "status": "KILLED"
+    },
+    "XD2b_answer_not_deposited_as_evidence": {
+      "error_details": {},
+      "failure_details": {
+        "T35_D2_answer_is_evidence_not_authority": "newest basin entry {'category': 'verbosity', 'distribution': {'preference': 0.68, 'confound': 0.12, 'unmodeled_cause': 0.2}, 'evidence': ['I always prefer shorter answers'], 'salience': 0.68, 'created_at': 1792251154.2152355, 'source': 'interaction', 'answer': None, 'about': None}"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T35_D2_answer_is_evidence_not_authority"
+      ],
+      "status": "KILLED"
+    },
+    "XD3a_preview_destination_returned": {
+      "error_details": {},
+      "failure_details": {
+        "T37_D3_nothing_before_signing_depends_on_rule": "owner-facing response depends on the rule: ['preview_destination']"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T37_D3_nothing_before_signing_depends_on_rule"
+      ],
+      "status": "KILLED"
+    },
+    "XD3b_destination_in_authorization_prompt": {
+      "error_details": {},
+      "failure_details": {
+        "T36_D2_prompts_separate_and_deterministic": "prompts are not render_prompts of the reading",
+        "T37_D3_nothing_before_signing_depends_on_rule": "owner-facing response depends on the rule: ['authorization_prompt']"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T36_D2_prompts_separate_and_deterministic",
+        "T37_D3_nothing_before_signing_depends_on_rule"
+      ],
+      "status": "KILLED"
+    },
+    "XD4a_attest_without_replay": {
+      "error_details": {},
+      "failure_details": {
+        "T26_attest_refuses_unsigned_change": "attestation ACCEPTED (returned True)",
+        "T39_D4_attest_refuses_forged_reading": "attestation ACCEPTED (returned True)"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T26_attest_refuses_unsigned_change",
+        "T39_D4_attest_refuses_forged_reading"
+      ],
+      "status": "KILLED"
+    },
+    "XD4b_replay_skips_signature_check": {
+      "error_details": {},
+      "failure_details": {
+        "T39_D4_attest_refuses_forged_reading": "attestation ACCEPTED (returned True)"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T39_D4_attest_refuses_forged_reading"
+      ],
+      "status": "KILLED"
+    },
+    "XF1a_validator_accepts_nonfinite": {
+      "error_details": {},
+      "failure_details": {
+        "T24_nonfinite_reading_refused": "ValueError for a different reason: 'Out of range float values are not JSON compliant: nan'"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T24_nonfinite_reading_refused"
+      ],
+      "status": "KILLED"
+    },
+    "XF1b_strict_parse_removed": {
+      "error_details": {},
+      "failure_details": {
+        "T40_nonfinite_never_parsed_or_written": "ValueError for a different reason: \"Distribution entry 'preference' must map a label to a finite non-negative number\""
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T40_nonfinite_never_parsed_or_written"
+      ],
+      "status": "KILLED"
+    },
+    "XF1c_canonical_json_allows_nan": {
+      "error_details": {},
+      "failure_details": {
+        "T40_nonfinite_never_parsed_or_written": "ACCEPTED (no ValueError)"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T40_nonfinite_never_parsed_or_written"
+      ],
+      "status": "KILLED"
+    },
+    "XF2a_clamp_read_from_module_constant": {
+      "error_details": {},
+      "failure_details": {
+        "T25_clamp_comes_from_constitution": "destination 0.4: clamp did not come from the constitution"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T25_clamp_comes_from_constitution"
+      ],
+      "status": "KILLED"
+    },
+    "XF2b_fields_read_from_module_constant": {
+      "error_details": {},
+      "failure_details": {
+        "T29_allowed_fields_come_from_constitution": "reading refused: Unknown character category: curiosity"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T29_allowed_fields_come_from_constitution"
+      ],
+      "status": "KILLED"
+    },
+    "XF2c_ttl_read_from_module_constant": {
+      "error_details": {},
+      "failure_details": {
+        "T28_reading_survives_a_day": "signed 25 h later: applied 0, rejections ['proposal expired', 'proposal expired', 'proposal expired', 'proposal expired']"
+      },
+      "new_errors": [],
+      "new_failures": [
+        "T28_reading_survives_a_day"
+      ],
+      "status": "KILLED"
+    },
+    "XH_unrelated_crash_injected": {
+      "error_details": {
+        "T10_replay": "RuntimeError: unrelated injected crash",
+        "T11_expiry": "RuntimeError: unrelated injected crash",
+        "T12_wrong_key": "RuntimeError: unrelated injected crash",
+        "T13_forged_first_commit": "RuntimeError: unrelated injected crash",
+        "T14_forged_character_resealed": "RuntimeError: unrelated injected crash",
+        "T15_category_sequences_resealed": "RuntimeError: unrelated injected crash",
+        "T17_unattested_apply_fails_closed": "RuntimeError: unrelated injected crash",
+        "T18_rollback_witness_only": "RuntimeError: unrelated injected crash",
+        "T1_liveness_intervening_events": "RuntimeError: unrelated injected crash",
+        "T20_realistic_session": "RuntimeError: unrelated injected crash",
+        "T21_prior_value_detects_independent_change": "RuntimeError: unrelated injected crash",
+        "T23_tamper_evidence_preserved": "RuntimeError: unrelated injected crash",
+        "T25_clamp_comes_from_constitution": "RuntimeError: unrelated injected crash",
+        "T26_attest_refuses_unsigned_change": "RuntimeError: unrelated injected crash",
+        "T27_checkpoint_built_at_signing_time": "RuntimeError: unrelated injected crash",
+        "T28_reading_survives_a_day": "RuntimeError: unrelated injected crash",
+        "T29_allowed_fields_come_from_constitution": "RuntimeError: unrelated injected crash",
+        "T2_liveness_cross_category": "RuntimeError: unrelated injected crash",
+        "T30_D1_owner_no_holds": "RuntimeError: unrelated injected crash",
+        "T31_D1_hold_never_crosses_or_reproposes": "RuntimeError: unrelated injected crash",
+        "T32_D1_reader_failure_holds": "RuntimeError: unrelated injected crash",
+        "T33_D1_reader_cannot_alter_reading": "RuntimeError: unrelated injected crash",
+        "T34_D1_unrelated_answers_do_not_hold": "RuntimeError: unrelated injected crash",
+        "T35_D2_answer_is_evidence_not_authority": "RuntimeError: unrelated injected crash",
+        "T36_D2_prompts_separate_and_deterministic": "RuntimeError: unrelated injected crash",
+        "T37_D3_nothing_before_signing_depends_on_rule": "RuntimeError: unrelated injected crash",
+        "T38_D3_consequence_rendered_from_record": "RuntimeError: unrelated injected crash",
+        "T39_D4_attest_refuses_forged_reading": "RuntimeError: unrelated injected crash",
+        "T3_stale_same_category": "RuntimeError: unrelated injected crash",
+        "T4_second_crossing_at_clamp_floor": "RuntimeError: unrelated injected crash",
+        "T5_payload_carries_no_destination_information": "RuntimeError: unrelated injected crash",
+        "T6_rule_comes_from_constitution": "RuntimeError: unrelated injected crash",
+        "T7_constitution_pinned_at_apply": "RuntimeError: unrelated injected crash",
+        "T8_distribution_bound": "RuntimeError: unrelated injected crash",
+        "T9_evidence_bound": "RuntimeError: unrelated injected crash"
+      },
+      "failure_details": {},
+      "new_errors": [
+        "T10_replay",
+        "T11_expiry",
+        "T12_wrong_key",
+        "T13_forged_first_commit",
+        "T14_forged_character_resealed",
+        "T15_category_sequences_resealed",
+        "T17_unattested_apply_fails_closed",
+        "T18_rollback_witness_only",
+        "T1_liveness_intervening_events",
+        "T20_realistic_session",
+        "T21_prior_value_detects_independent_change",
+        "T23_tamper_evidence_preserved",
+        "T25_clamp_comes_from_constitution",
+        "T26_attest_refuses_unsigned_change",
+        "T27_checkpoint_built_at_signing_time",
+        "T28_reading_survives_a_day",
+        "T29_allowed_fields_come_from_constitution",
+        "T2_liveness_cross_category",
+        "T30_D1_owner_no_holds",
+        "T31_D1_hold_never_crosses_or_reproposes",
+        "T32_D1_reader_failure_holds",
+        "T33_D1_reader_cannot_alter_reading",
+        "T34_D1_unrelated_answers_do_not_hold",
+        "T35_D2_answer_is_evidence_not_authority",
+        "T36_D2_prompts_separate_and_deterministic",
+        "T37_D3_nothing_before_signing_depends_on_rule",
+        "T38_D3_consequence_rendered_from_record",
+        "T39_D4_attest_refuses_forged_reading",
+        "T3_stale_same_category",
+        "T4_second_crossing_at_clamp_floor",
+        "T5_payload_carries_no_destination_information",
+        "T6_rule_comes_from_constitution",
+        "T7_constitution_pinned_at_apply",
+        "T8_distribution_bound",
+        "T9_evidence_bound"
+      ],
+      "new_failures": [],
+      "status": "CRASHED"
+    }
+  },
+  "parent_v07_sha256": "08a756043a6500fcda85fc2795471b4e8659de5364424c035aa5c6aa91cb3707",
+  "receipt": "498e2ff340f45c4cc96b9b04d41c06195dcb64398b7201174280c4e197f0cb66",
+  "tests": {
+    "T10_replay": {
+      "detail": "replay of consumed proposal/nonce",
+      "status": "PASS"
+    },
+    "T11_expiry": {
+      "detail": "proposal expired",
+      "status": "PASS"
+    },
+    "T12_wrong_key": {
+      "detail": "invalid signature",
+      "status": "PASS"
+    },
+    "T13_forged_first_commit": {
+      "detail": "first-commit mismatch: signed reading does not match live gate",
+      "status": "PASS"
+    },
+    "T14_forged_character_resealed": {
+      "detail": "rejected: Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+      "status": "PASS"
+    },
+    "T15_category_sequences_resealed": {
+      "detail": "rejected: Category sequences do not match the attested checkpoint",
+      "status": "PASS"
+    },
+    "T16_permissive_rule_full_birth_repair": {
+      "detail": "rejected: Birth record does not match the attested checkpoint",
+      "status": "PASS"
+    },
+    "T17_unattested_apply_fails_closed": {
+      "detail": "Category sequences do not match the attested checkpoint",
+      "status": "PASS"
+    },
+    "T18_rollback_witness_only": {
+      "detail": "Rollback: organism presents sequence 1, witness holds 2",
+      "status": "PASS"
+    },
+    "T19_identity_replacement_audit": {
+      "detail": "Unknown organism: explicit sequence-zero enrollment is required",
+      "status": "PASS"
+    },
+    "T1_liveness_intervening_events": {
+      "detail": "applied after 5 dwellings, 1 rejection event, 1 checkpoint; verbosity 0.25",
+      "status": "PASS"
+    },
+    "T20_realistic_session": {
+      "detail": "v0.8.2 applied 3/4 (rejected: 'stale reading: this category has advanced since issuance'); parent v0.7 applied 0/4 (first reason: 'stale proposal: trace has advanced since issuance')",
+      "status": "PASS"
+    },
+    "T21_prior_value_detects_independent_change": {
+      "detail": "stale reading: category value differs from the value read",
+      "status": "PASS"
+    },
+    "T22_unattested_tail_check_reachable": {
+      "detail": "rejected: Unattested authorizing event at trace index 2: authorized_mutation \u2014 owner checkpoint required",
+      "status": "PASS"
+    },
+    "T23_tamper_evidence_preserved": {
+      "detail": "Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+      "status": "PASS"
+    },
+    "T24_nonfinite_reading_refused": {
+      "detail": "NaN, +inf, -inf refused at issuance; NaN interpreter output held as unreadable",
+      "status": "PASS"
+    },
+    "T25_clamp_comes_from_constitution": {
+      "detail": "module range edited to (0.4, 1.0) after hatch; destination still 0.25",
+      "status": "PASS"
+    },
+    "T26_attest_refuses_unsigned_change": {
+      "detail": "presented state is not the consequence of signed readings: character (presented, replayed): {'formality': (0.99, 0.5)}",
+      "status": "PASS"
+    },
+    "T27_checkpoint_built_at_signing_time": {
+      "detail": "dwelling between apply and attest; attestation and audit succeed",
+      "status": "PASS"
+    },
+    "T28_reading_survives_a_day": {
+      "detail": "signed 25 h after the session: 3/4 applied; a 2-day lifetime chosen at hatch is honoured",
+      "status": "PASS"
+    },
+    "T29_allowed_fields_come_from_constitution": {
+      "detail": "module fields edited after hatch; curiosity still allowed, humor still refused",
+      "status": "PASS"
+    },
+    "T2_liveness_cross_category": {
+      "detail": "verbosity reading applied after a formality commit; both 0.25",
+      "status": "PASS"
+    },
+    "T30_D1_owner_no_holds": {
+      "detail": "owner answered 'no' to this reading after this reading was taken",
+      "status": "PASS"
+    },
+    "T31_D1_hold_never_crosses_or_reproposes": {
+      "detail": "4 signed readings, 4 holds, 0 crossings, 0 new readings",
+      "status": "PASS"
+    },
+    "T32_D1_reader_failure_holds": {
+      "detail": "reader failed (RuntimeError: reader crashed)",
+      "status": "PASS"
+    },
+    "T33_D1_reader_cannot_alter_reading": {
+      "detail": "reader mutated its copies; applied record matches the signed reading",
+      "status": "PASS"
+    },
+    "T34_D1_unrelated_answers_do_not_hold": {
+      "detail": "'no' in another category and 'yes' do not hold; an earlier 'no' does not hold a later reading",
+      "status": "PASS"
+    },
+    "T35_D2_answer_is_evidence_not_authority": {
+      "detail": "answer recorded as non-authorizing evidence; signature still the only authority",
+      "status": "PASS"
+    },
+    "T36_D2_prompts_separate_and_deterministic": {
+      "detail": "May I change my verbosity for you on the strength of this reading? Only verbosity can change, only within 0.00\u20131.00, and only by the rule attested at my birth; it is 0.50 now. This would be the first change ever made to verbosity. This authorization lapses 7 days after the reading was taken. Signing says yes to this one reading; it does not choose where it lands.",
+      "status": "PASS"
+    },
+    "T37_D3_nothing_before_signing_depends_on_rule": {
+      "detail": "owner-facing response identical under delta -0.25 and -0.10; no destination in it",
+      "status": "PASS"
+    },
+    "T38_D3_consequence_rendered_from_record": {
+      "detail": "I'll keep my answers shorter. (verbosity 0.50 \u2192 0.25; lead read: preference 0.68; rule step -0.25). This was the first change ever made to verbosity.",
+      "status": "PASS"
+    },
+    "T39_D4_attest_refuses_forged_reading": {
+      "detail": "trace index 2: reading signature does not verify under the owner's key",
+      "status": "PASS"
+    },
+    "T3_stale_same_category": {
+      "detail": "stale reading: this category has advanced since issuance",
+      "status": "PASS"
+    },
+    "T40_nonfinite_never_parsed_or_written": {
+      "detail": "refused at parse (4 literals), at load, and at write",
+      "status": "PASS"
+    },
+    "T4_second_crossing_at_clamp_floor": {
+      "detail": "stale reading: this category has advanced since issuance",
+      "status": "PASS"
+    },
+    "T5_payload_carries_no_destination_information": {
+      "detail": "16 signed fields; no destination value; identical under delta -0.25 and -0.10",
+      "status": "PASS"
+    },
+    "T6_rule_comes_from_constitution": {
+      "detail": "module constant edited to -0.5; destination still 0.25",
+      "status": "PASS"
+    },
+    "T7_constitution_pinned_at_apply": {
+      "detail": "derivation rule changed since the reading was signed",
+      "status": "PASS"
+    },
+    "T8_distribution_bound": {
+      "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+      "status": "PASS"
+    },
+    "T9_evidence_bound": {
+      "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+      "status": "PASS"
+    }
+  }
+}

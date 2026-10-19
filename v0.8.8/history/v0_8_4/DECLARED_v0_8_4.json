@@ -1,0 +1,1152 @@
+{
+ "artifact": "humble_seed_v0_8_4_candidate falsification harness",
+ "date": "2026-10-18",
+ "authorship": "Claude (Opus 5.5 session), at Rusty McMurray's direction. Credits by finder: Grok (round 1: T21, T22), ChatGPT (round 2 #1-#5; round 3 F1a, F1b, F2; round 4 F1-F4 and mutants XM1-XM3), author (lifetime, 1e999, R19, corrected answer, A1, A2, T26 correction).",
+ "candidate_sha256_at_freeze": "d66c10e415054bb4e02851bac8f47ce33f189e3a6b0f4eba65081a3503089c24",
+ "frozen_before": "the v0.8.4 harness was written. Before the freeze: one smoke run of the basic flow, a compile check, and an exact-once check of every mutant anchor. No harness test, recovery path, multi-session path, or mutant had been run on v0.8.4.",
+ "status_key": {
+  "carried": "Passed on v0.8.3; predicted on v0.8.4.",
+  "corrected": "Declaration corrected after a recorded deviation; predicted on v0.8.4.",
+  "new": "Not run on any version when this file was frozen."
+ },
+ "rules": [
+  "A rejection, hold or refusal counts only through its declared mechanism and message.",
+  "Expected-success helpers turn the system's own declared refusal types into FAIL: ValueError from the reading interface, IntegrityError at load, AttestationRefused and RollbackDetected from the owner tool. Any other exception is an ERROR.",
+  "KILLED: at least one test that PASSES on the candidate FAILS on the mutant. CRASHED: no such FAIL, but at least one such test ERRORS. SURVIVES: neither. A crash is never a kill (ChatGPT round 2 #5).",
+  "Where exact_kill_set is given, the set of newly FAILING tests must equal it. Newly erroring tests are reported, never counted.",
+  "Mutants are built from the 'edits' below: each old string must occur exactly once in the candidate.",
+  "Exit code non-zero on any mismatch. The harness refuses to run if this file's sha256 differs from DECLARED_v0_8_2.sha256, or if the candidate differs from candidate_sha256_at_freeze.",
+  "Mutants carried from v0.8.2 use the same edits, re-checked as exact-once anchors on v0.8.3."
+ ],
+ "controls_without_a_mutant": [
+  "Checkpoint request built at signing time: OwnerTool.attest no longer accepts a request, so there is no line to remove. T27 exercises it.",
+  "render_consequence is display, not a control. T38 exercises it.",
+  "The owner tool's refusal of an organism keyed to another owner, and of a rewritten attested history: present in code, not exercised by any test this round.",
+  "fsync of owner and organism writes: not testable without a crash-injecting filesystem.",
+  "Recovery's refusal when a pending intent matches neither the organism nor the head: not exercised."
+ ],
+ "retired": {
+  "T0_docstring_only_change": "v0.8.2 changes code; T0 was specific to v0.8.1."
+ },
+ "tests": {
+  "T1_liveness_intervening_events": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T2_liveness_cross_category": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T3_stale_same_category": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T4_second_crossing_at_clamp_floor": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T5_payload_carries_no_destination_information": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "ChatGPT, blind review round 2, finding #4 (replaces the name-based T5)",
+   "asserts": "(a) No value in the signed payload equals the derived destination (0.25), as a number or as an exact string. (b) A second reading issued from the same state after the live rule is changed in memory to delta -0.10 has a payload identical to the first, apart from proposal_id, nonce, timestamp, expires_at and constitution_root."
+  },
+  "T6_rule_comes_from_constitution": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T7_constitution_pinned_at_apply": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T8_distribution_bound": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T9_evidence_bound": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T10_replay": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T11_expiry": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "Now via the organism's clock: one second past expires_at, apply is rejected with 'expired'. The caller can no longer pass a lifetime; it comes from the constitution."
+  },
+  "T12_wrong_key": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T13_forged_first_commit": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T14_forged_character_resealed": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T15_category_sequences_resealed": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T16_permissive_rule_full_birth_repair": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T17_unattested_apply_fails_closed": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T18_rollback_witness_only": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T19_identity_replacement_audit": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T20_realistic_session": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T21_prior_value_detects_independent_change": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "Grok, round 1"
+  },
+  "T22_unattested_tail_check_reachable": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "Grok, round 1"
+  },
+  "T23_tamper_evidence_preserved": {
+   "expect": "PASS",
+   "status": "carried"
+  },
+  "T24_nonfinite_reading_refused": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "ChatGPT, round 2, finding #1",
+   "asserts": "(a) For NaN, +inf and -inf as the preference weight, issuing a reading raises ValueError containing 'finite'; nothing is pending. (b) An interpreter returning a NaN weight makes dwell_or_propose return status 'dwelling' with unreadable True; nothing pending; no basin entry added. (c) The state loads and audits."
+  },
+  "T25_clamp_comes_from_constitution": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "ChatGPT, round 2, finding #2",
+   "asserts": "After hatch the module GENESIS_VALUE_RANGE is set to (0.4, 1.0). A verbosity reading signed, applied and attested lands at 0.25; the state loads and audits."
+  },
+  "T26_attest_refuses_unsigned_change": {
+   "expect": "PASS",
+   "status": "corrected",
+   "credit": "ChatGPT, round 2, finding #3",
+   "asserts": "CORRECTED (v0.8.3 DEVIATIONS E1). Verbosity reading signed; formality set to 0.99 in memory; verbosity applied. OwnerTool.attest raises AttestationRefused containing 'record fields differ from the replay' and 'formality: recorded 0.99'. Witness stays at 0. A fresh load fails with 'Category sequences do not match the attested'. Stored formality is still 0.99."
+  },
+  "T27_checkpoint_built_at_signing_time": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "ChatGPT, round 2, observation",
+   "asserts": "A reading is applied; an ordinary dwelling in another category happens before attestation; attest succeeds; the state loads and audits."
+  },
+  "T28_reading_survives_a_day": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "author finding (TTL)",
+   "asserts": "After hatch the module GENESIS_READING_TTL_SECONDS is set to 3600. The 8-message session issues 4 readings; the clock is advanced 25 hours; the owner signs in issue order, attesting after each: 3 apply, 1 is rejected with 'category has advanced'; final verbosity 0.25, formality 0.25, curiosity 0.35. An organism hatched with reading_ttl_seconds=172800 records it in its constitution and its readings expire exactly 172800 s after issue."
+  },
+  "T29_allowed_fields_come_from_constitution": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "After hatch the module GENESIS_ALLOWED_FIELDS is set to {verbosity, formality, humor}. A curiosity reading is issued (not refused), applied and attested; the state loads and audits; dwell_or_propose('humor') raises ValueError containing 'Unknown character category'."
+  },
+  "T30_D1_owner_no_holds": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "As v0.8.2, except the hold reason now reads \"owner's position: ...\" (ruling 3 wording); the test checks for \"owner's position\"."
+  },
+  "T31_D1_hold_never_crosses_or_reproposes": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "With a reader that always objects, the 8-message session issues 4 readings; each signed apply holds ('reading_held'); the pending set is exactly those 4; the character equals the genesis character; every category sequence is 0; consumed is empty; the state loads and audits."
+  },
+  "T32_D1_reader_failure_holds": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "Reading signed. A reader that raises: hold, reason contains 'reader failed'. A reader returning 42: hold, reason contains 'not a reason'. A reader returning whitespace: hold, reason contains 'not a reason'. Verbosity still 0.5, reading still pending, mutation sequence 0."
+  },
+  "T33_D1_reader_cannot_alter_reading": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "A reader that mutates every argument (distribution, prior value, evidence, terrain, events) and returns None: the reading applies; the record's distribution root, evidence root and prior value equal the signed payload's; verbosity 0.25; attest succeeds."
+  },
+  "T34_D1_unrelated_answers_do_not_hold": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "Verbosity and formality readings issued; owner answers 'no' to the formality reading and 'yes' to the verbosity reading; the verbosity reading applies and attests. A new formality reading issued after the 'no' applies and attests (R18)."
+  },
+  "T35_D2_answer_is_evidence_not_authority": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "Reading issued; owner answers 'yes'. The response says authorizes False; character, category sequences, consumed and mutation sequence unchanged; the reading still pending with a byte-identical payload; last trace event 'owner_answer'; newest basin entry has source 'owner_answer', answer 'yes', about = the reading's id; the state loads and audits. Then the owner signs and the reading applies and attests."
+  },
+  "T36_D2_prompts_separate_and_deterministic": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "A proposal's 'question' and 'authorization_prompt' differ; both equal render_prompts(pending reading, constitution); the same text renders from the reading after a fresh load; the question contains the evidence verbatim and ends with '(yes / no / unsure)'; the authorization prompt contains 'verbosity', '0.00–1.00', '7 days' and 'does not choose where it lands'."
+  },
+  "T37_D3_nothing_before_signing_depends_on_rule": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "Two proposals from one state, one under delta -0.25 and one after the live rule is changed in memory to -0.10: the responses are identical apart from proposal_id and payload_to_sign; and no value in the first response (excluding payload_to_sign) equals 0.25 as a number or contains '0.25' as text."
+  },
+  "T38_D3_consequence_rendered_from_record": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "The apply response's consequence equals render_consequence of the authorized_mutation record read back after a fresh load, and contains 'verbosity 0.50 → 0.25'. After two more crossings, the third consequence contains 'already at the edge of its range'."
+  },
+  "T39_D4_attest_refuses_forged_reading": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "A formality reading signed with another owner's key is written into the organism as an authorized_mutation, with character, category sequence, consumed ledger and mutation sequence changed consistently. OwnerTool.attest raises AttestationRefused containing \"does not verify under the owner's key\"; the witness stays at sequence 0."
+  },
+  "T40_nonfinite_never_parsed_or_written": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "ChatGPT finding #1; 1e999 variant: author",
+   "asserts": "(a) parse_reading_json refuses NaN, Infinity, -Infinity and 1e999 with ValueError containing 'non-finite constant'. (b) A state file whose character holds NaN fails to load with IntegrityError containing 'non-finite constant'. (c) With NaN in the live character, _save raises ValueError containing 'not JSON compliant' and the file on disk is unchanged."
+  },
+  "T41_owner_ledger_refuses_held_crossing": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "ChatGPT, round 3, F1b",
+   "asserts": "Owner signs, then answers 'no' through OwnerTool.answer. Apply holds ('owner's position'). With the reader disabled the organism applies anyway. An owner tool rebuilt from its files on disk refuses to attest: AttestationRefused containing \"owner's position\". Witness stays at sequence 0."
+  },
+  "T42_owner_clock_lifetime": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "ChatGPT round 3 F1a; author R19",
+   "asserts": "A signed reading is applied but not attested. With the owner's clock moved past signing + lifetime, attest raises AttestationRefused containing \"past its lifetime by the owner's clock\". Witness stays at sequence 0."
+  },
+  "T43_organism_expiry_record_honored": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "ChatGPT, round 3, F1a",
+   "asserts": "Signed reading; organism clock past expiry: apply rejected 'expired'. Organism clock wound back: apply succeeds. Owner clock still within lifetime. attest raises AttestationRefused containing 'recorded this reading as expired'. Witness stays at sequence 0."
+  },
+  "T44_replay_checks_every_record_field": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "ChatGPT, round 3, F2",
+   "asserts": "Three organisms. In each, a crossing is applied, then one record field is edited and the trace re-chained: prior_value to 0.0; first_commit to False; prior_character_snapshot verbosity to 0.0. Each attest raises AttestationRefused containing 'record fields differ from the replay'."
+  },
+  "T45_D2_corrected_answer_releases_hold": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "author finding (round 3)",
+   "asserts": "(a) Owner answers 'no' then 'yes' to a reading: it applies and attests; verbosity 0.25. (b) Two verbosity readings X, Y; owner answers 'no' to X then 'yes' to Y: X holds with \"latest answer to this reading is 'no'\". (c) Owner answers 'yes' to X then 'no' to Y: X holds with \"latest answer in this category since the reading was taken is 'no'\". All answers through OwnerTool.answer."
+  },
+  "T46_reading_must_be_signed_through_owner_tool": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "A reading signed with the owner's key but outside the owner tool (owner_sign_external) is applied; attest raises AttestationRefused containing 'not signed through this owner tool'."
+  },
+  "T47_forged_yes_does_not_reach_attestation": {
+   "expect": "PASS",
+   "status": "carried",
+   "asserts": "Owner signs, then answers 'no' through the tool. A 'yes' is written to the organism only (forged). The organism applies (its own latest answer is 'yes'). attest raises AttestationRefused containing \"owner's position\". Witness stays at sequence 0."
+  },
+  "T48_organism_recorded_no_honored": {
+   "expect": "PASS",
+   "status": "carried",
+   "credit": "ChatGPT, round 3, F1b (its exact case)",
+   "asserts": "Owner signs; a 'no' is recorded on the organism only. Apply holds (\"owner's position\"). With the reader disabled the organism applies anyway. attest raises AttestationRefused containing \"organism's own record holds this reading\". Witness stays at sequence 0."
+  },
+  "T49_stale_session_cannot_bypass_owner_no": {
+   "expect": "PASS",
+   "status": "new",
+   "credit": "ChatGPT round 4 F1 (stale_owner_veto_bypass)",
+   "asserts": "Session A signs. Session B opens, answers 'no'. A 'yes' is forged on the organism. The organism applies. A attests: AttestationRefused containing \"owner's position\". A fresh witness stays at 0."
+  },
+  "T50_stale_session_keeps_other_sessions_records": {
+   "expect": "PASS",
+   "status": "new",
+   "credit": "ChatGPT round 4 F1 (stale_owner_erases_signature); author A2",
+   "asserts": "Session B opens before A signs. A signs; B answers 'yes'. The organism applies. A freshly opened session attests successfully (the signature survived B's write); verbosity 0.25."
+  },
+  "T51_stale_witness_cannot_fork": {
+   "expect": "PASS",
+   "status": "new",
+   "credit": "ChatGPT round 4 F2",
+   "asserts": "Genesis attested by A; B opens; the organism is copied. A applies and attests branch 1 (verbosity). B applies branch 2 (formality) on the copy and attests: RollbackDetected containing 'Non-successor'. A fresh witness accepts branch 1's checkpoint as current."
+  },
+  "T52_record_metadata_validated": {
+   "expect": "PASS",
+   "status": "new",
+   "credit": "ChatGPT round 4 F3; author A1",
+   "asserts": "Four organisms; in each a crossing is applied, one metadata field edited, the trace re-chained. (i) authorized_at and event timestamp = 'not a timestamp' -> 'authorized_at is not a finite number'. (ii) both = reading time - 1000 -> \"authorized_at outside the reading's own window\". (iii) event timestamp = -123456789.0 -> 'event timestamp differs from authorized_at'. (iv) unverified_annotation = a dict -> 'unverified_annotation is not a short string'. Each attest raises AttestationRefused containing 'record metadata invalid' and its specific text."
+  },
+  "T53_lifetime_runs_from_first_signing": {
+   "expect": "PASS",
+   "status": "new",
+   "credit": "ChatGPT round 4 F1 (stale_signer_refreshes_lifetime)",
+   "asserts": "Hatched with a 10 s lifetime. Session B opens. A signs at owner time t0; B re-signs the same payload at t0+11; A re-signs again at t0. The organism applies. At owner time t0+11, attest raises AttestationRefused containing \"past its lifetime by the owner's clock\"."
+  },
+  "T54_commit_recovers_after_organism_install": {
+   "expect": "PASS",
+   "status": "new",
+   "credit": "ChatGPT round 4 F4",
+   "asserts": "A crossing is applied. attest is interrupted (OSError) right after the organism installs the checkpoint. The organism reloads. A reopened owner tool's audit completes the pending commit and passes; the witness is at 1; the next crossing applies and attests."
+  },
+  "T55_commit_recovers_before_organism_install": {
+   "expect": "PASS",
+   "status": "new",
+   "asserts": "A crossing is applied. attest is interrupted (OSError) before the organism installs. Retrying attest abandons the stale intent and succeeds; the state loads and audits."
+  },
+  "T56_owner_lock_excludes_other_processes": {
+   "expect": "PASS",
+   "status": "new",
+   "asserts": "During attest (probed from the owner's clock call, made while attest runs), another process cannot take the owner lock (LOCK_NB fails). After attest it can."
+  }
+ },
+ "mutants": {
+  "X0_NULL_identical_copy": {
+   "expect": "SURVIVES",
+   "mutation": "No edit.",
+   "edits": [],
+   "carried_from": "v0.8.2"
+  },
+  "X1_K1_trace_head_staleness_restored": {
+   "expect": "KILLED",
+   "mutation": "Any trace event between issuance and apply makes a reading stale (v0.7 behaviour).",
+   "edits": [
+    [
+     "        # [K1-ANCHOR] non-authorizing events and other categories' commits do not expire a reading.\n",
+     "        if p.issued_trace_head != self._trace_head:\n            self._reject(proposal_id, \"stale proposal: trace has advanced since issuance\")\n            return None\n"
+    ]
+   ],
+   "killer": "T1_liveness_intervening_events",
+   "carried_from": "v0.8.2"
+  },
+  "X2_K1_global_sequence_staleness_restored": {
+   "expect": "KILLED",
+   "mutation": "A commit in any category makes a reading stale (v0.7 behaviour).",
+   "edits": [
+    [
+     "        # [K1-ANCHOR] non-authorizing events and other categories' commits do not expire a reading.\n",
+     "        if p.issued_mutation_sequence != self.mutation_sequence:\n            self._reject(proposal_id, \"stale proposal: mutation sequence has advanced\")\n            return None\n"
+    ]
+   ],
+   "killer": "T2_liveness_cross_category",
+   "carried_from": "v0.8.2"
+  },
+  "X3_K1_category_sequence_check_removed": {
+   "expect": "KILLED",
+   "mutation": "Per-category sequence check removed.",
+   "edits": [
+    [
+     "        if p.category_sequence != current_seq:\n",
+     "        if False:\n"
+    ]
+   ],
+   "killer": "T4_second_crossing_at_clamp_floor",
+   "carried_from": "v0.8.2"
+  },
+  "X4_K1_prior_value_check_removed": {
+   "expect": "KILLED",
+   "mutation": "Prior-value check removed.",
+   "edits": [
+    [
+     "        if float(p.prior_value) != float(self.character[p.category]):\n",
+     "        if False:\n"
+    ]
+   ],
+   "killer": "T21_prior_value_detects_independent_change",
+   "exact_kill_set": [
+    "T21_prior_value_detects_independent_change",
+    "T23_tamper_evidence_preserved"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "X5_K2_destination_back_in_payload": {
+   "expect": "KILLED",
+   "mutation": "Destination signed under the name 'destination'.",
+   "edits": [
+    [
+     "            \"kind\": \"reading_authorization\",\n",
+     "            \"kind\": \"reading_authorization\",\n            \"destination\": self.derive(p.category, p.distribution, p.prior_value)[2],\n"
+    ]
+   ],
+   "killer": "T5_payload_carries_no_destination_information",
+   "exact_kill_set": [
+    "T5_payload_carries_no_destination_information"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "X5b_K2_destination_alias_in_payload": {
+   "expect": "KILLED",
+   "mutation": "Destination signed under another name. Survived v0.8.1's name-based T5.",
+   "edits": [
+    [
+     "            \"kind\": \"reading_authorization\",\n",
+     "            \"kind\": \"reading_authorization\",\n            \"landing_value\": self.derive(p.category, p.distribution, p.prior_value)[2],\n"
+    ]
+   ],
+   "killer": "T5_payload_carries_no_destination_information",
+   "exact_kill_set": [
+    "T5_payload_carries_no_destination_information"
+   ],
+   "credit": "ChatGPT, blind review round 2, finding #4",
+   "carried_from": "v0.8.2"
+  },
+  "X5c_K2_destination_digest_in_payload": {
+   "expect": "KILLED",
+   "mutation": "A digest of the destination signed. No value scan can see it; only the invariance half of T5 can.",
+   "edits": [
+    [
+     "            \"kind\": \"reading_authorization\",\n",
+     "            \"kind\": \"reading_authorization\",\n            \"reading_digest\": _sha256(repr(self.derive(p.category, p.distribution, p.prior_value)[2])),\n"
+    ]
+   ],
+   "killer": "T5_payload_carries_no_destination_information",
+   "exact_kill_set": [
+    "T5_payload_carries_no_destination_information"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "X6_K2_rule_read_from_module_constant": {
+   "expect": "KILLED",
+   "mutation": "Derivation rule read from the module constant.",
+   "edits": [
+    [
+     "    der = constitution[\"derivation\"]\n",
+     "    der = GENESIS_DERIVATION\n"
+    ]
+   ],
+   "killer": "T6_rule_comes_from_constitution",
+   "exact_kill_set": [
+    "T6_rule_comes_from_constitution"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "X7_K2_constitution_pin_removed": {
+   "expect": "KILLED",
+   "mutation": "Constitution pin at apply removed.",
+   "edits": [
+    [
+     "        if p.constitution_root != self._constitution_root():\n",
+     "        if False:\n"
+    ]
+   ],
+   "killer": "T7_constitution_pinned_at_apply",
+   "exact_kill_set": [
+    "T7_constitution_pinned_at_apply"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "X8_K2_distribution_root_not_rehashed": {
+   "expect": "KILLED",
+   "mutation": "Payload uses the stored distribution root instead of re-hashing.",
+   "edits": [
+    [
+     "            \"distribution_root\": _sha256(_canonical_json(p.distribution)),\n",
+     "            \"distribution_root\": p.distribution_root,\n"
+    ]
+   ],
+   "killer": "T8_distribution_bound",
+   "exact_kill_set": [
+    "T8_distribution_bound"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "X9_C5_unknown_organism_audit_returns": {
+   "expect": "KILLED",
+   "mutation": "Audit of an unknown organism returns instead of failing.",
+   "edits": [
+    [
+     "            raise RollbackDetected(\"Unknown organism: explicit sequence-zero enrollment is required\")\n",
+     "            return\n"
+    ]
+   ],
+   "killer": "T19_identity_replacement_audit",
+   "exact_kill_set": [
+    "T19_identity_replacement_audit"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "X10_unattested_tail_check_removed": {
+   "expect": "KILLED",
+   "mutation": "Unattested-tail check removed.",
+   "edits": [
+    [
+     "            if entry.get(\"event\") not in NON_AUTHORIZING_EVENTS:\n",
+     "            if False:\n"
+    ]
+   ],
+   "killer": "T22_unattested_tail_check_reachable",
+   "exact_kill_set": [
+    "T22_unattested_tail_check_reachable"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "XF1a_validator_accepts_nonfinite": {
+   "expect": "KILLED",
+   "mutation": "Distribution validator accepts NaN and infinities (v0.8.1 behaviour).",
+   "edits": [
+    [
+     "        if not isinstance(k, str) or not _is_finite_number(v) or float(v) < 0.0:\n",
+     "        if not isinstance(k, str) or not _is_number(v) or float(v) < 0.0:\n"
+    ]
+   ],
+   "killer": "T24_nonfinite_reading_refused",
+   "exact_kill_set": [
+    "T24_nonfinite_reading_refused"
+   ],
+   "credit": "ChatGPT, blind review round 2, finding #1",
+   "note": "Predicted kill path: NaN passes the validator and the lead-weight test, then canonical JSON refuses it with a different message, so T24 fails on mechanism.",
+   "carried_from": "v0.8.2"
+  },
+  "XF1b_strict_parse_removed": {
+   "expect": "KILLED",
+   "mutation": "Plain json.loads at load and for interpreter output.",
+   "edits": [
+    [
+     "    return json.loads(text, parse_constant=_refuse_constant, parse_float=_finite_float)\n",
+     "    return json.loads(text)\n"
+    ]
+   ],
+   "killer": "T40_nonfinite_never_parsed_or_written",
+   "exact_kill_set": [
+    "T40_nonfinite_never_parsed_or_written"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "XF1c_canonical_json_allows_nan": {
+   "expect": "KILLED",
+   "mutation": "Canonical JSON writes NaN.",
+   "edits": [
+    [
+     "    return json.dumps(obj, sort_keys=True, separators=(\",\", \":\"), ensure_ascii=False, allow_nan=False)\n",
+     "    return json.dumps(obj, sort_keys=True, separators=(\",\", \":\"), ensure_ascii=False)\n"
+    ]
+   ],
+   "killer": "T40_nonfinite_never_parsed_or_written",
+   "exact_kill_set": [
+    "T40_nonfinite_never_parsed_or_written"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "XF2a_clamp_read_from_module_constant": {
+   "expect": "KILLED",
+   "mutation": "Clamp bounds read from the module (v0.8.1 behaviour).",
+   "edits": [
+    [
+     "    lo, hi = constitution[\"value_range\"]\n",
+     "    lo, hi = GENESIS_VALUE_RANGE\n"
+    ]
+   ],
+   "killer": "T25_clamp_comes_from_constitution",
+   "exact_kill_set": [
+    "T25_clamp_comes_from_constitution"
+   ],
+   "credit": "ChatGPT, blind review round 2, finding #2",
+   "carried_from": "v0.8.2"
+  },
+  "XF2b_fields_read_from_module_constant": {
+   "expect": "KILLED",
+   "mutation": "Allowed fields read from the module (v0.8.1 behaviour).",
+   "edits": [
+    [
+     "    return set(constitution[\"allowed_character_fields\"])\n",
+     "    return set(GENESIS_ALLOWED_FIELDS)\n"
+    ]
+   ],
+   "killer": "T29_allowed_fields_come_from_constitution",
+   "exact_kill_set": [
+    "T29_allowed_fields_come_from_constitution"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "XF2c_ttl_read_from_module_constant": {
+   "expect": "KILLED",
+   "mutation": "Reading lifetime read from the module (v0.8.1 behaviour).",
+   "edits": [
+    [
+     "    return float(constitution[\"reading_ttl_seconds\"])\n",
+     "    return float(GENESIS_READING_TTL_SECONDS)\n"
+    ]
+   ],
+   "killer": "T28_reading_survives_a_day",
+   "exact_kill_set": [
+    "T28_reading_survives_a_day",
+    "T53_lifetime_runs_from_first_signing"
+   ],
+   "credit": "author finding (TTL)",
+   "carried_from": "v0.8.2",
+   "note": "v0.8.4: T53 hatches with a 10 s lifetime; read from the module, the owner would allow 7 days."
+  },
+  "XD1a_hold_ignored": {
+   "expect": "KILLED",
+   "mutation": "The reader's objection is ignored; the reading crosses.",
+   "edits": [
+    [
+     "        if veto is not None:\n",
+     "        if False:\n"
+    ]
+   ],
+   "killer": "T30_D1_owner_no_holds",
+   "exact_kill_set": [
+    "T30_D1_owner_no_holds",
+    "T31_D1_hold_never_crosses_or_reproposes",
+    "T32_D1_reader_failure_holds",
+    "T41_owner_ledger_refuses_held_crossing",
+    "T45_D2_corrected_answer_releases_hold",
+    "T48_organism_recorded_no_honored"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "XD1b_reader_failure_fails_open": {
+   "expect": "KILLED",
+   "mutation": "A reader that raises counts as no objection.",
+   "edits": [
+    [
+     "            return f\"reader failed ({type(why).__name__}: {why})\"\n",
+     "            return None\n"
+    ]
+   ],
+   "killer": "T32_D1_reader_failure_holds",
+   "exact_kill_set": [
+    "T32_D1_reader_failure_holds"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "XD1c_hold_reproposes": {
+   "expect": "KILLED",
+   "mutation": "On a hold the organism issues a new reading.",
+   "edits": [
+    [
+     "            # [D1-ANCHOR] a hold never re-proposes and never re-derives.\n",
+     "            self._issue_pending_proposal(p.category, p.distribution, p.evidence)\n"
+    ]
+   ],
+   "killer": "T30_D1_owner_no_holds",
+   "exact_kill_set": [
+    "T30_D1_owner_no_holds",
+    "T31_D1_hold_never_crosses_or_reproposes"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "XD1d_reader_gets_live_reading": {
+   "expect": "KILLED",
+   "mutation": "The reader receives the live reading instead of a copy.",
+   "edits": [
+    [
+     "        reading = copy.deepcopy(asdict(p))\n",
+     "        reading = p.__dict__\n"
+    ]
+   ],
+   "killer": "T33_D1_reader_cannot_alter_reading",
+   "exact_kill_set": [
+    "T33_D1_reader_cannot_alter_reading"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "XD2a_owner_answer_counted_as_authorizing": {
+   "expect": "KILLED",
+   "mutation": "An owner answer is treated as an authorizing event.",
+   "edits": [
+    [
+     "NON_AUTHORIZING_EVENTS = {\"dwelling\", \"authorization_rejected\", \"checkpoint\", \"owner_answer\", \"reading_held\"}\n",
+     "NON_AUTHORIZING_EVENTS = {\"dwelling\", \"authorization_rejected\", \"checkpoint\", \"reading_held\"}\n"
+    ]
+   ],
+   "killer": "T35_D2_answer_is_evidence_not_authority",
+   "exact_kill_set": [
+    "T30_D1_owner_no_holds",
+    "T34_D1_unrelated_answers_do_not_hold",
+    "T35_D2_answer_is_evidence_not_authority",
+    "T41_owner_ledger_refuses_held_crossing",
+    "T45_D2_corrected_answer_releases_hold",
+    "T47_forged_yes_does_not_reach_attestation",
+    "T48_organism_recorded_no_honored",
+    "T49_stale_session_cannot_bypass_owner_no",
+    "T50_stale_session_keeps_other_sessions_records"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "XD2b_answer_not_deposited_as_evidence": {
+   "expect": "KILLED",
+   "mutation": "The answer is recorded in the trace but not deposited in the basin.",
+   "edits": [
+    [
+     "        self.basin.append(PreTrace(category=p.category, distribution={}, evidence=[text or answer], salience=1.0, created_at=now, source=\"owner_answer\", answer=answer, about=proposal_id))\n",
+     "        pass\n"
+    ]
+   ],
+   "killer": "T35_D2_answer_is_evidence_not_authority",
+   "exact_kill_set": [
+    "T35_D2_answer_is_evidence_not_authority"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "XD3a_preview_destination_returned": {
+   "expect": "KILLED",
+   "mutation": "v0.8's preview_destination restored.",
+   "edits": [
+    [
+     "            \"first_commit\": proposal.first_commit,\n",
+     "            \"first_commit\": proposal.first_commit,\n            \"preview_destination\": {category: self.derive(category, dist, proposal.prior_value)[2]},\n"
+    ]
+   ],
+   "killer": "T37_D3_nothing_before_signing_depends_on_rule",
+   "exact_kill_set": [
+    "T37_D3_nothing_before_signing_depends_on_rule"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "XD3b_destination_in_authorization_prompt": {
+   "expect": "KILLED",
+   "mutation": "The destination is put into the prose of the authorization prompt.",
+   "edits": [
+    [
+     "            \"authorization_prompt\": prompts[\"authorization\"],  # D2: answered by signing\n",
+     "            \"authorization_prompt\": prompts[\"authorization\"] + f\" It would land at {self.derive(category, dist, proposal.prior_value)[2]:.2f}.\",\n"
+    ]
+   ],
+   "killer": "T37_D3_nothing_before_signing_depends_on_rule",
+   "exact_kill_set": [
+    "T36_D2_prompts_separate_and_deterministic",
+    "T37_D3_nothing_before_signing_depends_on_rule"
+   ],
+   "carried_from": "v0.8.2"
+  },
+  "XD4a_attest_without_replay": {
+   "expect": "KILLED",
+   "mutation": "The owner tool attests whatever state is presented (v0.8.1 behaviour).",
+   "edits": [
+    [
+     "        self.verify_consequence(seed, cp)       # [D4] replay before signing\n",
+     "        pass\n"
+    ]
+   ],
+   "killer": "T26_attest_refuses_unsigned_change",
+   "exact_kill_set": [
+    "T26_attest_refuses_unsigned_change",
+    "T39_D4_attest_refuses_forged_reading",
+    "T41_owner_ledger_refuses_held_crossing",
+    "T42_owner_clock_lifetime",
+    "T43_organism_expiry_record_honored",
+    "T44_replay_checks_every_record_field",
+    "T46_reading_must_be_signed_through_owner_tool",
+    "T47_forged_yes_does_not_reach_attestation",
+    "T48_organism_recorded_no_honored",
+    "T49_stale_session_cannot_bypass_owner_no",
+    "T52_record_metadata_validated",
+    "T53_lifetime_runs_from_first_signing"
+   ],
+   "credit": "ChatGPT, blind review round 2, finding #3",
+   "carried_from": "v0.8.2",
+   "note": "v0.8.4: T26 is back (its declaration is corrected); T49, T52, T53 added."
+  },
+  "XD4b_replay_skips_signature_check": {
+   "expect": "KILLED",
+   "mutation": "The replay does not check that readings carry this owner's signature.",
+   "edits": [
+    [
+     "            if not _verify_owner_signature(owner_public_key, rec[\"signature_b64\"], payload_text):\n",
+     "            if False:\n"
+    ]
+   ],
+   "killer": "T39_D4_attest_refuses_forged_reading",
+   "exact_kill_set": [
+    "T39_D4_attest_refuses_forged_reading"
+   ],
+   "carried_from": "v0.8.2",
+   "note": "v0.8.3 predicted kill path: with the signature unchecked, the ledger refuses the stranger's reading ('not signed through this owner tool'), so T39 fails on mechanism. Defense in depth, as XF1a."
+  },
+  "XH_unrelated_crash_injected": {
+   "expect": "CRASHED",
+   "mutation": "An unrelated crash in the derivation. No control is removed.",
+   "edits": [
+    [
+     "    der = constitution[\"derivation\"]\n",
+     "    raise RuntimeError(\"unrelated injected crash\")\n    der = constitution[\"derivation\"]\n"
+    ]
+   ],
+   "credit": "ChatGPT, blind review round 2, finding #5",
+   "note": "Must not count as a kill. Predicted: no test FAILS; tests that reach the derivation ERROR; the rest pass.",
+   "carried_from": "v0.8.2"
+  },
+  "XD2c_answer_is_a_permanent_event": {
+   "expect": "KILLED",
+   "mutation": "Any 'no' holds for good (v0.8.2 behaviour); a later 'yes' cannot release it.",
+   "edits": [
+    [
+     "    if to_reading and to_reading[-1] == \"no\":\n",
+     "    if \"no\" in to_reading or \"no\" in in_category_since:\n"
+    ]
+   ],
+   "killer": "T45_D2_corrected_answer_releases_hold",
+   "exact_kill_set": [
+    "T45_D2_corrected_answer_releases_hold",
+    "T47_forged_yes_does_not_reach_attestation",
+    "T49_stale_session_cannot_bypass_owner_no"
+   ],
+   "credit": "author finding (round 3)",
+   "carried_from": "v0.8.3"
+  },
+  "XD2e_per_reading_clause_removed": {
+   "expect": "KILLED",
+   "mutation": "Only the latest answer in the category counts; a 'no' to this reading can be overridden by a 'yes' to another.",
+   "edits": [
+    [
+     "    if to_reading and to_reading[-1] == \"no\":\n",
+     "    if False:\n"
+    ]
+   ],
+   "killer": "T45_D2_corrected_answer_releases_hold",
+   "exact_kill_set": [
+    "T45_D2_corrected_answer_releases_hold"
+   ],
+   "carried_from": "v0.8.3"
+  },
+  "XD2f_category_clause_removed": {
+   "expect": "KILLED",
+   "mutation": "Only answers to this reading count; a later 'no' to another reading in the category does not hold it.",
+   "edits": [
+    [
+     "    if in_category_since and in_category_since[-1] == \"no\":\n",
+     "    if False:\n"
+    ]
+   ],
+   "killer": "T45_D2_corrected_answer_releases_hold",
+   "exact_kill_set": [
+    "T45_D2_corrected_answer_releases_hold"
+   ],
+   "carried_from": "v0.8.3"
+  },
+  "XL1_owner_position_check_removed": {
+   "expect": "KILLED",
+   "mutation": "The owner tool ignores its own record of answers.",
+   "edits": [
+    [
+     "        if held is not None:\n",
+     "        if False:\n"
+    ]
+   ],
+   "killer": "T47_forged_yes_does_not_reach_attestation",
+   "exact_kill_set": [
+    "T41_owner_ledger_refuses_held_crossing",
+    "T47_forged_yes_does_not_reach_attestation",
+    "T49_stale_session_cannot_bypass_owner_no"
+   ],
+   "credit": "ChatGPT, round 3, F1b",
+   "note": "T41 is predicted to fail on mechanism: the organism-record veto refuses instead, with a different message.",
+   "carried_from": "v0.8.3"
+  },
+  "XL5_unknown_readings_skip_owner_checks": {
+   "expect": "KILLED",
+   "mutation": "A crossing whose reading the ledger does not know skips the owner checks.",
+   "edits": [
+    [
+     "            raise AttestationRefused(f\"trace index {i}: reading was not signed through this owner tool\")\n",
+     "            return\n"
+    ]
+   ],
+   "killer": "T46_reading_must_be_signed_through_owner_tool",
+   "exact_kill_set": [
+    "T46_reading_must_be_signed_through_owner_tool"
+   ],
+   "carried_from": "v0.8.3"
+  },
+  "XL6_answer_not_recorded_by_owner": {
+   "expect": "KILLED",
+   "mutation": "OwnerTool.answer forwards to the organism but keeps no record.",
+   "edits": [
+    [
+     "        self.ledger.record_answer(seed.organism_id, proposal_id, category, answer, self.clock())\n",
+     "        pass\n"
+    ]
+   ],
+   "killer": "T47_forged_yes_does_not_reach_attestation",
+   "exact_kill_set": [
+    "T41_owner_ledger_refuses_held_crossing",
+    "T47_forged_yes_does_not_reach_attestation",
+    "T49_stale_session_cannot_bypass_owner_no"
+   ],
+   "carried_from": "v0.8.3"
+  },
+  "XL7_signature_not_recorded_by_owner": {
+   "expect": "KILLED",
+   "mutation": "sign_proposal keeps no record; every crossing is then refused at attestation.",
+   "edits": [
+    [
+     "        self.ledger.record_signature(pl[\"organism_id\"], pl[\"proposal_id\"], pl[\"category\"], _sha256(payload_to_sign), self.clock())\n",
+     "        pass\n"
+    ]
+   ],
+   "killer": "T1_liveness_intervening_events",
+   "note": "No exact set declared: every test that attests a crossing fails.",
+   "carried_from": "v0.8.3"
+  },
+  "XL8_organism_recorded_no_ignored": {
+   "expect": "KILLED",
+   "mutation": "The owner tool ignores a 'no' the organism itself recorded.",
+   "edits": [
+    [
+     "        if recorded is not None:\n",
+     "        if False:\n"
+    ]
+   ],
+   "killer": "T48_organism_recorded_no_honored",
+   "exact_kill_set": [
+    "T48_organism_recorded_no_honored"
+   ],
+   "credit": "ChatGPT, round 3, F1b (its exact case)",
+   "carried_from": "v0.8.3"
+  },
+  "XL2_owner_clock_lifetime_check_removed": {
+   "expect": "KILLED",
+   "mutation": "The owner does not enforce lifetimes on its own clock.",
+   "edits": [
+    [
+     "        if now > entry[\"signed_at\"] + ttl:\n",
+     "        if False:\n"
+    ]
+   ],
+   "killer": "T42_owner_clock_lifetime",
+   "exact_kill_set": [
+    "T42_owner_clock_lifetime",
+    "T53_lifetime_runs_from_first_signing"
+   ],
+   "credit": "ChatGPT round 3 F1a; author R19",
+   "carried_from": "v0.8.3"
+  },
+  "XL3_organism_expiry_record_ignored": {
+   "expect": "KILLED",
+   "mutation": "The owner ignores the organism's own 'expired' rejection of the reading it later applied.",
+   "edits": [
+    [
+     "        if expired_before:\n",
+     "        if False:\n"
+    ]
+   ],
+   "killer": "T43_organism_expiry_record_honored",
+   "exact_kill_set": [
+    "T43_organism_expiry_record_honored"
+   ],
+   "credit": "ChatGPT, round 3, F1a (its exact case)",
+   "carried_from": "v0.8.3"
+  },
+  "XL4_record_field_check_removed": {
+   "expect": "KILLED",
+   "mutation": "Replay checks change, lead, delta and sequences only (v0.8.2 behaviour).",
+   "edits": [
+    [
+     "            if extra:\n",
+     "            if False:\n"
+    ]
+   ],
+   "killer": "T44_replay_checks_every_record_field",
+   "exact_kill_set": [
+    "T26_attest_refuses_unsigned_change",
+    "T44_replay_checks_every_record_field"
+   ],
+   "credit": "ChatGPT, round 3, F2",
+   "carried_from": "v0.8.3",
+   "note": "v0.8.4: T26 now expects the record check, so removing it moves T26's objector."
+  },
+  "XS1_owner_lock_not_taken": {
+   "expect": "KILLED",
+   "mutation": "The owner lock is never taken across processes.",
+   "edits": [
+    [
+     "            fcntl.flock(fd, fcntl.LOCK_EX)\n",
+     "            pass\n"
+    ]
+   ],
+   "killer": "T56_owner_lock_excludes_other_processes",
+   "exact_kill_set": [
+    "T56_owner_lock_excludes_other_processes"
+   ]
+  },
+  "XS2_ledger_not_reread": {
+   "expect": "KILLED",
+   "mutation": "The ledger is read once per session (v0.8.3 behaviour).",
+   "edits": [
+    [
+     "        self._load()  # re-read the ledger before every operation\n",
+     "        pass\n"
+    ]
+   ],
+   "killer": "T49_stale_session_cannot_bypass_owner_no",
+   "exact_kill_set": [
+    "T49_stale_session_cannot_bypass_owner_no",
+    "T50_stale_session_keeps_other_sessions_records",
+    "T53_lifetime_runs_from_first_signing"
+   ],
+   "credit": "ChatGPT round 4 F1 (author A2 sealed first for the root cause)"
+  },
+  "XS3_witness_not_reread": {
+   "expect": "KILLED",
+   "mutation": "The witness is read once per session (v0.8.3 behaviour).",
+   "edits": [
+    [
+     "        self._load()  # re-read the witness before every operation\n",
+     "        pass\n"
+    ]
+   ],
+   "killer": "T51_stale_witness_cannot_fork",
+   "exact_kill_set": [
+    "T51_stale_witness_cannot_fork"
+   ],
+   "credit": "ChatGPT round 4 F2"
+  },
+  "XR1_recovery_never_completes": {
+   "expect": "KILLED",
+   "mutation": "Recovery cannot complete an intent the organism already installed.",
+   "edits": [
+    [
+     "        if installed:\n",
+     "        if False:\n"
+    ]
+   ],
+   "killer": "T54_commit_recovers_after_organism_install",
+   "exact_kill_set": [
+    "T54_commit_recovers_after_organism_install"
+   ],
+   "credit": "ChatGPT round 4 F4"
+  },
+  "XR2_recovery_never_abandons": {
+   "expect": "KILLED",
+   "mutation": "Recovery cannot abandon an intent the organism never installed.",
+   "edits": [
+    [
+     "        if at_head:\n",
+     "        if False:\n"
+    ]
+   ],
+   "killer": "T55_commit_recovers_before_organism_install",
+   "exact_kill_set": [
+    "T55_commit_recovers_before_organism_install"
+   ]
+  },
+  "XR3_no_write_ahead_intent": {
+   "expect": "KILLED",
+   "mutation": "v0.8.3's commit: install, then record, with no intent.",
+   "edits": [
+    [
+     "        self.witness.begin(cp, sig)             # [COMMIT-1] durable intent before the organism installs\n",
+     "        pass\n"
+    ],
+    [
+     "        self.witness.commit(cp)                 # [COMMIT-2] the witness advances\n",
+     "        self.witness.record(cp)\n"
+    ]
+   ],
+   "killer": "T54_commit_recovers_after_organism_install",
+   "exact_kill_set": [
+    "T54_commit_recovers_after_organism_install"
+   ],
+   "credit": "ChatGPT round 4 F4"
+  },
+  "XP1_authorized_at_finite_check_removed": {
+   "expect": "KILLED",
+   "mutation": "authorized_at is not checked to be a finite number.",
+   "edits": [
+    [
+     "            if not _is_finite_number(at):\n",
+     "            if False:\n"
+    ]
+   ],
+   "killer": "T52_record_metadata_validated",
+   "exact_kill_set": [
+    "T52_record_metadata_validated"
+   ],
+   "note": "Predicted kill path: the window check then calls float() on a string; the replay refuses as malformed, so T52 fails on mechanism."
+  },
+  "XP2_event_timestamp_unbound": {
+   "expect": "KILLED",
+   "mutation": "The trace event's timestamp may differ from authorized_at.",
+   "edits": [
+    [
+     "            if entry.get(\"timestamp\") != at:\n",
+     "            if False:\n"
+    ]
+   ],
+   "killer": "T52_record_metadata_validated",
+   "exact_kill_set": [
+    "T52_record_metadata_validated"
+   ],
+   "credit": "ChatGPT round 4 F3"
+  },
+  "XP3_annotation_type_unchecked": {
+   "expect": "KILLED",
+   "mutation": "The organism's annotation may be any value.",
+   "edits": [
+    [
+     "            if not isinstance(ann, str) or len(ann) > 2000:\n",
+     "            if False:\n"
+    ]
+   ],
+   "killer": "T52_record_metadata_validated",
+   "exact_kill_set": [
+    "T52_record_metadata_validated"
+   ]
+  },
+  "XP4_authorized_at_window_unchecked": {
+   "expect": "KILLED",
+   "mutation": "authorized_at may lie outside the reading's own window.",
+   "edits": [
+    [
+     "            elif not (float(pl[\"timestamp\"]) - 1e-6 <= float(at) <= float(pl[\"expires_at\"]) + 1e-6):\n",
+     "            elif False:\n"
+    ]
+   ],
+   "killer": "T52_record_metadata_validated",
+   "exact_kill_set": [
+    "T52_record_metadata_validated"
+   ]
+  },
+  "XM1_invalid_authorized_at": {
+   "expect": "KILLED",
+   "mutation": "Every new record gets authorized_at = 'not a timestamp'.",
+   "edits": [
+    [
+     "            authorized_at=self.clock(), signature_b64=signature_b64,\n",
+     "            authorized_at=\"not a timestamp\", signature_b64=signature_b64,\n"
+    ]
+   ],
+   "killer": "T1_liveness_intervening_events",
+   "credit": "ChatGPT round 4 (survived v0.8.3)",
+   "note": "No exact set: every test that attests a crossing fails."
+  },
+  "XM2_forged_annotation": {
+   "expect": "KILLED",
+   "mutation": "Every new record carries a forged dict annotation.",
+   "edits": [
+    [
+     "prior_character_snapshot=prior, unverified_annotation=annotation,",
+     "prior_character_snapshot=prior, unverified_annotation={\"forged\": \"owner said yes\"},"
+    ]
+   ],
+   "killer": "T1_liveness_intervening_events",
+   "credit": "ChatGPT round 4 (survived v0.8.3 as XM2_forged_owner_note)",
+   "note": "No exact set."
+  },
+  "XM3_inconsistent_event_timestamp": {
+   "expect": "KILLED",
+   "mutation": "The mutation event's timestamp disagrees with the record.",
+   "edits": [
+    [
+     "            \"timestamp\": record.authorized_at,\n",
+     "            \"timestamp\": -123456789.0,\n"
+    ]
+   ],
+   "killer": "T1_liveness_intervening_events",
+   "credit": "ChatGPT round 4 (survived v0.8.3)",
+   "note": "No exact set."
+  }
+ }
+}

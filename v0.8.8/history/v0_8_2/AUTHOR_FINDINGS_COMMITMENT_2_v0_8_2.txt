@@ -1,0 +1,3 @@
+1394f95ce6cf9df5c80ba80e39d7cc153b649f9d378a89f522f847bb88df8e83
+# sha256(salt + post_report_probe_corrected_answer.py + POST_REPORT_PROBE_corrected_answer.txt)
+# Author finding made AFTER Grok's round-3 report and BEFORE ChatGPT's. Not covered by the first seal.

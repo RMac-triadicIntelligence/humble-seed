@@ -1,0 +1,102 @@
+{
+  "Q1a_dwell_vs_dwell": {
+    "A": {
+      "returned": "dwelling"
+    },
+    "B": {
+      "returned": "dwelling"
+    },
+    "middle": {
+      "generation": 2,
+      "checkpoint": 0,
+      "dwellings": [
+        "curiosity",
+        "formality"
+      ]
+    },
+    "final": {
+      "generation": 2,
+      "checkpoint": 0,
+      "dwellings": [
+        "curiosity"
+      ]
+    },
+    "witness": 0,
+    "fresh_load": {
+      "returned": null
+    },
+    "fresh_audit": {
+      "returned": true
+    }
+  },
+  "Q1a_dwell_vs_attest": {
+    "A": {
+      "returned": "dwelling"
+    },
+    "B": {
+      "returned": true
+    },
+    "middle": {
+      "generation": 4,
+      "checkpoint": 1,
+      "dwellings": [
+        "curiosity"
+      ]
+    },
+    "final": {
+      "generation": 2,
+      "checkpoint": 0,
+      "dwellings": [
+        "curiosity"
+      ]
+    },
+    "witness": 1,
+    "fresh_load": {
+      "returned": null
+    },
+    "fresh_audit": {
+      "exception": "RollbackDetected",
+      "message": "Rollback: organism presents sequence 0, witness holds 1"
+    }
+  },
+  "Q1c_two_real_threads": {
+    "A_dwells_returned": 623,
+    "A_errors": {},
+    "B_attests_returned": 179,
+    "B_errors": {},
+    "formality_dwellings_saved": 623,
+    "lost_dwellings": 0,
+    "saved_checkpoint": 179,
+    "witness": 179,
+    "fresh_load": {
+      "returned": null
+    },
+    "fresh_audit": {
+      "returned": true
+    }
+  },
+  "I2_double_fault": {
+    "attest": {
+      "exception": "OSError",
+      "message": "injected: re-read failed"
+    },
+    "after": {
+      "memory_checkpoint": 0,
+      "disk_checkpoint": 1,
+      "memory_generation": 3,
+      "disk_generation": 4
+    },
+    "same_object_next_dwell": {
+      "exception": "StaleOrganism",
+      "message": "stale organism object: the saved state is at generation 4, this object last saw 3; reload it"
+    },
+    "same_object_retry_attest": {
+      "exception": "StaleOrganism",
+      "message": "stale organism object: the saved state is at generation 4, this object last saw 3; reload it"
+    },
+    "witness_after_retry": 1,
+    "fresh_audit": {
+      "returned": true
+    }
+  }
+}

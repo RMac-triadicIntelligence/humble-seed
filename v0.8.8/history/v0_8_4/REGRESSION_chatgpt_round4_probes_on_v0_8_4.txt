@@ -1,0 +1,34 @@
+# ChatGPT round-4 independent probes (its code, unchanged), run against v0.8.4
+fresh_owner_control: {"detail": {"refused": "AttestationRefused: trace index 4: owner's position: the owner's latest answer to this reading is 'no'", "witness_sequence": 0}, "status": "OBSERVATION_CONFIRMED"}
+stale_owner_veto_bypass: {"status": "ERROR", "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/chatgpt083/Humble_Seed_v083_Review/code/independent_probes.py\", line 147, in <module>\n    detail=fn(pathlib.Path(td));results[fn.__name__]={'status':
+stale_owner_erases_signature: {"status": "ERROR", "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/chatgpt083/Humble_Seed_v083_Review/code/independent_probes.py\", line 147, in <module>\n    detail=fn(pathlib.Path(td));results[fn.__name__]={'sta
+stale_witness_fork: {"status": "ERROR", "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/chatgpt083/Humble_Seed_v083_Review/code/independent_probes.py\", line 147, in <module>\n    detail=fn(pathlib.Path(td));results[fn.__name__]={'status':'OBSE
+forged_record_metadata: {"status": "ERROR", "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/chatgpt083/Humble_Seed_v083_Review/code/independent_probes.py\", line 147, in <module>\n    detail=fn(pathlib.Path(td));results[fn.__name__]={'status':'
+ordinary_corrected_answer: {"detail": {"corrected_answer_applies_attests_reloads": true}, "status": "OBSERVATION_CONFIRMED"}
+signing_does_not_refresh_lifetime: {"detail": {"attestation": "AttestationRefused: trace index 2: reading is past its lifetime by the owner's clock", "same_instance_resigning_does_not_extend": true}, "status": "OBSERVATION_CONFIRMED"}
+stale_signer_refreshes_lifetime: {"status": "ERROR", "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/chatgpt083/Humble_Seed_v083_Review/code/independent_probes.py\", line 147, in <module>\n    detail=fn(pathlib.Path(td));results[fn.__name__]={'
+witness_write_failure: {"status": "ERROR", "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/chatgpt083/Humble_Seed_v083_Review/code/independent_probes.py\", line 147, in <module>\n    detail=fn(pathlib.Path(td));results[fn.__name__]={'status':'O
+SUMMARY {"ERROR": 6, "OBSERVATION_CONFIRMED": 3}
+forged_record_metadata 
+    raised at: ~~~^^^^^^^^ 
+    error:     KeyError: 'note'
+stale_owner_erases_signature 
+    raised at: ^^^^^^^ 
+    error:     AssertionError
+stale_owner_veto_bypass 
+    raised at: raise AttestationRefused(f"trace index {i}: owner's position: {held}") 
+    error:     independent_kernel.AttestationRefused: trace index 4: owner's position: the owner's latest answer to this reading is 'no'
+stale_signer_refreshes_lifetime 
+    raised at: raise AttestationRefused(f"trace index {i}: reading is past its lifetime by the owner's clock") 
+    error:     independent_kernel.AttestationRefused: trace index 2: reading is past its lifetime by the owner's clock
+stale_witness_fork 
+    raised at: ) 
+    error:     independent_kernel.RollbackDetected: Non-successor checkpoint: organism presents sequence 1, expected 2
+witness_write_failure 
+    raised at: raise IntegrityError("Category sequences do not match the attested checkpoint") 
+    error:     independent_kernel.IntegrityError: Category sequences do not match the attested checkpoint
+
+# Adapted to v0.8.4's interface (author): see regression_chatgpt_round4_adapted.py
+forged_record_metadata (adapted) -> attest: refused: AttestationRefused: trace index 2: record metadata invalid: ['authorized_at is not a finite number', 'event timestamp differs from authorized_at', 'unverified_annotation is not a short string
+witness write 1 (intent) fails -> retry attest: ACCEPTED (True) | reload+audit: ACCEPTED (True)
+witness write 2 (commit) fails -> reopen audit: ACCEPTED (True) | witness seq: 1

@@ -1,0 +1,44 @@
+Humble Seed v0.8.7 — independent reproducibility run
+Run date: 2026-10-19
+
+Scope: Followed the supplied README: one run of python3 -I falsify_v0_8_7.py.
+No code review or additional attack battery was performed. Input files were not edited.
+All nine entries in MANIFEST.sha256 verified before execution.
+
+Exit code: 1
+Python: 3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]
+cryptography: 50.0.2
+Elapsed: 179.214 seconds
+
+mismatches vs declared: 1
+receipt (statuses only, run-independent): 8bbf49c074e5cf36c83dbc026f5dfdd6c4a1eb9f351bad6b897a3ca8d0ab663e
+
+Measured results:
+- Candidate tests: 81/81 PASS.
+- Candidate-only stress check: PASS.
+  205 dwellings and 59 attestations; all saved; checkpoint = witness
+- Mutants: 80 total; 77 KILLED, 2 SURVIVES, 1 CRASHED.
+- Printed comparison: 1 mismatch, XO1_save_skips_generation_check.
+
+XO1 observation from the frozen declaration and generated results:
+- Declared status: KILLED. Measured status: KILLED.
+- Declared killer: T62_stale_object_cannot_overwrite_newer_state.
+- Declared exact_kill_set: ["T76_write_landing_during_an_operation_is_not_overwritten"].
+- Measured new_failures: ["T76_write_landing_during_an_operation_is_not_overwritten"].
+- Measured new_errors: [].
+
+The declaration names T62 as the killer, while its exact kill set and the measured
+kill set both name T76. The harness prints MISMATCH for this row even though its
+printed declared/measured exact sets agree. This is a declaration-attribution
+inconsistency in this run; no candidate-test failure was reported. No repair or
+rerun was performed.
+
+Evidence:
+- evidence/stdout.txt: full verbatim printed tables and receipt.
+- evidence/stderr.txt: empty (no stderr).
+- evidence/execution_metadata.json: actual harness exit code, timing, versions, and input ZIP hash.
+- evidence/manifest_verification.txt: pre-run checks of every supplied manifest entry.
+- pack/RESULTS_v0_8_7.json: unmodified harness-generated results.
+- pack/: supplied files, preserved alongside the generated results.
+- input/: original uploaded ZIP.
+- SHA256SUMS.txt: checksums for all other archive entries.

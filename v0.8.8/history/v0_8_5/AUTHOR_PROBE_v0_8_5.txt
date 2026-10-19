@@ -1,0 +1,32 @@
+{
+  "P1_earlier_no_blocks_first_crossing": {
+    "organism_applied": true,
+    "attest_with_earlier_no": "AttestationRefused: trace index 3: owner's position: the owner's latest answer in this category since the reading was taken is 'no' (owner's window: its answers in verbosity since its record began)",
+    "after_owner_answers_yes": "returned True"
+  },
+  "P2_forged_saved_file_during_recovery": {
+    "a_content_as_approved": {
+      "organism_load_of_forged_file": "returned None",
+      "audit": "returned True",
+      "witness_after": 1,
+      "pending_after": false
+    },
+    "b_content_tampered": {
+      "organism_load_of_forged_file": "IntegrityError: State seal mismatch \u2014 corruption or rewrite of a sealed region",
+      "audit": "RollbackDetected: Rollback: organism presents sequence 0, witness holds 1",
+      "witness_after": 1,
+      "pending_after": false
+    }
+  },
+  "P3_batch_attest_window": {
+    "y_pending_when_answered": true,
+    "x2_applied": true,
+    "batch_attest": "AttestationRefused: trace index 2: owner's position: the owner's latest answer in this category since the reading was taken is 'no' (owner's window: its answers in verbosity since its record began)",
+    "witness": 0
+  },
+  "P4_apply_check_cost": {
+    "trace_len_2": "0.1 ms",
+    "trace_len_500": "3.1 ms",
+    "trace_len_2000": "8.0 ms"
+  }
+}

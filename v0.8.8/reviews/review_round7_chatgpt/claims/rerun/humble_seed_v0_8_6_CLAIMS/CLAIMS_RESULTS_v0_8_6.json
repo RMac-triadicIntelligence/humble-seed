@@ -1,0 +1,936 @@
+{
+  "candidate": "humble_seed_v0_8_6_candidate.py",
+  "claims": {
+    "C1": {
+      "claim": "A pending intent counts as installed only if the saved state names it and also loads and verifies on its own.",
+      "evidence": {
+        "before_recovery": {
+          "loads": true,
+          "pending": true,
+          "saved": 1,
+          "witness": 0
+        },
+        "interruption": {
+          "exception": "OSError",
+          "message": "injected failure before replace"
+        },
+        "ran": "interrupt witness commit after checkpoint install, reload saved file, recover",
+        "recovery": "completed",
+        "witness_after": 1
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    },
+    "C2": {
+      "claim": "A saved state that claims the intent but does not verify is neither completed nor abandoned.",
+      "evidence": {
+        "pending_retained": true,
+        "ran": "installed pending checkpoint, corrupt only saved integrity seal, recover",
+        "recovery": {
+          "exception": "RollbackDetected",
+          "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: State seal mismatch \u2014 corruption or rewrite of a sealed region)"
+        },
+        "witness_not_advanced": true
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    },
+    "C3": {
+      "claim": "Abandoning still requires the saved checkpoint to be the witness head.",
+      "evidence": {
+        "at_head": "abandoned",
+        "off_head": {
+          "exception": "RollbackDetected",
+          "message": "A pending checkpoint commit matches neither the organism's saved state nor the witness head"
+        },
+        "pending_retained_off_head": true,
+        "ran": "pre-install pending intent: saved checkpoint different from witness head, then restore exact witness head"
+      },
+      "seconds": 0.03,
+      "verdict": "HOLDS"
+    },
+    "I1": {
+      "claim": "A save can fail after its replace has already landed: the directory fsync comes last. On a failure, the saved generation is re-read.",
+      "evidence": {
+        "after": {
+          "disk_basin_len": 1,
+          "disk_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "disk_checkpoint": 0,
+          "disk_generation": 2,
+          "disk_trace_len": 3,
+          "memory_basin_len": 1,
+          "memory_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "memory_checkpoint": 0,
+          "memory_generation": 2,
+          "memory_trace_len": 3
+        },
+        "generation_reads": [
+          1,
+          2
+        ],
+        "ran": "raise from actual directory fsync after os.replace; spy saved-generation reads",
+        "reload_verifies": true,
+        "save": {
+          "exception": "OSError",
+          "message": "injected directory fsync failure after replace"
+        }
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "I2": {
+      "claim": "install_checkpoint rolls memory back only if the new state did not land, so memory always matches disk.",
+      "evidence": {
+        "after": {
+          "disk_basin_len": 0,
+          "disk_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "disk_checkpoint": 1,
+          "disk_generation": 2,
+          "disk_trace_len": 3,
+          "memory_basin_len": 0,
+          "memory_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "memory_checkpoint": 0,
+          "memory_generation": 1,
+          "memory_trace_len": 2
+        },
+        "contradiction": "install rolls memory back because generation was not updated, although the new checkpoint is already on disk",
+        "disk_loads_and_verifies": true,
+        "failure": {
+          "exception": "OSError",
+          "message": "injected transient read I/O failure after replace"
+        },
+        "generation_read_calls": 3,
+        "ran": "checkpoint save: replace lands; directory fsync fails; generation reread also raises OSError"
+      },
+      "seconds": 0.01,
+      "verdict": "WRONG"
+    },
+    "M1": {
+      "claim": "The owner's refusal names its own window (\"its latest answer in verbosity since it signed the previous verbosity crossing is 'no'\"), not the organism's.",
+      "evidence": {
+        "attest": {
+          "exception": "AttestationRefused",
+          "message": "trace index 5: owner's position: its latest answer in verbosity since it signed the previous verbosity crossing is 'no'"
+        },
+        "distinction": "organism issuance window excludes that earlier no; owner signature window includes it",
+        "ran": "after first attestation answer an older pending reading no; issue/apply next reading after the no; request attestation"
+      },
+      "seconds": 0.04,
+      "verdict": "HOLDS"
+    },
+    "O1": {
+      "claim": "The saved state carries a generation number.",
+      "evidence": {
+        "generations_after_each_save": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "steps": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "seconds": 0.04,
+      "verdict": "HOLDS"
+    },
+    "O2": {
+      "claim": "Every save runs under the organism's own lock (organism.lock, POSIX flock, reentrant within a thread).",
+      "evidence": {
+        "nested_lock": "BLOCKED",
+        "observed_at_state_writes": [
+          "BLOCKED",
+          "BLOCKED",
+          "BLOCKED"
+        ],
+        "ran": "cross-process nonblocking flock during dwell/proposal/checkpoint writes; nested same-thread lock",
+        "scope": "The actual write is locked. Snapshot construction precedes the lock; see Q1."
+      },
+      "seconds": 0.41,
+      "verdict": "HOLDS"
+    },
+    "O3": {
+      "claim": "It writes only if the saved generation is still the one this object last loaded or wrote. Otherwise it raises StaleOrganism, and the object must reload.",
+      "evidence": {
+        "disk_unchanged_on_refusal": true,
+        "ran": "two separately loaded objects: advance A, try B, reload B, retry",
+        "reload_and_retry": {
+          "disk_basin_len": 2,
+          "disk_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "disk_checkpoint": 0,
+          "disk_generation": 3,
+          "disk_trace_len": 4,
+          "memory_basin_len": 2,
+          "memory_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "memory_checkpoint": 0,
+          "memory_generation": 3,
+          "memory_trace_len": 4
+        },
+        "scope": "Equality check holds for these objects; it does not bind the generation to the serialized snapshot (Q1).",
+        "stale_write": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+        }
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "O4": {
+      "claim": "A new hatch cannot overwrite an existing organism.",
+      "evidence": {
+        "existing_bytes_preserved": true,
+        "hatch": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 1, this object last saw None; reload it"
+        },
+        "ran": "hatch a fresh object in an already populated organism directory"
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "O5": {
+      "claim": "attest holds the organism lock from recovery to the witness commit.",
+      "evidence": {
+        "ran": "probe organism flock from another process at recovery, signing, intent, install, and witness commit",
+        "stages": [
+          {
+            "other_process": "BLOCKED",
+            "stage": "_recover"
+          },
+          {
+            "other_process": "BLOCKED",
+            "stage": "owner_sign_external"
+          },
+          {
+            "other_process": "BLOCKED",
+            "stage": "begin"
+          },
+          {
+            "other_process": "BLOCKED",
+            "stage": "install_checkpoint"
+          },
+          {
+            "other_process": "BLOCKED",
+            "stage": "commit"
+          }
+        ]
+      },
+      "seconds": 0.29,
+      "verdict": "HOLDS"
+    },
+    "O6": {
+      "claim": "It refuses a stale object before signing anything.",
+      "evidence": {
+        "attest": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+        },
+        "ran": "advance A then attest separately loaded stale B, count signing calls",
+        "signing_calls": 0
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "R30a": {
+      "claim": "Recovery completes an intent only from a saved state that verifies, and abandons one only if the saved checkpoint is the witness head.",
+      "evidence": {
+        "abandon_requires_head": {
+          "at_head": "abandoned",
+          "off_head": {
+            "exception": "RollbackDetected",
+            "message": "A pending checkpoint commit matches neither the organism's saved state nor the witness head"
+          },
+          "pending_retained_off_head": true,
+          "ran": "pre-install pending intent: saved checkpoint different from witness head, then restore exact witness head"
+        },
+        "invalid_install": {
+          "pending_retained": true,
+          "ran": "installed pending checkpoint, corrupt only saved integrity seal, recover",
+          "recovery": {
+            "exception": "RollbackDetected",
+            "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: State seal mismatch \u2014 corruption or rewrite of a sealed region)"
+          },
+          "witness_not_advanced": true
+        },
+        "ran": "three isolated recovery cases",
+        "valid_install": {
+          "before_recovery": {
+            "loads": true,
+            "pending": true,
+            "saved": 1,
+            "witness": 0
+          },
+          "interruption": {
+            "exception": "OSError",
+            "message": "injected failure before replace"
+          },
+          "ran": "interrupt witness commit after checkpoint install, reload saved file, recover",
+          "recovery": "completed",
+          "witness_after": 1
+        }
+      },
+      "seconds": 0.05,
+      "verdict": "HOLDS"
+    },
+    "R30b": {
+      "claim": "An edit made outside the protocol (writing the file directly) is not prevented.",
+      "evidence": {
+        "loaded_generation": 11,
+        "note": "generation is not included in the seal; no security bypass is inferred merely from a direct edit",
+        "ran": "write generation directly with Path.write_text, reload and verify",
+        "verify": true,
+        "written_generation": 11
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "R30c": {
+      "claim": "A rewind to the exact pre-install file looks the same as an install that never happened, and is abandoned.",
+      "evidence": {
+        "install_interruption": {
+          "exception": "OSError",
+          "message": "injected failure before replace"
+        },
+        "ran": "interrupt after install, restore byte-exact pre-install file, recover",
+        "recovery": "abandoned",
+        "restored_file_verifies": true,
+        "witness_sequence": 0
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    },
+    "R31a": {
+      "claim": "Only install_checkpoint is transactional in memory.",
+      "evidence": {
+        "caveat": "checkpoint rollback holds for this pre-replace failure; its unconditional transactional behavior fails in I2",
+        "dwell_after": {
+          "disk_basin_len": 0,
+          "disk_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "disk_checkpoint": 0,
+          "disk_generation": 1,
+          "disk_trace_len": 2,
+          "memory_basin_len": 1,
+          "memory_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "memory_checkpoint": 0,
+          "memory_generation": 1,
+          "memory_trace_len": 3
+        },
+        "dwell_before": {
+          "disk_basin_len": 0,
+          "disk_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "disk_checkpoint": 0,
+          "disk_generation": 1,
+          "disk_trace_len": 2,
+          "memory_basin_len": 0,
+          "memory_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "memory_checkpoint": 0,
+          "memory_generation": 1,
+          "memory_trace_len": 2
+        },
+        "dwell_error": {
+          "exception": "OSError",
+          "message": "injected failure before replace"
+        },
+        "install_after": {
+          "disk_basin_len": 1,
+          "disk_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "disk_checkpoint": 0,
+          "disk_generation": 2,
+          "disk_trace_len": 3,
+          "memory_basin_len": 1,
+          "memory_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "memory_checkpoint": 0,
+          "memory_generation": 2,
+          "memory_trace_len": 3
+        },
+        "install_before": {
+          "disk_basin_len": 1,
+          "disk_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "disk_checkpoint": 0,
+          "disk_generation": 2,
+          "disk_trace_len": 3,
+          "memory_basin_len": 1,
+          "memory_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "memory_checkpoint": 0,
+          "memory_generation": 2,
+          "memory_trace_len": 3
+        },
+        "install_error": {
+          "exception": "OSError",
+          "message": "injected failure before replace"
+        },
+        "ran": "fail ordinary dwell save, then fail only the checkpoint state write before replace"
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "R31b": {
+      "claim": "If another operation's save fails before landing, the object is ahead of its disk and its next save writes that state.",
+      "evidence": {
+        "after_retry": {
+          "disk_basin_len": 1,
+          "disk_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "disk_checkpoint": 0,
+          "disk_generation": 2,
+          "disk_trace_len": 3,
+          "memory_basin_len": 1,
+          "memory_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "memory_checkpoint": 0,
+          "memory_generation": 2,
+          "memory_trace_len": 3
+        },
+        "ahead": {
+          "disk_basin_len": 0,
+          "disk_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "disk_checkpoint": 0,
+          "disk_generation": 1,
+          "disk_trace_len": 2,
+          "memory_basin_len": 1,
+          "memory_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "memory_checkpoint": 0,
+          "memory_generation": 1,
+          "memory_trace_len": 3
+        },
+        "caveat": "retry writes the unsaved state only if another object has not advanced disk in the meantime; R31c runs that counterexample",
+        "failure": {
+          "exception": "OSError",
+          "message": "injected failure before replace"
+        },
+        "ran": "fail dwell before replace, retry _save on the same object"
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "R31c": {
+      "claim": "Because of the generation check, no other object can write over it.",
+      "evidence": {
+        "A_retry": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+        },
+        "before_reload": {
+          "disk_basin_len": 1,
+          "disk_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "disk_checkpoint": 0,
+          "disk_generation": 2,
+          "disk_trace_len": 3,
+          "memory_basin_len": 1,
+          "memory_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "memory_checkpoint": 0,
+          "memory_generation": 1,
+          "memory_trace_len": 3
+        },
+        "categories_after_reload": [
+          "formality"
+        ],
+        "contradiction": "generation check does not reserve a generation for an in-memory update whose save failed",
+        "first_failure": {
+          "exception": "OSError",
+          "message": "injected failure before replace"
+        },
+        "ran": "A dwell save fails before replace; B loaded at the same generation successfully saves; A retry is stale and reload loses A update"
+      },
+      "seconds": 0.01,
+      "verdict": "WRONG"
+    },
+    "R32a": {
+      "claim": "The organism lock is POSIX flock, like the owner lock (R26).",
+      "evidence": {
+        "after_release": "ACQUIRED",
+        "organism": "BLOCKED",
+        "owner": "BLOCKED",
+        "ran": "try POSIX flock LOCK_EX|LOCK_NB in independent processes under both locks and after release"
+      },
+      "seconds": 0.19,
+      "verdict": "HOLDS"
+    },
+    "R32b": {
+      "claim": "Writers that bypass HumbleSeed._save are not serialized.",
+      "evidence": {
+        "process": {
+          "rc": 0,
+          "stderr": "",
+          "stdout": "DIRECT_WRITE_COMPLETED\n"
+        },
+        "ran": "hold organism flock and write the state directly from another process",
+        "reload_verifies": true
+      },
+      "seconds": 0.07,
+      "verdict": "HOLDS"
+    },
+    "R33a": {
+      "claim": "A stale object must reload, and its unsaved changes are lost.",
+      "evidence": {
+        "memory_after_reload": [
+          "formality"
+        ],
+        "memory_before_reload": [
+          "curiosity"
+        ],
+        "ran": "mutate stale object, observe save refusal, call load on that same object",
+        "save": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+        }
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "R33b": {
+      "claim": "An answer given through a stale object reaches the owner's ledger, which is authoritative, but not the organism.",
+      "evidence": {
+        "answer": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "authoritative_owner_ledger": [
+          "no"
+        ],
+        "caveat": "not the organism is accurate only for persisted state: its in-memory trace and basin receive the answer before StaleOrganism is raised",
+        "ran": "answer no through a separately loaded stale organism",
+        "saved_organism": [],
+        "stale_organism_memory": [
+          "no"
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "R34": {
+      "claim": "Every save re-reads the saved state to check its generation, a cost that grows with the trace",
+      "evidence": {
+        "ran": "instrument all full-state reads during 14 saves while extending trace",
+        "reads": [
+          {
+            "bytes": 4642,
+            "trace_entries": 2
+          },
+          {
+            "bytes": 4642,
+            "trace_entries": 2
+          },
+          {
+            "bytes": 5157,
+            "trace_entries": 3
+          },
+          {
+            "bytes": 5672,
+            "trace_entries": 4
+          },
+          {
+            "bytes": 6188,
+            "trace_entries": 5
+          },
+          {
+            "bytes": 6704,
+            "trace_entries": 6
+          },
+          {
+            "bytes": 7220,
+            "trace_entries": 7
+          },
+          {
+            "bytes": 7736,
+            "trace_entries": 8
+          },
+          {
+            "bytes": 8251,
+            "trace_entries": 9
+          },
+          {
+            "bytes": 8767,
+            "trace_entries": 10
+          },
+          {
+            "bytes": 9283,
+            "trace_entries": 11
+          },
+          {
+            "bytes": 9799,
+            "trace_entries": 12
+          },
+          {
+            "bytes": 10314,
+            "trace_entries": 13
+          },
+          {
+            "bytes": 10829,
+            "trace_entries": 14
+          }
+        ],
+        "scope": "existing saved states; initial hatch has no existing file to read; measured bytes parsed, not an asymptotic timing benchmark"
+      },
+      "seconds": 0.04,
+      "verdict": "HOLDS"
+    },
+    "W1": {
+      "claim": "answers given before the owner signed the previous crossing were already checked when that crossing was attested, so the window holds without assuming when the organism issued the reading.",
+      "evidence": {
+        "correction": "later owner yes to the same old reading",
+        "first_refusal": {
+          "exception": "AttestationRefused",
+          "message": "trace index 3: owner's position: its latest answer in verbosity since its record began is 'no'"
+        },
+        "first_witness": 1,
+        "next_witness": 2,
+        "ran": "no before first signature is caught at attestation; correct it to yes, attest; next category crossing succeeds without reusing old no",
+        "scope": "tested boundary histories; finite checks do not prove all possible histories"
+      },
+      "seconds": 0.06,
+      "verdict": "HOLDS"
+    }
+  },
+  "cryptography": "50.0.1",
+  "extra": {
+    "extra_checkpoint_failure_controls": {
+      "evidence": {
+        "install_single_faults": [
+          {
+            "after": {
+              "disk_basin_len": 0,
+              "disk_character": {
+                "curiosity": 0.6,
+                "formality": 0.5,
+                "verbosity": 0.5
+              },
+              "disk_checkpoint": 0,
+              "disk_generation": 1,
+              "disk_trace_len": 2,
+              "memory_basin_len": 0,
+              "memory_character": {
+                "curiosity": 0.6,
+                "formality": 0.5,
+                "verbosity": 0.5
+              },
+              "memory_checkpoint": 0,
+              "memory_generation": 1,
+              "memory_trace_len": 2
+            },
+            "audit": true,
+            "error": {
+              "exception": "OSError",
+              "message": "injected failure before replace"
+            },
+            "fault": "before_replace",
+            "recovery": "abandoned"
+          },
+          {
+            "after": {
+              "disk_basin_len": 0,
+              "disk_character": {
+                "curiosity": 0.6,
+                "formality": 0.5,
+                "verbosity": 0.5
+              },
+              "disk_checkpoint": 1,
+              "disk_generation": 2,
+              "disk_trace_len": 3,
+              "memory_basin_len": 0,
+              "memory_character": {
+                "curiosity": 0.6,
+                "formality": 0.5,
+                "verbosity": 0.5
+              },
+              "memory_checkpoint": 1,
+              "memory_generation": 2,
+              "memory_trace_len": 3
+            },
+            "audit": true,
+            "error": {
+              "exception": "OSError",
+              "message": "injected directory fsync failure"
+            },
+            "fault": "directory_fsync",
+            "recovery": "completed"
+          }
+        ],
+        "ran": "controls distinguishing I2 double fault from ordinary single-fault handling, and Q2 expiration from a prompt retry",
+        "retry_before_TTL": {
+          "audit": true,
+          "initial_failure": {
+            "exception": "OSError",
+            "message": "injected failure before replace"
+          },
+          "retry_attest": true
+        }
+      },
+      "seconds": 0.05,
+      "verdict": "PASS"
+    },
+    "extra_input_integrity": {
+      "evidence": {
+        "candidate_and_other_frozen_files": [
+          {
+            "file": "./AUTHOR_FINDINGS_COMMITMENT_v0_8_6.txt",
+            "matches_frozen_manifest": true,
+            "sha256": "fe31b2afd36d3801c8040dc86948851ce5c830d2dfb9ec8b87483199314595e8"
+          },
+          {
+            "file": "./CANDIDATE_v0_8_6_AT_FREEZE.sha256",
+            "matches_frozen_manifest": true,
+            "sha256": "06069a71fc34932e5660d22c5e08f70283aa661208471616192d0447e98d1e19"
+          },
+          {
+            "file": "./CLAIMS.json",
+            "matches_frozen_manifest": true,
+            "sha256": "f68a666aea14850f39f116254568345bf65fea91a9f859b692b8d257fe055307"
+          },
+          {
+            "file": "./DECLARED_v0_8_6.frozen_at",
+            "matches_frozen_manifest": true,
+            "sha256": "0242614a531d59ca6eedfbfc419cc6186c59820e36cb3703b6e84d91eab28417"
+          },
+          {
+            "file": "./DECLARED_v0_8_6.json",
+            "matches_frozen_manifest": true,
+            "sha256": "f5e4bc48f49d994ddc481d0b4b34af6dcb5e98dae395ba67c158e93b3a372ba4"
+          },
+          {
+            "file": "./DECLARED_v0_8_6.sha256",
+            "matches_frozen_manifest": true,
+            "sha256": "0b1dc4bf6546e28b8f2dd1cd6594e551cdf00ecc436012a3f1fde0b641e61f09"
+          },
+          {
+            "file": "./README.md",
+            "matches_frozen_manifest": true,
+            "sha256": "f3d54a4129393d67ffe74332c15e14fd16d7ad6238fdc55c2ab53b327e4f36d3"
+          },
+          {
+            "file": "./falsify_v0_8_6.py",
+            "matches_frozen_manifest": true,
+            "sha256": "f3121765eb42ff2107e7931b98f1c6fd4965f9080107ab77f9a60ea7e45e07e2"
+          },
+          {
+            "file": "./humble_seed_v0_8_6_candidate.py",
+            "matches_frozen_manifest": true,
+            "sha256": "3711074f42902178112cf5bcc6efaea56932735d5736de68e03245e58a9d6fce"
+          },
+          {
+            "file": "./parent_humble_seed_v0_7_C5.py",
+            "matches_frozen_manifest": true,
+            "sha256": "08a756043a6500fcda85fc2795471b4e8659de5364424c035aa5c6aa91cb3707"
+          }
+        ],
+        "filled_battery_sha256": "735b58bc1cbdd23bd48977b3b0c4bb4eee19b3dfb1d44ce701de1f47da39d7a2",
+        "note": "scaffold intentionally filled; every other manifest-covered file unchanged"
+      },
+      "seconds": 0.0,
+      "verdict": "PASS"
+    },
+    "extra_two_objects_control": {
+      "evidence": {
+        "ran": "separate-object ordinary CAS control for Q1",
+        "second_writer": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+        }
+      },
+      "seconds": 0.01,
+      "verdict": "PASS"
+    }
+  },
+  "open_questions": {
+    "Q1": {
+      "claim": "Is there any interleaving of processes, threads or organism objects that loses a saved update, or leaves the witness and the saved file in a state that recovery cannot resolve?",
+      "evidence": {
+        "checkpoint_rewind": {
+          "attest_from_final_disk": {
+            "exception": "RollbackDetected",
+            "message": "Non-successor checkpoint: organism presents sequence 1, expected 2"
+          },
+          "audit_from_final_disk": {
+            "exception": "RollbackDetected",
+            "message": "Rollback: organism presents sequence 0, witness holds 1"
+          },
+          "final_checkpoint": 0,
+          "final_dwells": [
+            "curiosity"
+          ],
+          "final_generation": 2,
+          "final_load_verifies": true,
+          "middle_checkpoint": 1,
+          "middle_dwells": [
+            "curiosity"
+          ],
+          "middle_generation": 2,
+          "pending": false,
+          "ran": "pause thread A after serialization but before organism lock; B saves on the same object; resume A",
+          "thread_A": [
+            {
+              "returned": "dwelling",
+              "thread": "A"
+            }
+          ],
+          "witness": 1
+        },
+        "conclusion": "a pre-lock serialized snapshot can overwrite a later successful save and checkpoint; matching the live object generation does not validate the snapshot",
+        "same_object_threads": {
+          "dwells_after_middle_object_write": [
+            "curiosity",
+            "formality",
+            "verbosity"
+          ],
+          "final_checkpoint": 0,
+          "final_dwells": [
+            "curiosity"
+          ],
+          "final_generation": 2,
+          "final_load_verifies": true,
+          "middle_checkpoint": 0,
+          "middle_dwells": [
+            "curiosity",
+            "formality"
+          ],
+          "middle_generation": 2,
+          "middle_object_write": {
+            "returned": {
+              "distribution": {
+                "confound": 0.25,
+                "preference": 0.35,
+                "unmodeled_cause": 0.4
+              },
+              "message": "Holding in basin. Owner authorization required for permanent change.",
+              "status": "dwelling"
+            }
+          },
+          "pending": false,
+          "ran": "pause thread A after serialization but before organism lock; B saves on the same object; resume A",
+          "thread_A": [
+            {
+              "returned": "dwelling",
+              "thread": "A"
+            }
+          ],
+          "witness": 0
+        }
+      },
+      "seconds": 0.05,
+      "verdict": "FOUND"
+    },
+    "Q2": {
+      "claim": "Is there any failed or interrupted save that leaves a state that can never be signed off, or that lets something be signed off that the owner did not approve?",
+      "evidence": {
+        "after_resign": {
+          "exception": "AttestationRefused",
+          "message": "trace index 2: reading is past its lifetime by the owner's clock"
+        },
+        "attestation_attempts": [
+          {
+            "exception": "AttestationRefused",
+            "message": "trace index 2: reading is past its lifetime by the owner's clock",
+            "ttl_multiple": 2
+          },
+          {
+            "exception": "AttestationRefused",
+            "message": "trace index 2: reading is past its lifetime by the owner's clock",
+            "ttl_multiple": 10
+          },
+          {
+            "exception": "AttestationRefused",
+            "message": "trace index 2: reading is past its lifetime by the owner's clock",
+            "ttl_multiple": 100
+          }
+        ],
+        "install_failure": {
+          "exception": "OSError",
+          "message": "injected failure before replace"
+        },
+        "interpretation": "saved applied mutation remains unattested and cannot receive an attestation through this protocol under a nondecreasing owner clock; replay must keep checking the expired original signature. Repair requires restoring earlier state or a separate recovery procedure. No unauthorized sign-off found.",
+        "pending_after_recovery": false,
+        "ran": "apply and save authorized mutation; fail checkpoint state write before replace; advance owner clock past signature TTL; retry and re-sign same payload",
+        "reload": {
+          "exception": "IntegrityError",
+          "message": "Category sequences do not match the attested checkpoint"
+        },
+        "resign_retains_first_signed_at": true
+      },
+      "seconds": 0.02,
+      "verdict": "FOUND"
+    }
+  },
+  "python": "3.13.16"
+}

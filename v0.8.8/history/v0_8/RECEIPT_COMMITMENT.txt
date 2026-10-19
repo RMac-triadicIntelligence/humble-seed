@@ -1,0 +1,2 @@
+4bd41f437f086eeefa9d4819543f88d652e71a853c2df7d4f7a25bfb966d89b1
+# sha256(salt + receipt). Salt is withheld until reviewers report their own receipt.

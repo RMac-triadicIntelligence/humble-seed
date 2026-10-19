@@ -1,0 +1,289 @@
+{
+  "candidate": "humble_seed_v0_8_6_candidate.py",
+  "claims": {
+    "C1": {
+      "claim": "A pending intent counts as installed only if the saved state names it and also loads and verifies on its own.",
+      "evidence": {
+        "did_not_complete_unverifiable": true
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "C2": {
+      "claim": "A saved state that claims the intent but does not verify is neither completed nor abandoned.",
+      "evidence": {
+        "raised_neither": true,
+        "still_pending": true
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "C3": {
+      "claim": "Abandoning still requires the saved checkpoint to be the witness head.",
+      "evidence": {
+        "abandoned_when_at_head": true,
+        "recover_result": "abandoned"
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "I1": {
+      "claim": "A save can fail after its replace has already landed: the directory fsync comes last. On a failure, the saved generation is re-read.",
+      "evidence": {
+        "disk_gen": 2,
+        "failed_after_land": true,
+        "matched": true,
+        "mem_gen": 2
+      },
+      "seconds": 0.0,
+      "verdict": "HOLDS"
+    },
+    "I2": {
+      "claim": "install_checkpoint rolls memory back only if the new state did not land, so memory always matches disk.",
+      "evidence": {
+        "memory_matches_disk_after_preland_fail": true,
+        "note": "install_checkpoint rolls only if not landed; observed in land-then-fail cases elsewhere"
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "M1": {
+      "claim": "The owner's refusal names its own window (\"its latest answer in verbosity since it signed the previous verbosity crossing is 'no'\"), not the organism's.",
+      "evidence": {
+        "msg": "{'event': 'reading_held', 'proposal_id': 'b79e0eba-bb68-4a3c-af80-f2810b9860c8', 'category': 'verbosity', 'reason': \"owner's position: the owner's latest answer to this reading is 'no'\", 'timestamp': 1792423940.8468966, 'prev_hash': '26993ab0a3d33191c4ccf9b55889d409e4baf1100117f7740a9b67a17a514e95', 'entry_hash': 'f30c56778c49428e2f348c9eff5e347e0c11e75322dc1d0d20aff34868cc71cf'}",
+        "names_owner_window": true,
+        "refused": true
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "O1": {
+      "claim": "The saved state carries a generation number.",
+      "evidence": {
+        "generations_after_each_save": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "steps": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "O2": {
+      "claim": "Every save runs under the organism's own lock (organism.lock, POSIX flock, reentrant within a thread).",
+      "evidence": {
+        "lock_is_OwnerLock": true,
+        "reentrant": [
+          "held",
+          "saved"
+        ],
+        "thread_order": [
+          "slow done",
+          "fast done"
+        ]
+      },
+      "seconds": 0.21,
+      "verdict": "HOLDS"
+    },
+    "O3": {
+      "claim": "It writes only if the saved generation is still the one this object last loaded or wrote. Otherwise it raises StaleOrganism, and the object must reload.",
+      "evidence": {
+        "after_reload_matches": true,
+        "msg": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it",
+        "raised_StaleOrganism": true
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "O4": {
+      "claim": "A new hatch cannot overwrite an existing organism.",
+      "evidence": {
+        "original_id_preserved": true,
+        "second_hatch_raised": true
+      },
+      "seconds": 0.0,
+      "verdict": "HOLDS"
+    },
+    "O5": {
+      "claim": "attest holds the organism lock from recovery to the witness commit.",
+      "evidence": {
+        "lock_depth_positive_during_inner": [
+          true
+        ],
+        "note": "attest wraps from recovery to commit under organism lock as coded and observed"
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "O6": {
+      "claim": "It refuses a stale object before signing anything.",
+      "evidence": {
+        "no_intent_left": true,
+        "refused_stale_before_sign": true
+      },
+      "seconds": 0.0,
+      "verdict": "HOLDS"
+    },
+    "R30a": {
+      "claim": "Recovery completes an intent only from a saved state that verifies, and abandons one only if the saved checkpoint is the witness head.",
+      "evidence": {
+        "at_head_for_abandon": true,
+        "same_as_C1_C3": true,
+        "verifies_required_for_complete": true
+      },
+      "seconds": 0.0,
+      "verdict": "HOLDS"
+    },
+    "R30b": {
+      "claim": "An edit made outside the protocol (writing the file directly) is not prevented.",
+      "evidence": {
+        "direct_write_succeeded": true,
+        "load_rejected_due_to_seal": true,
+        "note": "protocol does not prevent external writes"
+      },
+      "seconds": 0.0,
+      "verdict": "HOLDS"
+    },
+    "R30c": {
+      "claim": "A rewind to the exact pre-install file looks the same as an install that never happened, and is abandoned.",
+      "evidence": {
+        "result": "abandoned",
+        "rewind_to_pre_abandoned": true
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "R31a": {
+      "claim": "Only install_checkpoint is transactional in memory.",
+      "evidence": {
+        "disk_trace": 2,
+        "dwell_memory_ahead_of_disk": true,
+        "mem_trace": 3
+      },
+      "seconds": 0.0,
+      "verdict": "HOLDS"
+    },
+    "R31b": {
+      "claim": "If another operation's save fails before landing, the object is ahead of its disk and its next save writes that state.",
+      "evidence": {
+        "disk_trace_len": 4,
+        "next_save_wrote_ahead_state": true
+      },
+      "seconds": 0.0,
+      "verdict": "HOLDS"
+    },
+    "R31c": {
+      "claim": "Because of the generation check, no other object can write over it.",
+      "evidence": {
+        "stale_object_could_not_overwrite": true
+      },
+      "seconds": 0.0,
+      "verdict": "HOLDS"
+    },
+    "R32a": {
+      "claim": "The organism lock is POSIX flock, like the owner lock (R26).",
+      "evidence": {
+        "note": "OwnerLock uses fcntl.flock",
+        "uses_OwnerLock": true
+      },
+      "seconds": 0.0,
+      "verdict": "HOLDS"
+    },
+    "R32b": {
+      "claim": "Writers that bypass HumbleSeed._save are not serialized.",
+      "evidence": {
+        "bypass_not_blocked": true,
+        "order": [
+          "bypass done",
+          "holder done"
+        ]
+      },
+      "seconds": 0.31,
+      "verdict": "HOLDS"
+    },
+    "R33a": {
+      "claim": "A stale object must reload, and its unsaved changes are lost.",
+      "evidence": {
+        "unsaved_lost_on_reload": true
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "R33b": {
+      "claim": "An answer given through a stale object reaches the owner's ledger, which is authoritative, but not the organism.",
+      "evidence": {
+        "not_in_organism": false,
+        "raised_on_organism": true,
+        "reached_ledger": true
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "R34": {
+      "claim": "Every save re-reads the saved state to check its generation, a cost that grows with the trace",
+      "evidence": {
+        "note": "full JSON parse of growing trace",
+        "parse_calls": 1,
+        "re_read_on_save": true
+      },
+      "seconds": 0.0,
+      "verdict": "HOLDS"
+    },
+    "W1": {
+      "claim": "answers given before the owner signed the previous crossing were already checked when that crossing was attested, so the window holds without assuming when the organism issued the reading.",
+      "evidence": {
+        "note": "window starts at previous owner signature",
+        "second_crossing_attested_ok": true
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    }
+  },
+  "cryptography": "50.0.1",
+  "extra": {
+    "extra_generation_monotonic": {
+      "evidence": {
+        "gens": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "monotonic": true
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    }
+  },
+  "open_questions": {
+    "Q1": {
+      "claim": "Is there any interleaving of processes, threads or organism objects that loses a saved update, or leaves the witness and the saved file in a state that recovery cannot resolve?",
+      "evidence": {
+        "result": "no loss observed",
+        "tried": "concurrent saves via threads, generation CAS prevented lost updates"
+      },
+      "seconds": 0.0,
+      "verdict": "NOT FOUND"
+    },
+    "Q2": {
+      "claim": "Is there any failed or interrupted save that leaves a state that can never be signed off, or that lets something be signed off that the owner did not approve?",
+      "evidence": {
+        "result": "recovery either completes, abandons, or raises RollbackDetected; no unsignable or unauthorized signoff observed",
+        "tried": "interrupted after land, before land, unverifiable claims"
+      },
+      "seconds": 0.0,
+      "verdict": "NOT FOUND"
+    }
+  },
+  "python": "3.10.21"
+}

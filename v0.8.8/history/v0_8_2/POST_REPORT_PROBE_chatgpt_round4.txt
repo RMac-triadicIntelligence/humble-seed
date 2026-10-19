@@ -1,0 +1,5 @@
+F1a expired reading applied anyway  -> attest: True | reload+audit: True | 'expired' rejection in history: True
+F1b held reading applied anyway     -> attest: True | reload+audit: True | 'no' + hold in history: True True
+F2 honest consequence : I'll keep my answers shorter. (verbosity 0.50 → 0.25; lead read: preference 0.68; rule step -0.25). This was the first change ever made to verbosity.
+F2 after record edit -> attest: True | reload+audit: True
+F2 rendered consequence: I'll give fuller answers. (verbosity 0.00 → 0.25; lead read: preference 0.68; rule step -0.25).

@@ -1,0 +1,11 @@
+AUTHOR_FINDINGS_COMMITMENT_v0_8_7.txt: OK (original ZIP); working copy unchanged
+CANDIDATE_v0_8_7_AT_FREEZE.sha256: OK (original ZIP); working copy unchanged
+CLAIMS.json: OK (original ZIP); working copy unchanged
+DECLARED_v0_8_7.frozen_at: OK (original ZIP); working copy unchanged
+DECLARED_v0_8_7.json: OK (original ZIP); working copy unchanged
+DECLARED_v0_8_7.sha256: OK (original ZIP); working copy unchanged
+README.md: OK (original ZIP); working copy unchanged
+claims_battery_v0_8_7.py: OK (original ZIP); intentionally filled in
+falsify_v0_8_7.py: OK (original ZIP); working copy unchanged
+humble_seed_v0_8_7_candidate.py: OK (original ZIP); working copy unchanged
+parent_humble_seed_v0_7_C5.py: OK (original ZIP); working copy unchanged

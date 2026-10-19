@@ -1,0 +1,3 @@
+after no -> yes, signed apply: reading_held: owner answered 'no' to this reading after this reading was taken
+any way to retract the 'no'? trace is append-only; reader checks for ANY 'no' since issuance
+terminal state: authorization_rejected - proposal expired

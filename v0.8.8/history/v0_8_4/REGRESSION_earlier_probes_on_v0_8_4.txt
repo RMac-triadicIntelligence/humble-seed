@@ -1,0 +1,67 @@
+# Author's sealed round-4 probes A1/A2 (unchanged; A1 still writes the old 'note' key)
+A1 record note + authorized_at rewritten -> attest: REFUSED: trace index 2: record fields differ from the replay: ['field set']
+A2 after A signs, B answers 'no': ledger on disk has signature: True | has the 'no': ['no']
+A2 after A signs again: ledger on disk still has the 'no': ['no']
+A2 lost 'no' + organism hides its record -> attest: REFUSED: trace index 2: owner's position: the owner's latest answer to this reading is 'no'
+
+# Author's reproductions of ChatGPT F2 and F4 (unchanged)
+A attests branch 1 (seq 1): True
+B refused: RollbackDetected Non-successor checkpoint: organism presents sequence 1, expected 2
+fresh witness accepts branch 1 as current
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/witness_fork_083.py", line 24, in <module>
+    f = K.HumbleSeed(seed.data_dir); f.load()
+                                     ~~~~~~^^
+  File "/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs084/humble_seed_v0_8_4_candidate.py", line 907, in load
+    self.verify(expected_seal=data.get("state_seal"))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs084/humble_seed_v0_8_4_candidate.py", line 987, in verify
+    self._verify_attestation()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs084/humble_seed_v0_8_4_candidate.py", line 799, in _verify_attestation
+    raise IntegrityError("Category sequences do not match the attested checkpoint")
+k.IntegrityError: Category sequences do not match the attested checkpoint
+organism checkpoint seq: 1 | witness seq: 1
+organism loads on its own: True
+audit -> True
+retry attest -> True
+next crossing attest -> True
+
+# v0.8.2 post-freeze probes
+POST-FREEZE PROBES — v0.8.2 candidate (not scored)
+P1_other_owner
+  found:  refused: RollbackDetected: Invalid enrollment: first checkpoint sequence is 1, expected 0
+P1b_other_owner_at_enrollment
+  found:  refused: AttestationRefused: organism is not keyed to this owner
+P2_history_rewritten
+  found:  refused: AttestationRefused: attested history was rewritten
+P3_recorded_change_off_rule
+  found:  refused: AttestationRefused: trace index 2: recorded change is not what the attested rule derives
+P4_expired_reading_applied
+  found:  applied with wound-back clock: True; attest: refused: AttestationRefused: trace index 3: the organism recorded this reading as expired before applying it
+P5_destination_derivable_from_what_is_shown
+  found:  computed from prompt + constitution: 0.25; applied: {'verbosity': 0.25}
+P6_r10_consistent_constitution_swap
+  found:  rejected: Birth record does not match the attested checkpoint
+
+# ChatGPT round-3 findings
+F1a expired reading applied anyway  -> attest: REFUSED: trace index 3: the organism recorded this reading as expired before applying it | reload+audit: None | 'expired' rejection in history: True
+F1b held reading applied anyway     -> attest: REFUSED: trace index 4: the organism's own record holds this reading (the owner's latest answer to this reading is 'no') | reload+audit: None | 'no' + hold in history: True True
+F2 honest consequence : I'll keep my answers shorter. (verbosity 0.50 → 0.25; lead read: preference 0.68; rule step -0.25). This was the first change ever made to verbosity.
+F2 after record edit -> attest: REFUSED: trace index 2: record fields differ from the replay: ['prior_value', 'first_commit', 'prior_character_snapshot (verbosity: recorded 0.0, replay 0.5)'] | reload+audit: None
+F2 rendered consequence: None
+
+# Corrected answer through attestation
+answers no->yes via organism only: applied True, attested True, reload+audit True, verbosity 0.25
+answers no->yes via owner tool: applied True, attested True, reload+audit True, verbosity 0.25
+
+NOTES (author):
+- witness_fork_083.py: B's attest is now refused ("Non-successor") and branch 1 stays current.
+  The script then tries to load branch 2, which was never attested, so it fails to load; the
+  script did not expect that. The crash is the script's, after the result.
+- witness_interrupt_083.py hooks witness.record(). v0.8.4's attest uses begin/commit and never
+  calls record(), so nothing is interrupted and it attests normally. This script no longer tests
+  the finding. Coverage: T54/T55 and regression_chatgpt_round4_adapted.py (failure at each
+  witness write).
+- A1 writes the old 'note' key, so the refusal comes from the field-set check. T52 covers each
+  metadata field specifically.

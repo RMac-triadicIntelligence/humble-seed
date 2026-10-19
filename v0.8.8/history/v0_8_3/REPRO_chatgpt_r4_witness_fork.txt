@@ -1,0 +1,4 @@
+A attests branch 1 (seq 1): True
+B attests branch 2 (seq 1, same parent): True
+fresh witness rejects branch 1: Fork: two different states both claim sequence 1
+fresh witness accepts branch 2 as current

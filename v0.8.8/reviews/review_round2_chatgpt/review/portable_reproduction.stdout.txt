@@ -1,0 +1,59 @@
+Original package manifest and freeze hashes verified
+==============================================================================
+Humble Seed v0.8.1 CANDIDATE — falsification harness
+declared 665c0939a3213644… frozen 2026-10-17T14:53:18Z
+candidate 9f8f6510458dd5ef…  parent 08a756043a6500fc…
+==============================================================================
+
+TEST                                       DECLARED  MEASURED  VERDICT
+T0_docstring_only_change                   PASS      PASS      MATCH
+T1_liveness_intervening_events             PASS      PASS      MATCH
+T2_liveness_cross_category                 PASS      PASS      MATCH
+T3_stale_same_category                     PASS      PASS      MATCH
+T4_second_crossing_at_clamp_floor          PASS      PASS      MATCH
+T5_payload_names_no_destination            PASS      PASS      MATCH
+T6_rule_comes_from_constitution            PASS      PASS      MATCH
+T7_constitution_pinned_at_apply            PASS      PASS      MATCH
+T8_distribution_bound                      PASS      PASS      MATCH
+T9_evidence_bound                          PASS      PASS      MATCH
+T10_replay                                 PASS      PASS      MATCH
+T11_expiry                                 PASS      PASS      MATCH
+T12_wrong_key                              PASS      PASS      MATCH
+T13_forged_first_commit                    PASS      PASS      MATCH
+T14_forged_character_resealed              PASS      PASS      MATCH
+T15_category_sequences_resealed            PASS      PASS      MATCH
+T16_permissive_rule_full_birth_repair      PASS      PASS      MATCH
+T17_unattested_apply_fails_closed          PASS      PASS      MATCH
+T18_rollback_witness_only                  PASS      PASS      MATCH
+T19_identity_replacement_audit             PASS      PASS      MATCH
+T20_realistic_session                      PASS      PASS      MATCH
+T21_prior_value_detects_independent_change PASS      PASS      MATCH
+T22_unattested_tail_check_reachable        PASS      PASS      MATCH
+T23_tamper_evidence_preserved              PASS      PASS      MATCH
+
+MUTANT                                       DECLARED  MEASURED  VERDICT   killed by
+X0_NULL_identical_copy                       SURVIVES  SURVIVES  MATCH     -
+X1_K1_trace_head_staleness_restored          KILLED    KILLED    MATCH     T1, T20, T2
+X2_K1_global_sequence_staleness_restored     KILLED    KILLED    MATCH     T20, T2
+X3_K1_category_sequence_check_removed        KILLED    KILLED    MATCH     T20, T3, T4
+X4_K1_prior_value_check_removed              KILLED    KILLED    MATCH     T21, T23
+X5_K2_destination_back_in_payload            KILLED    KILLED    MATCH     T5
+X6_K2_rule_read_from_module_constant         KILLED    KILLED    MATCH     T6
+X7_K2_constitution_pin_removed               KILLED    KILLED    MATCH     T7
+X8_K2_distribution_root_not_rehashed         KILLED    KILLED    MATCH     T8
+X9_C5_unknown_organism_audit_returns         KILLED    KILLED    MATCH     T19
+X10_unattested_tail_check_removed            KILLED    KILLED    MATCH     T22
+
+==============================================================================
+mismatches vs declared: 0
+receipt (statuses only, run-independent): 853ddfc9d5be9f0778077eb432b9a804d37f57b60c98f842fefdd7ce9029ee19
+RESULTS_v0_8_1.json written. Exit code is non-zero if any mismatch.
+finite_distribution_boundary {"detail": {"applied": true, "destination": 0.25, "fresh_load_and_owner_audit": true, "lead_weight_is_finite": false, "signed_distribution_root_unchanged": true, "validator_accepted_nan": true}, "status": "ATTACK_REPRODUCED"}
+unsigned_clamp_rule {"detail": {"actual_destination": 0.4, "constitution_and_signed_reading_unchanged": true, "constitution_value_range": [0.0, 1.0], "fresh_load_and_audit_with_original_constants": true, "original_destination": 0.25, "original_reading_signature_accepted": true}, "status": "ATTACK_REPRODUCED"}
+cross_category_tamper_laundered {"detail": {"authorized_mutation_categories": ["verbosity"], "formality_category_sequence": 0, "fresh_load_and_owner_audit": true, "owner_attested_checkpoint": true, "unsigned_formality": 0.99}, "status": "ATTACK_REPRODUCED"}
+destination_alias_survives_suite {"detail": {"T5": "PASS", "mutant_verdict_using_supplied_rule": "SURVIVES", "new_failures": [], "signed_landing_value": 0.25, "suite_tests_passed": 24}, "status": "ATTACK_REPRODUCED"}
+error_counted_as_kill {"detail": {"T6_detail": "RuntimeError: unrelated injected crash", "T6_status": "ERROR", "actual_failure_kinds": {"ERROR": 20, "FAIL": 0}, "mutant_verdict_using_supplied_rule": "KILLED", "supplied_kill_predicate": "res[n][\"status\"] != \"PASS\""}, "status": "ATTACK_REPRODUCED"}
+normal_checkpoint_interleaving {"detail": {"classification": "checkpoint interleaving observation; related to disclosed R6, not a new reading-staleness finding", "fresh_checkpoint_recovery": true, "load_before_recovery": "Category sequences do not match the attested checkpoint", "ordinary_dwell_after_apply": true, "original_checkpoint_accepted": false}, "status": "OBSERVED"}
+result_commitment_observation {"detail": {"classification": "design characterization, not a new security break or a preview leak into the original reading", "destination_derivable_from_bound_inputs_and_rule": 0.25, "second_signature_binds_exact_result_character_root": true}, "status": "OBSERVED"}
+baseline_exit_code=0
+independent_exit_code=0

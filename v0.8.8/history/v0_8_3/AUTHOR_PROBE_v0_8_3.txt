@@ -1,0 +1,4 @@
+A1 record note + authorized_at rewritten -> attest: True
+A2 after A signs, B answers 'no': ledger on disk has signature: False | has the 'no': ['no']
+A2 after A signs again: ledger on disk still has the 'no': []
+A2 lost 'no' + organism hides its record -> attest: True

@@ -1,0 +1,19 @@
+{
+  "P6_thread_state_after_refusals": {
+    "answer": "returned 'recorded'",
+    "apply_with_that_reader": "returned True",
+    "attest": "returned True",
+    "first_attest": "returned True",
+    "fresh_audit": "returned True",
+    "nested_save": [
+      "ReentryRefused: a save re-entered another save of this organism in the same thread (a signal handler or callback); refused, nothing written"
+    ],
+    "outer_dwell": "returned 'dwelling'",
+    "reader_owner_call": "LockOrderRefused: an owner operation was started while this thread holds an organism lock; the order is owner, then organism",
+    "thread_state_after": {
+      "organism_held": 0,
+      "saving": []
+    },
+    "unknown_category": "ValueError: Unknown character category: no_such_category"
+  }
+}

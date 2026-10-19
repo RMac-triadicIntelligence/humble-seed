@@ -1,0 +1,10 @@
+Frozen T88 on the candidate, with the reader's exception shown:
+   {'apply_returned': None, 'reader': ['StaleOrganism: stale organism object: the saved state is at generation 2, this object last saw 1; reload it'], 'last_event': 'reading_held', 'reason': 'reader failed (StaleOrganism: stale organism object: the saved state is at generation 2, this object last saw 1; reload it)'}
+
+T88_corrected on the candidate: PASS  (StaleOrganism: stale organism object: the saved state is at generation 3, this object last saw 2; reload it)
+  XH_unrelated_crash_injected                  ERROR RuntimeError: unrelated injected crash
+  XO1_save_skips_generation_check              FAIL  expected StaleOrganism, but the call returned {'status': 'applied', 'record': {'proposal_id': '372db749-f280-4
+  XE7_lock_keyed_by_abspath                    FAIL  the apply did not finish within 5 s (deadlock)
+
+T88_corrected fails on 2 mutants: ['XO1_save_skips_generation_check', 'XE7_lock_keyed_by_abspath']
+Declared mutants naming T88 in their exact kill set: ['XE7_lock_keyed_by_abspath', 'XO1_save_skips_generation_check']

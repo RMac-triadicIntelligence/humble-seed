@@ -1,0 +1,2 @@
+salt 41b08e365d3b0198156ac2dec3559877
+commitment = sha256(salt + probe script bytes + probe output bytes) = 01f43ae3f5e83072bd62a0ef0a49b1883f71c24efcde2d0a023306e5d6803f08

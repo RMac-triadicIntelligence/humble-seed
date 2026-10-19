@@ -1,0 +1,12 @@
+{
+  "XD4a_lock_at_witness_begin": [
+    "locked"
+  ],
+  "XS2_ledger_not_reread_fresh_lifetime_check": {
+    "returned": true
+  },
+  "candidate_fresh_lifetime_check": {
+    "exception": "AttestationRefused",
+    "message": "trace index 2: reading is past its lifetime by the owner's clock"
+  }
+}

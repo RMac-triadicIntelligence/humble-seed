@@ -1,0 +1,105 @@
+{
+  "F1_failed_commit_then_crossing": {
+    "attest": {
+      "exception": "OSError",
+      "message": "injected witness commit failure"
+    },
+    "second_crossing": {
+      "returned": "applied"
+    },
+    "saved_checkpoint": 1,
+    "witness": 0,
+    "pending": true,
+    "attest_after": {
+      "exception": "RollbackDetected",
+      "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+    },
+    "audit_after": {
+      "exception": "RollbackDetected",
+      "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+    },
+    "restore_after": {
+      "returned": {
+        "status": "restored",
+        "checkpoint_sequence": 1,
+        "discarded_entries": 2,
+        "kept_as": "pre_restore_gen6_a01571d59b86.json",
+        "owner_no_outstanding": []
+      }
+    },
+    "still_pending": false
+  },
+  "F2_reentry_between_check_and_write": {
+    "outer": {
+      "exception": "ReentryRefused",
+      "message": "a save re-entered another save of this organism in the same thread (a signal handler or callback); refused, nothing written"
+    },
+    "nested": null,
+    "final_generation": 1,
+    "final_dwellings": [],
+    "fresh_audit": {
+      "returned": true
+    }
+  },
+  "F3_restore_overwrites_a_signoff_made_inside_it": {
+    "restore": {
+      "returned": {
+        "status": "restored",
+        "checkpoint_sequence": 0,
+        "discarded_entries": 2,
+        "kept_as": "pre_restore_gen2_9d5a3d47333b.json",
+        "owner_no_outstanding": []
+      }
+    },
+    "nested_attest": {
+      "exception": "ReentryRefused",
+      "message": "a save re-entered another save of this organism in the same thread (a signal handler or callback); refused, nothing written"
+    },
+    "witness_after_nested": 0,
+    "saved_checkpoint": 0,
+    "witness": 0,
+    "pending": true,
+    "fresh_load_checkpoint": {
+      "returned": 0
+    },
+    "fresh_audit": {
+      "returned": true
+    }
+  },
+  "F4_interrupt_during_reread": {
+    "attest": {
+      "exception": "KeyboardInterrupt",
+      "message": "injected interrupt during re-read"
+    },
+    "memory_checkpoint": 1,
+    "disk_checkpoint": 1,
+    "memory_generation": -1,
+    "disk_generation": 2,
+    "next_dwell": {
+      "exception": "StaleOrganism",
+      "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+    }
+  },
+  "G1_grok_unfixable_case": {
+    "attest": {
+      "exception": "OSError",
+      "message": "injected"
+    },
+    "reload": {
+      "exception": "Fail",
+      "message": "state does not load: Category sequences do not match the attested checkpoint"
+    },
+    "restore_from_unloaded_object": {
+      "returned": {
+        "status": "restored",
+        "checkpoint_sequence": 0,
+        "discarded_entries": 2,
+        "kept_as": "pre_restore_gen3_bddb4c09aab4.json",
+        "owner_no_outstanding": []
+      }
+    },
+    "fresh_audit_after": {
+      "returned": true
+    }
+  }
+}

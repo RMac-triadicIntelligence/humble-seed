@@ -1,0 +1,118 @@
+T57_failed_checkpoint_save_changes_nothing: PASS
+  declared (v0.8.6 candidate line numbers): audit -> _recover abandons (L1939) -> verify -> _verify_attestation (L1058) -> category-sequence check (L827) raises first. Every earlier check in verify passes for a legitimately unattested state; the unattested-tail check (L851) comes later.
+  raised at L891 in install_checkpoint: OSError: injected: the checkpoint save failed before writing
+      L891: self._save()
+  raised at L920 in _verify_attestation: IntegrityError: Category sequences do not match the attested checkpoint
+      L920: raise IntegrityError("Category sequences do not match the attested checkpoint")
+T62_stale_object_cannot_overwrite_newer_state: PASS
+  declared (v0.8.6 candidate line numbers): dwell_or_propose -> derive raises ValueError -> _dwell (L1112) -> _save -> generation check (L926) raises StaleOrganism 'stale organism object'
+  raised at L996 in _check_current: StaleOrganism: stale organism object: the saved state is at generation 4, this object
+      L996: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "
+T63_stale_write_during_attest_is_refused: PASS
+  declared (v0.8.6 candidate line numbers): dwell_or_propose -> derive raises ValueError -> _dwell (L1112) -> _save -> generation check (L926) raises StaleOrganism 'stale organism object' (inside the witness.commit hook; the lock is reentrant within the thread, so the generation check decides)
+  raised at L996 in _check_current: StaleOrganism: stale organism object: the saved state is at generation 4, this object
+      L996: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "
+T64_interrupted_commit_then_stale_write_keeps_signoff: PASS
+  declared (v0.8.6 candidate line numbers): dwell_or_propose -> derive raises ValueError -> _dwell (L1112) -> _save -> generation check (L926) raises StaleOrganism 'stale organism object'; then audit -> _recover -> saved state verifies (L1927) -> commit (L1932)
+  raised at L2221 in _attest_under_organism_lock: OSError: injected: interrupted after the organism saved, before the witness adv
+      L2221: self.witness.commit(cp)                 # [COMMIT-2] the witness advances
+  raised at L996 in _check_current: StaleOrganism: stale organism object: the saved state is at generation 4, this object
+      L996: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "
+T65_failure_after_replace_keeps_memory_with_disk: PASS
+  declared (v0.8.6 candidate line numbers): _save -> _durable_write -> injected directory-fsync OSError after os.replace -> landed generation recorded (L935) -> install keeps memory (rollback L802 not taken) -> OSError propagates; retry -> _recover verifies (L1927) and commits -> _require_current passes (L1953)
+  raised at L247 in _durable_write: OSError: injected: directory fsync failed after the organism's replace
+      L247: os.fsync(dfd)
+T66_recovery_refuses_a_saved_state_that_does_not_verify: PASS
+  declared (v0.8.6 candidate line numbers): audit -> _recover -> saved state names the intent -> _saved_state_refusal -> load -> verify: earlier checks pass (0.99 is in range), seal check (L1056) raises -> RollbackDetected 'claims it but does not verify' (L1930)
+  raised at L2218 in _attest_under_organism_lock: OSError: interrupted before the organism installed
+      L2218: if not seed.install_checkpoint(cp, sig):
+  raised at L1260 in verify: IntegrityError: State seal mismatch — corruption or rewrite of a sealed region
+      L1260: raise IntegrityError("State seal mismatch — corruption or rewrite of a sealed region")
+  raised at L2188 in _recover: RollbackDetected: A pending checkpoint commit cannot be completed: the saved state claim
+      L2188: raise RollbackDetected("A pending checkpoint commit cannot be completed: the saved state "
+T67_hatch_cannot_overwrite_an_existing_organism: PASS
+  declared (v0.8.6 candidate line numbers): hatch builds everything in memory and saves on the line after L664 -> generation check (L926): the saved generation is 0, this object's is None
+  raised at L996 in _check_current: StaleOrganism: stale organism object: the saved state is at generation 1, this object
+      L996: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "
+T68_attest_refuses_a_stale_object_before_signing: PASS
+  declared (v0.8.6 candidate line numbers): attest -> organism lock -> _recover (nothing pending) -> _require_current (L1953) raises StaleOrganism (L893) before checkpoint_request or any signature
+  raised at L996 in _check_current: StaleOrganism: stale organism object: the saved state is at generation 2, this object
+      L996: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "
+T73_unconfirmed_save_leaves_object_unusable: PASS
+  declared (v0.8.7 candidate line numbers): attest -> install_checkpoint -> _save -> _durable_write: the injected directory fsync raises after os.replace (L229) -> the re-read of the generation raises (injected) -> object marked unusable (L985) -> the OSError propagates; install does not roll back (the condition above L834 is false). The next dwell -> _organism_op -> _check_current raises StaleOrganism 'unusable' (L932).
+  raised at L247 in _durable_write: OSError: injected: directory fsync failed after the organism's replace
+      L247: os.fsync(dfd)
+  raised at L1046 in _save_locked: OSError: injected: re-reading the saved generation failed
+      L1046: landed = self._saved_generation() == new_gen
+  raised at L992 in _check_current: StaleOrganism: organism object is unusable: a save failed and whether it landed could
+      L992: raise StaleOrganism("organism object is unusable: a save failed and whether it landed "
+T74_stale_object_refused_before_memory_changes: PASS
+  declared (v0.8.7 candidate line numbers): dwell_or_propose -> _organism_op (L286) -> _check_current raises StaleOrganism 'stale organism object' (L936) before the method body runs.
+  raised at L996 in _check_current: StaleOrganism: stale organism object: the saved state is at generation 2, this object
+      L996: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "
+T75_answer_through_stale_object_records_nothing: PASS
+  declared (v0.8.7 candidate line numbers): OwnerTool.answer -> organism lock -> _check_current raises (L936) -> answer re-raises StaleOrganism with 'was not recorded' (L1948) before the ledger or the organism records anything.
+  raised at L996 in _check_current: StaleOrganism: stale organism object: the saved state is at generation 3, this object
+      L996: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "
+  raised at L2018 in answer: StaleOrganism: stale organism object: the saved state is at generation 3, this object
+      L2018: raise StaleOrganism(f"{why}. The answer was not recorded anywhere: reload the organism "
+T76_write_landing_during_an_operation_is_not_overwritten: PASS
+  declared (v0.8.7 candidate line numbers): authorize_and_apply -> _consult_reader -> the reader has b dwell (reentrant lock; b is current; b's save lands) -> the live object's _save -> generation check raises StaleOrganism (L953).
+  raised at L1018 in _save_locked: StaleOrganism: stale organism object: the saved state is at generation 3, this object
+      L1018: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "
+T77_hatch_refuses_a_file_without_generation: PASS
+  declared (v0.8.7 candidate line numbers): hatch -> _check_current (L615) -> _saved_generation raises StaleOrganism 'no valid generation' (L925); the dwell on the original object -> _organism_op -> _check_current -> the same raise.
+  raised at L985 in _saved_generation: StaleOrganism: the saved state has no valid generation; refusing to write over it
+      L985: raise StaleOrganism("the saved state has no valid generation; refusing to write over it")
+  raised at L985 in _saved_generation: StaleOrganism: the saved state has no valid generation; refusing to write over it
+      L985: raise StaleOrganism("the saved state has no valid generation; refusing to write over it")
+T78_restore_after_lifetime_lapse: PASS
+  declared (v0.8.7 candidate line numbers): attest -> verify_consequence -> _check_owner_acts: signed through this owner tool, then the lifetime check raises AttestationRefused 'past its lifetime' (L1965).
+  raised at L2035 in _check_owner_acts: AttestationRefused: trace index 2: reading is past its lifetime by the owner's clock
+      L2035: raise AttestationRefused(f"trace index {i}: reading is past its lifetime by the owner's clock")
+T79_restore_refuses_when_saved_checkpoint_is_not_witness_head: PASS
+  declared (v0.8.7 candidate line numbers): OwnerTool.restore -> _recover (nothing pending) -> head_for -> _restore_attested: the file reads, its generation is valid, it is keyed to this owner, then the head check raises RollbackDetected (L1058).
+  raised at L1124 in _restore_attested: RollbackDetected: restore refused: the saved checkpoint is not the witness head
+      L1124: raise RollbackDetected("restore refused: the saved checkpoint is not the witness head")
+T80_restore_refuses_a_rewritten_attested_prefix: PASS
+  declared (v0.8.7 candidate line numbers): OwnerTool.restore -> _restore_attested: the checkpoint is the witness head (only the trace was rewritten), the rebuilt chain verifies but its head differs from the checkpoint's, so the prefix check raises IntegrityError (L1066).
+  raised at L937 in _verify_attestation: IntegrityError: Attested trace prefix does not match checkpoint trace_head
+      L937: raise IntegrityError("Attested trace prefix does not match checkpoint trace_head")
+  raised at L1132 in _restore_attested: IntegrityError: restore refused: the saved trace's attested prefix does not match the 
+      L1132: raise IntegrityError("restore refused: the saved trace's attested prefix does not match the checkpoi
+T82_restore_resolves_a_failed_commit_followed_by_a_crossing: PASS
+  declared (v0.8.8 candidate line numbers): attest -> organism lock -> _recover: the saved checkpoint is the pending one -> _saved_state_refusal -> load -> verify: the category-sequence check raises IntegrityError (L920) -> strict route (allow_prefix False) -> RollbackDetected 'claims it but does not verify' (L2188). audit: the same path and raise. restore -> _recover(allow_prefix=True) -> _saved_prefix_refusal returns None -> the witness commits (L2191) -> _restore_attested at checkpoint 1.
+  raised at L2221 in _attest_under_organism_lock: OSError: injected: interrupted after the organism installed, before the witness
+      L2221: self.witness.commit(cp)                 # [COMMIT-2] the witness advances
+  raised at L920 in _verify_attestation: IntegrityError: Category sequences do not match the attested checkpoint
+      L920: raise IntegrityError("Category sequences do not match the attested checkpoint")
+  raised at L2188 in _recover: RollbackDetected: A pending checkpoint commit cannot be completed: the saved state claim
+      L2188: raise RollbackDetected("A pending checkpoint commit cannot be completed: the saved state "
+  raised at L920 in _verify_attestation: IntegrityError: Category sequences do not match the attested checkpoint
+      L920: raise IntegrityError("Category sequences do not match the attested checkpoint")
+  raised at L920 in _verify_attestation: IntegrityError: Category sequences do not match the attested checkpoint
+      L920: raise IntegrityError("Category sequences do not match the attested checkpoint")
+T83_a_save_cannot_be_reentered_in_the_same_thread: PASS
+  declared (v0.8.8 candidate line numbers): the live object's dwell -> _save -> organism lock -> _save_mark (marked) -> _save_locked -> _durable_write (the test's wrapper) -> other.dwell_or_propose -> _organism_op (reentrant lock; other is current) -> other's _save -> _save_mark raises ReentryRefused (L309) before its checks or write.
+  raised at L309 in _save_mark: ReentryRefused: a save re-entered another save of this organism in the same thread (a 
+      L309: raise ReentryRefused("a save re-entered another save of this organism in the same thread "
+T84_restore_refuses_an_attest_nested_in_its_save: PASS
+  declared (v0.8.8 candidate line numbers): restore -> _restore_attested -> r._save -> _save_mark (marked) -> _durable_write (the test's wrapper) -> owner.attest: owner lock re-entered by the thread that holds it (LOCK-ORDER allows it), organism lock reentrant, nothing pending, the live object current -> witness.begin -> install_checkpoint -> _save -> _save_mark raises ReentryRefused (L309) -> install rolls back (L894). The fresh audit -> _recover: not installed; the saved checkpoint is the witness head -> abandon (L2198).
+  raised at L309 in _save_mark: ReentryRefused: a save re-entered another save of this organism in the same thread (a 
+      L309: raise ReentryRefused("a save re-entered another save of this organism in the same thread "
+T85_interrupt_during_the_reread_still_leaves_the_object_unusable: PASS
+  declared (v0.8.8 candidate line numbers): attest -> install_checkpoint -> _save -> _save_locked -> _durable_write: the injected directory fsync raises after os.replace (L247) -> the re-read raises KeyboardInterrupt (injected) -> object marked unusable (L1048) -> the interrupt is re-raised (L1050); install does not roll back. The next dwell -> _organism_op -> _check_current raises StaleOrganism 'unusable' (L992).
+  raised at L247 in _durable_write: OSError: injected: directory fsync failed after the organism's replace
+      L247: os.fsync(dfd)
+  raised at L1046 in _save_locked: KeyboardInterrupt: injected: interrupt while re-reading the saved generation
+      L1046: landed = self._saved_generation() == new_gen
+  raised at L992 in _check_current: StaleOrganism: organism object is unusable: a save failed and whether it landed could
+      L992: raise StaleOrganism("organism object is unusable: a save failed and whether it landed "
+T87_owner_operation_inside_an_organism_operation_is_refused: PASS
+  declared (v0.8.8 candidate line numbers): thread A: authorize_and_apply -> _organism_op (organism lock held) -> the reader -> owner.sign_proposal -> _owner_locked -> _OwnerLock.__enter__: the thread holds an organism lock and the owner lock is held by thread B -> LockOrderRefused (L273).
+  raised at L273 in __enter__: LockOrderRefused: an owner operation was started while this thread holds an organism loc
+      L273: raise LockOrderRefused("an owner operation was started while this thread holds an organism "
+T88_a_symlinked_path_shares_the_organism_lock: Fail: expected StaleOrganism, but the call returned None
+  declared (v0.8.8 candidate line numbers): the live object's apply -> _organism_op (lock keyed by the real path, L262) -> the reader -> b.dwell_or_propose: b's lock path resolves to the same key, so the RLock is reentrant and no second flock is taken -> b saves -> the live object's _save -> _save_locked's generation check raises StaleOrganism 'stale organism object' (L1018).
+  raised at L996 in _check_current: StaleOrganism: stale organism object: the saved state is at generation 2, this object
+      L996: raise StaleOrganism(f"stale organism object: the saved state is at generation {saved}, "

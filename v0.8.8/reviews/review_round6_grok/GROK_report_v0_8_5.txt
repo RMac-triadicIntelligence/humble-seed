@@ -1,0 +1,12 @@
+Grok, round 6, v0.8.5 BLIND — report as relayed by Rusty, 2026-10-19 07:56 CT (verbatim summary of key lines)
+Receipt: 22d9e8eb964fdf7860e8c6f909bc9cd78c5b3d178105bf8e2a675fe7ce35ad36
+Python 3.10.21; cryptography 50.0.1; exit code 1; mismatches 4
+1. T57 DECLARED PASS, MEASURED FAIL (IntegrityError: Category sequences do not match the attested checkpoint).
+   Diagnosis: rollback leaves checkpoint 0 in memory and on disk, but the post-apply gates have advanced;
+   _verify_attestation checks gates_root before scanning the unattested tail, so the declared message is never reached.
+   "The same gates error occurs on a normal unattested apply with no failed install."
+2. X10: exact set lacks T57 — T57 fails on the base, so it cannot contribute a differential kill.
+3. XR2: same cause.
+4. XR4: SURVIVES — T57 fails on the base; "if the base had passed T57, the mutant would have been killed by the
+   checkpoint.sequence == 0 assertion."
+All four mismatches share one root cause: T57 fails on the candidate, contrary to the frozen declaration.

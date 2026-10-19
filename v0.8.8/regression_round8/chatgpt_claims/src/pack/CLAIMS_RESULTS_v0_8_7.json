@@ -1,0 +1,1232 @@
+{
+  "candidate": "humble_seed_v0_8_7_candidate.py",
+  "claims": {
+    "A1": {
+      "check_process_exit_code": 0,
+      "claim": "Neither the owner's ledger nor the organism records it, and the error says so.",
+      "evidence": {
+        "direct_seed_answer": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "memory_unchanged": true,
+        "owner_answer": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it. The answer was not recorded anywhere: reload the organism and answer again"
+        },
+        "owner_ledger_unchanged": true,
+        "run": "load second object, advance first, answer through stale second object",
+        "saved_file_unchanged": true
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "G1": {
+      "check_process_exit_code": 0,
+      "claim": "A SAVED FILE WITHOUT A VALID GENERATION REFUSES EVERY WRITE, including a new hatch",
+      "evidence": {
+        "cases": {
+          "'3'": {
+            "file_unchanged": true,
+            "hatch_memory_unchanged": true,
+            "results": {
+              "_save": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "dwell": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "new_hatch": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "restore": {
+                "exception": "IntegrityError",
+                "message": "restore refused: the saved state has no valid generation"
+              }
+            }
+          },
+          "'MISSING'": {
+            "file_unchanged": true,
+            "hatch_memory_unchanged": true,
+            "results": {
+              "_save": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "dwell": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "new_hatch": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "restore": {
+                "exception": "IntegrityError",
+                "message": "restore refused: the saved state cannot be read (KeyError: 'generation')"
+              }
+            }
+          },
+          "-1": {
+            "file_unchanged": true,
+            "hatch_memory_unchanged": true,
+            "results": {
+              "_save": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "dwell": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "new_hatch": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "restore": {
+                "exception": "IntegrityError",
+                "message": "restore refused: the saved state has no valid generation"
+              }
+            }
+          },
+          "1.5": {
+            "file_unchanged": true,
+            "hatch_memory_unchanged": true,
+            "results": {
+              "_save": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "dwell": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "new_hatch": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "restore": {
+                "exception": "IntegrityError",
+                "message": "restore refused: the saved state has no valid generation"
+              }
+            }
+          },
+          "None": {
+            "file_unchanged": true,
+            "hatch_memory_unchanged": true,
+            "results": {
+              "_save": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "dwell": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "new_hatch": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "restore": {
+                "exception": "IntegrityError",
+                "message": "restore refused: the saved state has no valid generation"
+              }
+            }
+          },
+          "True": {
+            "file_unchanged": true,
+            "hatch_memory_unchanged": true,
+            "results": {
+              "_save": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "dwell": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "new_hatch": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "restore": {
+                "exception": "IntegrityError",
+                "message": "restore refused: the saved state has no valid generation"
+              }
+            }
+          }
+        },
+        "run": "remove or invalidate saved generation; try ordinary save, direct save, new hatch, restore"
+      },
+      "seconds": 0.04,
+      "verdict": "HOLDS"
+    },
+    "Q1": {
+      "check_process_exit_code": 0,
+      "claim": "hatch, load, dwell_or_propose, record_owner_answer, authorize_and_apply and install_checkpoint each hold the organism lock (organism.lock: POSIX flock across processes, serialized across threads, reentrant within a thread) from a currency check, through every change to memory, to the save.",
+      "evidence": {
+        "caveat": "load is a refresh: it holds the lock but performs no currency check and replaces a stale object rather than refusing it. Mutating operation entry checks were observed under lock.",
+        "observations": {
+          "answer": [
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "record_owner_answer"
+            }
+          ],
+          "apply": [
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "authorize_and_apply"
+            }
+          ],
+          "hatch_and_genesis_install": [
+            {
+              "lock_owned": true,
+              "method": "hatch"
+            },
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "install_checkpoint"
+            }
+          ],
+          "install": [
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "install_checkpoint"
+            }
+          ],
+          "load": [
+            {
+              "lock_owned": true,
+              "method": "_load_locked"
+            }
+          ],
+          "propose": [
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "dwell_or_propose"
+            }
+          ],
+          "refresh_stale_load": [
+            {
+              "lock_owned": true,
+              "method": "_load_locked"
+            }
+          ]
+        },
+        "run": "trace all six public operation bodies plus _check_current while exercising them",
+        "stale_load_changed_memory": true
+      },
+      "seconds": 0.03,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "Q2": {
+      "check_process_exit_code": 0,
+      "claim": "A save takes its snapshot and its new generation under the lock.",
+      "evidence": {
+        "run": "instrument generation read, snapshot seal and serialized write during a direct _save()",
+        "scope": "Lock ownership observed. This does not imply protection against same-thread reentry; R31b tests that separately.",
+        "stages": [
+          {
+            "lock_owned": true,
+            "stage": "generation_check"
+          },
+          {
+            "lock_owned": true,
+            "stage": "snapshot_seal"
+          },
+          {
+            "disk_generation_before": 1,
+            "lock_owned": true,
+            "new_generation": 2,
+            "stage": "serialized_snapshot_and_generation"
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "Q3": {
+      "check_process_exit_code": 0,
+      "claim": "A stale object is refused before it changes anything in memory.",
+      "evidence": {
+        "callback_lock_owned": true,
+        "callback_saved_update_preserved": true,
+        "memory_changed_before_stale_refusal": true,
+        "memory_character_after_refusal": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.25
+        },
+        "memory_character_before": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.5
+        },
+        "next_operation": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "outer_result": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "reason": "The object becomes stale inside its reader; it changes character, gates, consumed IDs and trace before _save raises StaleOrganism. Disk is protected in this reader scenario.",
+        "reload_and_audit": {
+          "returned": true
+        },
+        "run": "reader calls dwell(other object), then outer authorize_and_apply resumes",
+        "saved_character": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.5
+        }
+      },
+      "seconds": 0.01,
+      "verdict": "WRONG"
+    },
+    "Q4": {
+      "check_process_exit_code": 0,
+      "claim": "The owner's answer, attest, audit and restore hold the same lock.",
+      "evidence": {
+        "cases": {
+          "answer": {
+            "blocked_while_organism_lock_held": true,
+            "completed_after_release": true,
+            "result": {
+              "returned": {
+                "authorizes": false,
+                "message": "Recorded as evidence. An answer does not authorize a change.",
+                "status": "recorded"
+              }
+            }
+          },
+          "attest": {
+            "blocked_while_organism_lock_held": true,
+            "completed_after_release": true,
+            "result": {
+              "returned": true
+            }
+          },
+          "audit": {
+            "blocked_while_organism_lock_held": true,
+            "completed_after_release": true,
+            "result": {
+              "returned": true
+            }
+          },
+          "restore": {
+            "blocked_while_organism_lock_held": true,
+            "completed_after_release": true,
+            "result": {
+              "returned": {
+                "checkpoint_sequence": 0,
+                "discarded_entries": 1,
+                "kept_as": "pre_restore_gen2_b43dbfcad392.json",
+                "status": "restored"
+              }
+            }
+          }
+        },
+        "run": "hold organism lock in main thread; attempt each owner operation in another thread; release and join with timeouts"
+      },
+      "seconds": 0.65,
+      "verdict": "HOLDS"
+    },
+    "Q5": {
+      "check_process_exit_code": 0,
+      "claim": "The save's own generation check stays: it catches a write that lands during an operation through a callback in the same thread (the reader).",
+      "evidence": {
+        "callback_lock_owned": true,
+        "callback_saved_update_preserved": true,
+        "memory_changed_before_stale_refusal": true,
+        "memory_character_after_refusal": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.25
+        },
+        "memory_character_before": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.5
+        },
+        "next_operation": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "outer_result": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "reload_and_audit": {
+          "returned": true
+        },
+        "run": "reader calls dwell(other object), then outer authorize_and_apply resumes",
+        "saved_character": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.5
+        },
+        "scope": "The generation check catches the callback write and preserves disk, after the outer operation has changed its own memory."
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    },
+    "R1": {
+      "check_process_exit_code": 0,
+      "claim": "OwnerTool.restore first resolves any pending commit, then rebuilds the organism at the witness head from the attested prefix of its saved trace (replayed and verified before anything is written), discards everything after it and every pending reading, keeps the discarded file beside the state, and records a non-authorizing \"restored\" event.",
+      "evidence": {
+        "caveat": "Successful normal and installed-pending restore rebuild correctly. A later unattested crossing can make pending recovery block restore; verified in code, not just inferred.",
+        "installed_pending_resolution": {
+          "interruption": {
+            "exception": "OSError",
+            "message": "injected witness commit failure, before its write"
+          },
+          "restore": {
+            "checkpoint_sequence": 1,
+            "discarded_entries": 1,
+            "kept_as": "pre_restore_gen4_78353dbc6bf9.json",
+            "status": "restored"
+          }
+        },
+        "normal": {
+          "attested_prefix_preserved": true,
+          "audit_and_next_attest_passed": true,
+          "basin_preserved": true,
+          "discarded_file_exact_copy": true,
+          "pending_after": 0,
+          "pending_before": 1,
+          "restored": {
+            "checkpoint_sequence": 1,
+            "discarded_entries": 3,
+            "kept_as": "pre_restore_gen8_7c6f97edce7d.json",
+            "status": "restored"
+          },
+          "restored_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.25
+          },
+          "restored_event_non_authorizing": true,
+          "witness_unchanged_during_restore": true
+        },
+        "unresolved_pending_with_tail": {
+          "before_second_crossing": {
+            "head": 0,
+            "pending": true,
+            "saved_checkpoint": 1
+          },
+          "head_after": 0,
+          "interruption": {
+            "exception": "OSError",
+            "message": "injected witness commit failure, before its write"
+          },
+          "note": "No file corruption or candidate edit. Recovery validates the entire saved tail, so the valid pending checkpoint cannot complete before that tail is attested or discarded; both routes recover first.",
+          "pending_after": true,
+          "recovery_attempts": {
+            "attest_fresh_owner": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            },
+            "attest_same_object": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            },
+            "audit_same_object": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            },
+            "reload": {
+              "exception": "IntegrityError",
+              "message": "Category sequences do not match the attested checkpoint"
+            },
+            "restore_new_unloaded_object": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            },
+            "restore_same_object": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            }
+          },
+          "run": "interrupt witness commit after checkpoint install; apply another signed crossing; try recovery and restore",
+          "second_crossing": "applied"
+        }
+      },
+      "seconds": 0.07,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "R2": {
+      "check_process_exit_code": 0,
+      "claim": "The witness does not move.",
+      "evidence": {
+        "normal_restore": {
+          "head_after": 0,
+          "head_before": 0
+        },
+        "pending_restore": {
+          "head_after": 1,
+          "head_before": 0,
+          "interruption": {
+            "exception": "OSError",
+            "message": "injected witness commit failure, before its write"
+          },
+          "restore": {
+            "checkpoint_sequence": 1,
+            "discarded_entries": 1,
+            "kept_as": "pre_restore_gen4_e79b28399ce1.json",
+            "status": "restored"
+          }
+        },
+        "reason": "restore completes an installed pending checkpoint and advances the witness. The witness is unchanged only after recovery has resolved the pending commit."
+      },
+      "seconds": 0.03,
+      "verdict": "WRONG"
+    },
+    "R20": {
+      "check_process_exit_code": 0,
+      "claim": "If it is not, OwnerTool.restore brings the organism back to its last attested state; the crossing must be read and signed again.",
+      "evidence": {
+        "normal_expiry": {
+          "attest": {
+            "exception": "AttestationRefused",
+            "message": "trace index 2: reading is past its lifetime by the owner's clock"
+          },
+          "new_reading_and_signing": "applied and attested",
+          "restore": {
+            "checkpoint_sequence": 0,
+            "discarded_entries": 2,
+            "kept_as": "pre_restore_gen3_9c5ddcafc9be.json",
+            "status": "restored"
+          }
+        },
+        "pending_expiry": {
+          "first_interruption": {
+            "exception": "OSError",
+            "message": "injected witness commit failure, before its write"
+          },
+          "restore": {
+            "exception": "RollbackDetected",
+            "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+          }
+        },
+        "reason": "Expired-crossing recovery works with no pending commit, but an installed pending checkpoint followed by an unattested crossing blocks restore even after expiry."
+      },
+      "seconds": 0.04,
+      "verdict": "WRONG"
+    },
+    "R31a": {
+      "check_process_exit_code": 0,
+      "claim": "If another operation's save fails before landing, the object is ahead of its disk; its next operation writes that state unless another object has saved first, in which case it is refused as stale and the unsaved change is lost on reload.",
+      "evidence": {
+        "retry": {
+          "failed_save": {
+            "exception": "OSError",
+            "message": "injected failure before replacement"
+          },
+          "memory_ahead_disk_after_failure": true,
+          "newer_disk_unchanged_on_stale_refusal": false,
+          "next_operation": {
+            "returned": {
+              "distribution": {
+                "confound": 0.25,
+                "preference": 0.35,
+                "unmodeled_cause": 0.4
+              },
+              "message": "Holding in basin. Owner authorization required for permanent change.",
+              "status": "dwelling"
+            }
+          },
+          "other_object_writes": false,
+          "unsaved_change_persisted": true
+        },
+        "stale": {
+          "failed_save": {
+            "exception": "OSError",
+            "message": "injected failure before replacement"
+          },
+          "memory_ahead_disk_after_failure": true,
+          "newer_disk_unchanged_on_stale_refusal": true,
+          "next_operation": {
+            "exception": "StaleOrganism",
+            "message": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+          },
+          "other_object_writes": true,
+          "unsaved_change_persisted": false
+        }
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    },
+    "R31b": {
+      "check_process_exit_code": 0,
+      "claim": "No object writes over a newer saved state.",
+      "evidence": {
+        "delivered": true,
+        "delivery_line": 976,
+        "final_checkpoint": 0,
+        "final_generation": 2,
+        "final_witness": 0,
+        "generation_at_snapshot": 1,
+        "handler_lock_owned": true,
+        "nested_saved_event": "cd99f35d01ad41e059a601377f63220226534dabbc249b1ae94d7997f5464710",
+        "nested_saved_event_still_on_disk": false,
+        "nested_saved_generation": 2,
+        "outer_result": {
+          "returned": {
+            "distribution": {
+              "confound": 0.25,
+              "preference": 0.35,
+              "unmodeled_cause": 0.4
+            },
+            "message": "Holding in basin. Owner authorization required for permanent change.",
+            "status": "dwelling"
+          }
+        },
+        "reason": "A nested public operation in a real signal handler saves an update after the outer save checks generation; outer then overwrites it using the same generation.",
+        "reload_and_audit": {
+          "returned": true
+        },
+        "restoring": false,
+        "scheduling": "sys.settrace delivers one real SIGUSR1 immediately before _durable_write; handler performs a nested public operation in the same thread"
+      },
+      "seconds": 0.01,
+      "verdict": "WRONG"
+    },
+    "R33": {
+      "check_process_exit_code": 0,
+      "claim": "It is refused before it changes anything. An answer given through a stale object is recorded nowhere.",
+      "evidence": {
+        "becomes_stale_during_reader": {
+          "callback_lock_owned": true,
+          "callback_saved_update_preserved": true,
+          "memory_changed_before_stale_refusal": true,
+          "memory_character_after_refusal": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.25
+          },
+          "memory_character_before": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "next_operation": {
+            "exception": "StaleOrganism",
+            "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+          },
+          "outer_result": {
+            "exception": "StaleOrganism",
+            "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+          },
+          "reload_and_audit": {
+            "returned": true
+          },
+          "run": "reader calls dwell(other object), then outer authorize_and_apply resumes",
+          "saved_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          }
+        },
+        "caveat": "An already-stale object is refused before mutation and its answer is recorded nowhere. An object that becomes stale during the reader changes memory before refusal (Q3). load also explicitly refreshes stale objects.",
+        "stale_at_entry": {
+          "direct_seed_answer": {
+            "exception": "StaleOrganism",
+            "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+          },
+          "memory_unchanged": true,
+          "owner_answer": {
+            "exception": "StaleOrganism",
+            "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it. The answer was not recorded anywhere: reload the organism and answer again"
+          },
+          "owner_ledger_unchanged": true,
+          "saved_file_unchanged": true
+        }
+      },
+      "seconds": 0.03,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "R35a": {
+      "check_process_exit_code": 0,
+      "claim": "Operations are serialized per organism data directory.",
+      "evidence": {
+        "caveat": "Threads and processes serialize in these tests. Same-thread reentrant operations can interleave, including the signal-handler counterexample; they are not serialized as whole operations.",
+        "process": {
+          "blocked_under_flock": true,
+          "rc": 0,
+          "stderr": "",
+          "stdout": "DONE\n"
+        },
+        "same_thread_reentry": {
+          "delivered": true,
+          "delivery_line": 976,
+          "final_checkpoint": 0,
+          "final_generation": 2,
+          "final_witness": 0,
+          "generation_at_snapshot": 1,
+          "handler_lock_owned": true,
+          "nested_saved_event": "909d33de7c16f0c10f2072824cc869c67b3ea169efd78bd8a440aaf60c479b61",
+          "nested_saved_event_still_on_disk": false,
+          "nested_saved_generation": 2,
+          "outer_result": {
+            "returned": {
+              "distribution": {
+                "confound": 0.25,
+                "preference": 0.35,
+                "unmodeled_cause": 0.4
+              },
+              "message": "Holding in basin. Owner authorization required for permanent change.",
+              "status": "dwelling"
+            }
+          },
+          "reload_and_audit": {
+            "returned": true
+          },
+          "restoring": false,
+          "scheduling": "sys.settrace delivers one real SIGUSR1 immediately before _durable_write; handler performs a nested public operation in the same thread"
+        },
+        "thread": {
+          "both_saved": true,
+          "second_waited_for_whole_operation": true
+        }
+      },
+      "seconds": 0.39,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "R35b": {
+      "check_process_exit_code": 0,
+      "claim": "A callback that runs inside an operation (the reader) runs under the lock; a write it makes through another object is caught by the save's generation check, and the operation is refused as stale.",
+      "evidence": {
+        "callback_lock_owned": true,
+        "callback_saved_update_preserved": true,
+        "memory_changed_before_stale_refusal": true,
+        "memory_character_after_refusal": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.25
+        },
+        "memory_character_before": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.5
+        },
+        "next_operation": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "outer_result": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "reload_and_audit": {
+          "returned": true
+        },
+        "run": "reader calls dwell(other object), then outer authorize_and_apply resumes",
+        "saved_character": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.5
+        },
+        "scope": "This specific reader-to-another-object scenario is detected at save; the outer object still has unsaved memory changes."
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "R36": {
+      "check_process_exit_code": 0,
+      "claim": "Restore needs the attested prefix intact in the saved file. An unreadable file, or one truncated below the prefix, cannot be restored; no separate backup is kept. The basin (unattested evidence) is kept.",
+      "evidence": {
+        "invalid_saved_prefix": {
+          "rewritten": {
+            "no_backup_created": true,
+            "no_state_write": true,
+            "restore": {
+              "exception": "IntegrityError",
+              "message": "restore refused: the saved trace's attested prefix does not match the checkpoint"
+            }
+          },
+          "truncated": {
+            "no_backup_created": true,
+            "no_state_write": true,
+            "restore": {
+              "exception": "IntegrityError",
+              "message": "restore refused: the saved trace's attested prefix does not match the checkpoint"
+            }
+          },
+          "unreadable": {
+            "no_backup_created": true,
+            "no_state_write": true,
+            "restore": {
+              "exception": "RollbackDetected",
+              "message": "restore refused: the organism's saved state is unreadable (JSONDecodeError)"
+            }
+          }
+        },
+        "normal": {
+          "attested_prefix_preserved": true,
+          "audit_and_next_attest_passed": true,
+          "basin_preserved": true,
+          "discarded_file_exact_copy": true,
+          "pending_after": 0,
+          "pending_before": 1,
+          "restored": {
+            "checkpoint_sequence": 1,
+            "discarded_entries": 3,
+            "kept_as": "pre_restore_gen8_0ef565764b5c.json",
+            "status": "restored"
+          },
+          "restored_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.25
+          },
+          "restored_event_non_authorizing": true,
+          "witness_unchanged_during_restore": true
+        },
+        "scope": "Intact-prefix restores preserve basin and an exact discarded-file copy. On first restore, an unreadable/truncated/rewritten prefix is refused; no independent prefix backup was present."
+      },
+      "seconds": 0.08,
+      "verdict": "HOLDS"
+    },
+    "U1": {
+      "check_process_exit_code": 0,
+      "claim": "If a save fails and the saved generation cannot be re-read, the object refuses every operation until it is reloaded.",
+      "evidence": {
+        "attest": {
+          "exception": "OSError",
+          "message": "injected directory fsync failure after replace"
+        },
+        "audit_without_reload": {
+          "returned": true
+        },
+        "before_checkpoint": 0,
+        "caveat": "State-mutating seed operations and attest refuse; audit and read-only methods still work on the unusable object. load is the explicit recovery exception.",
+        "disk_checkpoint": 1,
+        "disk_generation": 2,
+        "dwell_after_load": {
+          "returned": {
+            "distribution": {
+              "confound": 0.25,
+              "preference": 0.35,
+              "unmodeled_cause": 0.4
+            },
+            "message": "Holding in basin. Owner authorization required for permanent change.",
+            "status": "dwelling"
+          }
+        },
+        "explicit_load": {
+          "returned": null
+        },
+        "injected": {
+          "fsync": true,
+          "reread": true
+        },
+        "memory_checkpoint": 1,
+        "memory_generation": -1,
+        "read_only_without_reload": {
+          "checkpoint_request": {
+            "sequence": 2
+          },
+          "verify": {
+            "returned": true
+          }
+        },
+        "refused_operations": {
+          "_save": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          },
+          "attest": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          },
+          "authorize_and_apply": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          },
+          "dwell": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          },
+          "hatch": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          },
+          "install_checkpoint": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          },
+          "owner_answer": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it. The answer was not recorded anywhere: reload the organism and answer again"
+          },
+          "record_owner_answer": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          }
+        }
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "U2": {
+      "check_process_exit_code": 0,
+      "claim": "install_checkpoint does not roll memory back on a guess.",
+      "evidence": {
+        "interruption_counterexample": {
+          "attest": {
+            "exception": "KeyboardInterrupt",
+            "message": "injected interruption during generation reread"
+          },
+          "before_checkpoint": 0,
+          "disk_checkpoint": 1,
+          "disk_generation": 2,
+          "injected": {
+            "fsync": true,
+            "reread": true
+          },
+          "memory_checkpoint": 0,
+          "memory_generation": 1
+        },
+        "ordinary_oserror_control": {
+          "attest": {
+            "exception": "OSError",
+            "message": "injected directory fsync failure after replace"
+          },
+          "before_checkpoint": 0,
+          "disk_checkpoint": 1,
+          "disk_generation": 2,
+          "injected": {
+            "fsync": true,
+            "reread": true
+          },
+          "memory_checkpoint": 1,
+          "memory_generation": -1
+        },
+        "reason": "The reread catches Exception, not BaseException; the interrupt escapes with the old generation, so install_checkpoint rolls memory back while the replacement checkpoint is already on disk.",
+        "run": "fail directory fsync after replace; interrupt the generation reread with KeyboardInterrupt"
+      },
+      "seconds": 0.02,
+      "verdict": "WRONG"
+    }
+  },
+  "cryptography": "50.0.2",
+  "extra": {
+    "extra_lock_inversion": {
+      "check_process_exit_code": 0,
+      "evidence": {
+        "reason": "Owner APIs acquire owner then organism; the reader already holds organism and requests owner. This is a live-lock-order deadlock; the child was terminated, not left running.",
+        "run": "reader calls owner API while another thread is in an owner operation; child timeout 3 seconds",
+        "stderr": "",
+        "stdout": "OWNER_LOCK_HELD_WAITING_FOR_ORGANISM\nREADER_HOLDS_ORGANISM_WAITING_FOR_OWNER\n",
+        "timed_out": true
+      },
+      "seconds": 3.01,
+      "verdict": "FOUND"
+    }
+  },
+  "open_questions": {
+    "QA": {
+      "check_process_exit_code": 0,
+      "claim": "Is there any interleaving of processes, threads or organism objects that loses a saved update, or leaves the witness and the saved file in a state that neither recovery nor restore can resolve?",
+      "evidence": {
+        "pending_commit_dead_end": {
+          "before_second_crossing": {
+            "head": 0,
+            "pending": true,
+            "saved_checkpoint": 1
+          },
+          "head_after": 0,
+          "interruption": {
+            "exception": "OSError",
+            "message": "injected witness commit failure, before its write"
+          },
+          "note": "No file corruption or candidate edit. Recovery validates the entire saved tail, so the valid pending checkpoint cannot complete before that tail is attested or discarded; both routes recover first.",
+          "pending_after": true,
+          "recovery_attempts": {
+            "attest_fresh_owner": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            },
+            "attest_same_object": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            },
+            "audit_same_object": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            },
+            "reload": {
+              "exception": "IntegrityError",
+              "message": "Category sequences do not match the attested checkpoint"
+            },
+            "restore_new_unloaded_object": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            },
+            "restore_same_object": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            }
+          },
+          "run": "interrupt witness commit after checkpoint install; apply another signed crossing; try recovery and restore",
+          "second_crossing": "applied"
+        },
+        "saved_update_loss": {
+          "delivered": true,
+          "delivery_line": 976,
+          "final_checkpoint": 0,
+          "final_generation": 2,
+          "final_witness": 0,
+          "generation_at_snapshot": 1,
+          "handler_lock_owned": true,
+          "nested_saved_event": "efe18964fd3f99a953925ad0ef98dd73d9b9421221357d0546e7977db37b9d18",
+          "nested_saved_event_still_on_disk": false,
+          "nested_saved_generation": 2,
+          "outer_result": {
+            "returned": {
+              "distribution": {
+                "confound": 0.25,
+                "preference": 0.35,
+                "unmodeled_cause": 0.4
+              },
+              "message": "Holding in basin. Owner authorization required for permanent change.",
+              "status": "dwelling"
+            }
+          },
+          "reload_and_audit": {
+            "returned": true
+          },
+          "restoring": false,
+          "scheduling": "sys.settrace delivers one real SIGUSR1 immediately before _durable_write; handler performs a nested public operation in the same thread"
+        },
+        "scope": "Concrete counterexamples, not an exhaustive concurrency proof."
+      },
+      "seconds": 0.03,
+      "verdict": "FOUND"
+    },
+    "QB": {
+      "check_process_exit_code": 0,
+      "claim": "Is there any failed or interrupted save, or any use of restore, that leaves a state that can never be signed off, or that lets something be signed off that the owner did not approve?",
+      "evidence": {
+        "failed_commit_then_unattested_tail": {
+          "before_second_crossing": {
+            "head": 0,
+            "pending": true,
+            "saved_checkpoint": 1
+          },
+          "head_after": 0,
+          "interruption": {
+            "exception": "OSError",
+            "message": "injected witness commit failure, before its write"
+          },
+          "note": "No file corruption or candidate edit. Recovery validates the entire saved tail, so the valid pending checkpoint cannot complete before that tail is attested or discarded; both routes recover first.",
+          "pending_after": true,
+          "recovery_attempts": {
+            "attest_fresh_owner": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            },
+            "attest_same_object": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            },
+            "audit_same_object": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            },
+            "reload": {
+              "exception": "IntegrityError",
+              "message": "Category sequences do not match the attested checkpoint"
+            },
+            "restore_new_unloaded_object": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            },
+            "restore_same_object": {
+              "exception": "RollbackDetected",
+              "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+            }
+          },
+          "run": "interrupt witness commit after checkpoint install; apply another signed crossing; try recovery and restore",
+          "second_crossing": "applied"
+        },
+        "fresh_process_after_restore": {
+          "attest": {
+            "exception": "RollbackDetected",
+            "message": "Non-successor checkpoint: organism presents sequence 1, expected 2"
+          },
+          "audit": {
+            "exception": "RollbackDetected",
+            "message": "Rollback: organism presents sequence 0, witness holds 1"
+          },
+          "restore": {
+            "exception": "RollbackDetected",
+            "message": "restore refused: the saved checkpoint is not the witness head"
+          }
+        },
+        "restore_overwrites_new_signoff": {
+          "delivered": true,
+          "delivery_line": 976,
+          "final_checkpoint": 0,
+          "final_generation": 3,
+          "final_witness": 1,
+          "generation_at_snapshot": 2,
+          "handler_lock_owned": true,
+          "nested_checkpoint": {
+            "attested_trace_len": 3,
+            "birth_root": "d9f242557f672abab9402564239460ac12689f54f91f662b71efe9afd2038abf",
+            "character_root": "b1626280ec622a4139795fd3876c513d2581c4f6d5fb0461d676b1f17f6c7372",
+            "constitution_root": "b439aedc3aecd7ace7851195b0cf4e22693656ea0c3df7012a9699ee027236df",
+            "consumed_root": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "gates_root": "05f79c4a8d4e45b910598832fc722f4060ca10d5376d6769b6e2039d4ef02715",
+            "mutation_sequence": 0,
+            "organism_id": "999158fc-4e1c-4b16-be24-6b1bba5af07a",
+            "prev_checkpoint_hash": "6b994e9cd5ca1bd9d327900ac6793aebf624724fb818cf9348771b972d71e29c",
+            "sequence": 1,
+            "timestamp": 1792432932.8640156,
+            "trace_head": "f13c529711923a89f55ecfd738035c627d51452882150d603889199bc5d527ad"
+          },
+          "nested_checkpoint_hash": "b598a85c47f8ec12e71ce5c726d71b4bdf22a2b1638176deb5154035b314fa85",
+          "nested_saved_generation": 3,
+          "nested_signature": "aU6tlcuza4aH4Wv5bmUQPjv1rt3MX-YSffngFMSNH7rKJ01MSuDUCiYSam920D-_gDwq7GuFc4sxQ_9u_BZvDg==",
+          "nested_signed_state_verified": true,
+          "nested_witness": 1,
+          "nested_witness_hash": "b598a85c47f8ec12e71ce5c726d71b4bdf22a2b1638176deb5154035b314fa85",
+          "outer_result": {
+            "returned": {
+              "checkpoint_sequence": 0,
+              "discarded_entries": 2,
+              "kept_as": "pre_restore_gen2_04f7445e0c91.json",
+              "status": "restored"
+            }
+          },
+          "pending_after": false,
+          "post_restore_attempts": {
+            "attest": {
+              "exception": "RollbackDetected",
+              "message": "Non-successor checkpoint: organism presents sequence 1, expected 2"
+            },
+            "audit": {
+              "exception": "RollbackDetected",
+              "message": "Rollback: organism presents sequence 0, witness holds 1"
+            },
+            "restore": {
+              "exception": "RollbackDetected",
+              "message": "restore refused: the saved checkpoint is not the witness head"
+            }
+          },
+          "restoring": true,
+          "scheduling": "sys.settrace delivers one real SIGUSR1 immediately before _durable_write; handler performs a nested public operation in the same thread",
+          "signed_checkpoint_discarded": true
+        },
+        "scope": "Persisted state cannot be signed off through fresh OwnerTool.attest/audit/restore sessions in these reproductions. This is an operational dead end in those APIs, not a proof that arbitrary manual repair is impossible. No unauthorized-attestation claim is made."
+      },
+      "seconds": 0.11,
+      "verdict": "FOUND"
+    },
+    "QC": {
+      "check_process_exit_code": 0,
+      "claim": "Can restore be made to bring back anything other than the witness head, or to discard something the owner signed off?",
+      "evidence": {
+        "delivered": true,
+        "delivery_line": 976,
+        "final_checkpoint": 0,
+        "final_generation": 3,
+        "final_witness": 1,
+        "generation_at_snapshot": 2,
+        "handler_lock_owned": true,
+        "nested_checkpoint": {
+          "attested_trace_len": 3,
+          "birth_root": "f10a17d9742073c8e34ff44df4f19867ec52e657ade124127bbe22ffe0986396",
+          "character_root": "b1626280ec622a4139795fd3876c513d2581c4f6d5fb0461d676b1f17f6c7372",
+          "constitution_root": "b439aedc3aecd7ace7851195b0cf4e22693656ea0c3df7012a9699ee027236df",
+          "consumed_root": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "gates_root": "05f79c4a8d4e45b910598832fc722f4060ca10d5376d6769b6e2039d4ef02715",
+          "mutation_sequence": 0,
+          "organism_id": "78b02643-dab8-4962-bb7e-b411ac1274f4",
+          "prev_checkpoint_hash": "e28dc01740952d5ee576d2bdf33215315a9135bc726c5795a666ed55ab6fa7ff",
+          "sequence": 1,
+          "timestamp": 1792432933.0196724,
+          "trace_head": "79cb7b16c550595bff9261dabf95281463cd741ca48e902f5d5f39b9a8e69878"
+        },
+        "nested_checkpoint_hash": "703d99ae855144463098a0fa80e0b61d329f59d42b828ddca10b595873f724e0",
+        "nested_saved_generation": 3,
+        "nested_signature": "pb9Ct94jFrDsTN8xQn_QrtGDBW3-2eeBvsL-cCtLQM9jZn53_z19ZzGQPrqU6DPqwxj3Y-_PbsH-rdNanosJBg==",
+        "nested_signed_state_verified": true,
+        "nested_witness": 1,
+        "nested_witness_hash": "703d99ae855144463098a0fa80e0b61d329f59d42b828ddca10b595873f724e0",
+        "outer_result": {
+          "returned": {
+            "checkpoint_sequence": 0,
+            "discarded_entries": 2,
+            "kept_as": "pre_restore_gen2_5e456b0d2ef9.json",
+            "status": "restored"
+          }
+        },
+        "pending_after": false,
+        "post_restore_attempts": {
+          "attest": {
+            "exception": "RollbackDetected",
+            "message": "Non-successor checkpoint: organism presents sequence 1, expected 2"
+          },
+          "audit": {
+            "exception": "RollbackDetected",
+            "message": "Rollback: organism presents sequence 0, witness holds 1"
+          },
+          "restore": {
+            "exception": "RollbackDetected",
+            "message": "restore refused: the saved checkpoint is not the witness head"
+          }
+        },
+        "reason": "While restore saves its already-verified old-head snapshot, a real same-thread signal handler completes a new owner attestation. Restore then overwrites that signed-off checkpoint and returns the older checkpoint, leaving witness ahead and no pending intent.",
+        "restoring": true,
+        "scheduling": "sys.settrace delivers one real SIGUSR1 immediately before _durable_write; handler performs a nested public operation in the same thread",
+        "signed_checkpoint_discarded": true
+      },
+      "seconds": 0.02,
+      "verdict": "FOUND"
+    }
+  },
+  "python": "3.12.14"
+}

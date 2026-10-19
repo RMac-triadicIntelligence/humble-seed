@@ -5,3 +5,6 @@ humble_seed_v0_6.py -text
 history/** -text
 variants/** -text
 probes/probe6_validation.py -text
+
+# Keep the v0.8.8 release bytes exactly as hashed in v0.8.8/SHA256SUMS.
+v0.8.8/** -text

@@ -1,0 +1,795 @@
+{
+  "candidate": "humble_seed_v0_8_8_candidate.py",
+  "claims": {
+    "A1": {
+      "check_process_exit_code": 0,
+      "claim": "Neither the owner's ledger nor the organism records it, and the error says so.",
+      "evidence": {
+        "direct_seed_answer": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "memory_unchanged": true,
+        "owner_answer": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it. The answer was not recorded anywhere: reload the organism and answer again"
+        },
+        "owner_ledger_unchanged": true,
+        "run": "load second object, advance first, answer through stale second object",
+        "saved_file_unchanged": true
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    },
+    "G1": {
+      "check_process_exit_code": 0,
+      "claim": "A SAVED FILE WITHOUT A VALID GENERATION REFUSES EVERY WRITE, including a new hatch",
+      "evidence": {
+        "cases": {
+          "'3'": {
+            "file_unchanged": true,
+            "hatch_memory_unchanged": true,
+            "results": {
+              "_save": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "dwell": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "new_hatch": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "restore": {
+                "exception": "IntegrityError",
+                "message": "restore refused: the saved state has no valid generation"
+              }
+            }
+          },
+          "'MISSING'": {
+            "file_unchanged": true,
+            "hatch_memory_unchanged": true,
+            "results": {
+              "_save": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "dwell": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "new_hatch": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "restore": {
+                "exception": "IntegrityError",
+                "message": "restore refused: the saved state cannot be read (KeyError: 'generation')"
+              }
+            }
+          },
+          "-1": {
+            "file_unchanged": true,
+            "hatch_memory_unchanged": true,
+            "results": {
+              "_save": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "dwell": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "new_hatch": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "restore": {
+                "exception": "IntegrityError",
+                "message": "restore refused: the saved state has no valid generation"
+              }
+            }
+          },
+          "1.5": {
+            "file_unchanged": true,
+            "hatch_memory_unchanged": true,
+            "results": {
+              "_save": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "dwell": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "new_hatch": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "restore": {
+                "exception": "IntegrityError",
+                "message": "restore refused: the saved state has no valid generation"
+              }
+            }
+          },
+          "None": {
+            "file_unchanged": true,
+            "hatch_memory_unchanged": true,
+            "results": {
+              "_save": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "dwell": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "new_hatch": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "restore": {
+                "exception": "IntegrityError",
+                "message": "restore refused: the saved state has no valid generation"
+              }
+            }
+          },
+          "True": {
+            "file_unchanged": true,
+            "hatch_memory_unchanged": true,
+            "results": {
+              "_save": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "dwell": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "new_hatch": {
+                "exception": "StaleOrganism",
+                "message": "the saved state has no valid generation; refusing to write over it"
+              },
+              "restore": {
+                "exception": "IntegrityError",
+                "message": "restore refused: the saved state has no valid generation"
+              }
+            }
+          }
+        },
+        "run": "remove or invalidate saved generation; try ordinary save, direct save, new hatch, restore"
+      },
+      "seconds": 0.05,
+      "verdict": "HOLDS"
+    },
+    "Q1": {
+      "check_process_exit_code": 0,
+      "claim": "hatch, load, dwell_or_propose, record_owner_answer, authorize_and_apply and install_checkpoint each hold the organism lock (organism.lock: POSIX flock across processes, serialized across threads, reentrant within a thread) from a currency check, through every change to memory, to the save.",
+      "evidence": {
+        "caveat": "load is a refresh: it holds the lock but performs no currency check and replaces a stale object rather than refusing it. Mutating operation entry checks were observed under lock.",
+        "observations": {
+          "answer": [
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "record_owner_answer"
+            }
+          ],
+          "apply": [
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "authorize_and_apply"
+            }
+          ],
+          "hatch_and_genesis_install": [
+            {
+              "lock_owned": true,
+              "method": "hatch"
+            },
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "install_checkpoint"
+            }
+          ],
+          "install": [
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "install_checkpoint"
+            }
+          ],
+          "load": [
+            {
+              "lock_owned": true,
+              "method": "_load_locked"
+            }
+          ],
+          "propose": [
+            {
+              "lock_owned": true,
+              "method": "_check_current"
+            },
+            {
+              "lock_owned": true,
+              "method": "dwell_or_propose"
+            }
+          ],
+          "refresh_stale_load": [
+            {
+              "lock_owned": true,
+              "method": "_load_locked"
+            }
+          ]
+        },
+        "run": "trace all six public operation bodies plus _check_current while exercising them",
+        "stale_load_changed_memory": true
+      },
+      "seconds": 0.03,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "Q2": {
+      "check_process_exit_code": 0,
+      "claim": "A save takes its snapshot and its new generation under the lock.",
+      "evidence": {
+        "run": "instrument generation read, snapshot seal and serialized write during a direct _save()",
+        "scope": "Lock ownership observed. This does not imply protection against same-thread reentry; R31b tests that separately.",
+        "stages": [
+          {
+            "lock_owned": true,
+            "stage": "generation_check"
+          },
+          {
+            "lock_owned": true,
+            "stage": "snapshot_seal"
+          },
+          {
+            "disk_generation_before": 1,
+            "lock_owned": true,
+            "new_generation": 2,
+            "stage": "serialized_snapshot_and_generation"
+          }
+        ]
+      },
+      "seconds": 0.01,
+      "verdict": "HOLDS"
+    },
+    "Q3": {
+      "check_process_exit_code": 0,
+      "claim": "A stale object is refused before it changes anything in memory.",
+      "evidence": {
+        "callback_lock_owned": true,
+        "callback_saved_update_preserved": true,
+        "memory_changed_before_stale_refusal": true,
+        "memory_character_after_refusal": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.25
+        },
+        "memory_character_before": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.5
+        },
+        "next_operation": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "outer_result": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "reason": "The object becomes stale inside its reader; it changes character, gates, consumed IDs and trace before _save raises StaleOrganism. Disk is protected in this reader scenario.",
+        "reload_and_audit": {
+          "returned": true
+        },
+        "run": "reader calls dwell(other object), then outer authorize_and_apply resumes",
+        "saved_character": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.5
+        }
+      },
+      "seconds": 0.02,
+      "verdict": "WRONG"
+    },
+    "Q4": {
+      "check_process_exit_code": 0,
+      "claim": "The owner's answer, attest, audit and restore hold the same lock.",
+      "evidence": {
+        "cases": {
+          "answer": {
+            "blocked_while_organism_lock_held": true,
+            "completed_after_release": true,
+            "result": {
+              "returned": {
+                "authorizes": false,
+                "message": "Recorded as evidence. An answer does not authorize a change.",
+                "status": "recorded"
+              }
+            }
+          },
+          "attest": {
+            "blocked_while_organism_lock_held": true,
+            "completed_after_release": true,
+            "result": {
+              "returned": true
+            }
+          },
+          "audit": {
+            "blocked_while_organism_lock_held": true,
+            "completed_after_release": true,
+            "result": {
+              "returned": true
+            }
+          },
+          "restore": {
+            "blocked_while_organism_lock_held": true,
+            "completed_after_release": true,
+            "result": {
+              "returned": {
+                "checkpoint_sequence": 0,
+                "discarded_entries": 1,
+                "kept_as": "pre_restore_gen2_9aa595ee4e49.json",
+                "owner_no_outstanding": [],
+                "status": "restored"
+              }
+            }
+          }
+        },
+        "run": "hold organism lock in main thread; attempt each owner operation in another thread; release and join with timeouts"
+      },
+      "seconds": 0.66,
+      "verdict": "HOLDS"
+    },
+    "Q5": {
+      "check_process_exit_code": 0,
+      "claim": "The save's own generation check stays: it catches a write that lands during an operation through a callback in the same thread (the reader).",
+      "evidence": {
+        "callback_lock_owned": true,
+        "callback_saved_update_preserved": true,
+        "memory_changed_before_stale_refusal": true,
+        "memory_character_after_refusal": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.25
+        },
+        "memory_character_before": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.5
+        },
+        "next_operation": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "outer_result": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "reload_and_audit": {
+          "returned": true
+        },
+        "run": "reader calls dwell(other object), then outer authorize_and_apply resumes",
+        "saved_character": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.5
+        },
+        "scope": "The generation check catches the callback write and preserves disk, after the outer operation has changed its own memory."
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    },
+    "R1": {
+      "check_process_exit_code": 0,
+      "claim": "OwnerTool.restore first resolves any pending commit, then rebuilds the organism at the witness head from the attested prefix of its saved trace (replayed and verified before anything is written), discards everything after it and every pending reading, keeps the discarded file beside the state, and records a non-authorizing \"restored\" event.",
+      "evidence": "AssertionError: {'returned': {'status': 'restored', 'checkpoint_sequence': 1, 'discarded_entries': 2, 'kept_as': 'pre_restore_gen6_d6ce80f6d067.json', 'owner_no_outstanding': []}}",
+      "seconds": 0.11,
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 758, in _run_inline\n    r = fn(d)\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 532, in check_R1\n    stuck=_pending_tail(d/'pending_tail')\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 230, in _pending_tail\n    if key != 'reload': require_exception(blocked[key], 'RollbackDetected')\n                        ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 157, in require_exception\n    assert r.get('exception') == kind, r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'returned': {'status': 'restored', 'checkpoint_sequence': 1, 'discarded_entries': 2, 'kept_as': 'pre_restore_gen6_d6ce80f6d067.json', 'owner_no_outstanding': []}}\n",
+      "verdict": "ERROR"
+    },
+    "R2": {
+      "check_process_exit_code": 0,
+      "claim": "The witness does not move.",
+      "evidence": {
+        "normal_restore": {
+          "head_after": 0,
+          "head_before": 0
+        },
+        "pending_restore": {
+          "head_after": 1,
+          "head_before": 0,
+          "interruption": {
+            "exception": "OSError",
+            "message": "injected witness commit failure, before its write"
+          },
+          "restore": {
+            "checkpoint_sequence": 1,
+            "discarded_entries": 1,
+            "kept_as": "pre_restore_gen4_206c5279664a.json",
+            "owner_no_outstanding": [],
+            "status": "restored"
+          }
+        },
+        "reason": "restore completes an installed pending checkpoint and advances the witness. The witness is unchanged only after recovery has resolved the pending commit."
+      },
+      "seconds": 0.04,
+      "verdict": "WRONG"
+    },
+    "R20": {
+      "check_process_exit_code": 0,
+      "claim": "If it is not, OwnerTool.restore brings the organism back to its last attested state; the crossing must be read and signed again.",
+      "evidence": "AssertionError: {'returned': {'status': 'restored', 'checkpoint_sequence': 1, 'discarded_entries': 2, 'kept_as': 'pre_restore_gen6_a2b8227d94ad.json', 'owner_no_outstanding': []}}",
+      "seconds": 0.08,
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 758, in _run_inline\n    r = fn(d)\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 562, in check_R20\n    require_exception(blocked,'RollbackDetected')\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 157, in require_exception\n    assert r.get('exception') == kind, r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'returned': {'status': 'restored', 'checkpoint_sequence': 1, 'discarded_entries': 2, 'kept_as': 'pre_restore_gen6_a2b8227d94ad.json', 'owner_no_outstanding': []}}\n",
+      "verdict": "ERROR"
+    },
+    "R31a": {
+      "check_process_exit_code": 0,
+      "claim": "If another operation's save fails before landing, the object is ahead of its disk; its next operation writes that state unless another object has saved first, in which case it is refused as stale and the unsaved change is lost on reload.",
+      "evidence": {
+        "retry": {
+          "failed_save": {
+            "exception": "OSError",
+            "message": "injected failure before replacement"
+          },
+          "memory_ahead_disk_after_failure": true,
+          "newer_disk_unchanged_on_stale_refusal": false,
+          "next_operation": {
+            "returned": {
+              "distribution": {
+                "confound": 0.25,
+                "preference": 0.35,
+                "unmodeled_cause": 0.4
+              },
+              "message": "Holding in basin. Owner authorization required for permanent change.",
+              "status": "dwelling"
+            }
+          },
+          "other_object_writes": false,
+          "unsaved_change_persisted": true
+        },
+        "stale": {
+          "failed_save": {
+            "exception": "OSError",
+            "message": "injected failure before replacement"
+          },
+          "memory_ahead_disk_after_failure": true,
+          "newer_disk_unchanged_on_stale_refusal": true,
+          "next_operation": {
+            "exception": "StaleOrganism",
+            "message": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+          },
+          "other_object_writes": true,
+          "unsaved_change_persisted": false
+        }
+      },
+      "seconds": 0.03,
+      "verdict": "HOLDS"
+    },
+    "R31b": {
+      "check_process_exit_code": 0,
+      "claim": "No object writes over a newer saved state.",
+      "evidence": "AssertionError: ({'delivered': False, 'restoring': False}, {'returned': {'status': 'dwelling', 'distribution': {'preference': 0.35, 'confound': 0.25, 'unmodeled_cause': 0.4}, 'message': 'Holding in basin. Owner authorization required for permanent change.'}})",
+      "seconds": 0.02,
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 758, in _run_inline\n    r = fn(d)\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 598, in check_R31b\n    return answer('WRONG',**_late_signal(d), reason='A nested public operation in a real signal handler saves an update after the outer save checks generation; outer then overwrites it using the same generation.')\n                            ~~~~~~~~~~~~^^^\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 290, in _late_signal\n    assert observed['delivered'] and observed['handler_lock_owned'] and 'returned' in outer, (observed, outer)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ({'delivered': False, 'restoring': False}, {'returned': {'status': 'dwelling', 'distribution': {'preference': 0.35, 'confound': 0.25, 'unmodeled_cause': 0.4}, 'message': 'Holding in basin. Owner authorization required for permanent change.'}})\n",
+      "verdict": "ERROR"
+    },
+    "R33": {
+      "check_process_exit_code": 0,
+      "claim": "It is refused before it changes anything. An answer given through a stale object is recorded nowhere.",
+      "evidence": {
+        "becomes_stale_during_reader": {
+          "callback_lock_owned": true,
+          "callback_saved_update_preserved": true,
+          "memory_changed_before_stale_refusal": true,
+          "memory_character_after_refusal": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.25
+          },
+          "memory_character_before": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          },
+          "next_operation": {
+            "exception": "StaleOrganism",
+            "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+          },
+          "outer_result": {
+            "exception": "StaleOrganism",
+            "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+          },
+          "reload_and_audit": {
+            "returned": true
+          },
+          "run": "reader calls dwell(other object), then outer authorize_and_apply resumes",
+          "saved_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.5
+          }
+        },
+        "caveat": "An already-stale object is refused before mutation and its answer is recorded nowhere. An object that becomes stale during the reader changes memory before refusal (Q3). load also explicitly refreshes stale objects.",
+        "stale_at_entry": {
+          "direct_seed_answer": {
+            "exception": "StaleOrganism",
+            "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+          },
+          "memory_unchanged": true,
+          "owner_answer": {
+            "exception": "StaleOrganism",
+            "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it. The answer was not recorded anywhere: reload the organism and answer again"
+          },
+          "owner_ledger_unchanged": true,
+          "saved_file_unchanged": true
+        }
+      },
+      "seconds": 0.03,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "R35a": {
+      "check_process_exit_code": 0,
+      "claim": "Operations are serialized per organism data directory.",
+      "evidence": "AssertionError: ({'delivered': False, 'restoring': False}, {'returned': {'status': 'dwelling', 'distribution': {'preference': 0.35, 'confound': 0.25, 'unmodeled_cause': 0.4}, 'message': 'Holding in basin. Owner authorization required for permanent change.'}})",
+      "seconds": 0.4,
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 758, in _run_inline\n    r = fn(d)\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 638, in check_R35a\n    nested=_late_signal(d/'reentry')\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 290, in _late_signal\n    assert observed['delivered'] and observed['handler_lock_owned'] and 'returned' in outer, (observed, outer)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ({'delivered': False, 'restoring': False}, {'returned': {'status': 'dwelling', 'distribution': {'preference': 0.35, 'confound': 0.25, 'unmodeled_cause': 0.4}, 'message': 'Holding in basin. Owner authorization required for permanent change.'}})\n",
+      "verdict": "ERROR"
+    },
+    "R35b": {
+      "check_process_exit_code": 0,
+      "claim": "A callback that runs inside an operation (the reader) runs under the lock; a write it makes through another object is caught by the save's generation check, and the operation is refused as stale.",
+      "evidence": {
+        "callback_lock_owned": true,
+        "callback_saved_update_preserved": true,
+        "memory_changed_before_stale_refusal": true,
+        "memory_character_after_refusal": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.25
+        },
+        "memory_character_before": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.5
+        },
+        "next_operation": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "outer_result": {
+          "exception": "StaleOrganism",
+          "message": "stale organism object: the saved state is at generation 3, this object last saw 2; reload it"
+        },
+        "reload_and_audit": {
+          "returned": true
+        },
+        "run": "reader calls dwell(other object), then outer authorize_and_apply resumes",
+        "saved_character": {
+          "curiosity": 0.6,
+          "formality": 0.5,
+          "verbosity": 0.5
+        },
+        "scope": "This specific reader-to-another-object scenario is detected at save; the outer object still has unsaved memory changes."
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS"
+    },
+    "R36": {
+      "check_process_exit_code": 0,
+      "claim": "Restore needs the attested prefix intact in the saved file. An unreadable file, or one truncated below the prefix, cannot be restored; no separate backup is kept. The basin (unattested evidence) is kept.",
+      "evidence": {
+        "invalid_saved_prefix": {
+          "rewritten": {
+            "no_backup_created": true,
+            "no_state_write": true,
+            "restore": {
+              "exception": "IntegrityError",
+              "message": "restore refused: the saved trace's attested prefix does not match the checkpoint"
+            }
+          },
+          "truncated": {
+            "no_backup_created": true,
+            "no_state_write": true,
+            "restore": {
+              "exception": "IntegrityError",
+              "message": "restore refused: the saved trace's attested prefix does not match the checkpoint"
+            }
+          },
+          "unreadable": {
+            "no_backup_created": true,
+            "no_state_write": true,
+            "restore": {
+              "exception": "RollbackDetected",
+              "message": "restore refused: the organism's saved state is unreadable (JSONDecodeError)"
+            }
+          }
+        },
+        "normal": {
+          "attested_prefix_preserved": true,
+          "audit_and_next_attest_passed": true,
+          "basin_preserved": true,
+          "discarded_file_exact_copy": true,
+          "pending_after": 0,
+          "pending_before": 1,
+          "restored": {
+            "checkpoint_sequence": 1,
+            "discarded_entries": 3,
+            "kept_as": "pre_restore_gen8_6e6262735718.json",
+            "owner_no_outstanding": [],
+            "status": "restored"
+          },
+          "restored_character": {
+            "curiosity": 0.6,
+            "formality": 0.5,
+            "verbosity": 0.25
+          },
+          "restored_event_non_authorizing": true,
+          "witness_unchanged_during_restore": true
+        },
+        "scope": "Intact-prefix restores preserve basin and an exact discarded-file copy. On first restore, an unreadable/truncated/rewritten prefix is refused; no independent prefix backup was present."
+      },
+      "seconds": 0.14,
+      "verdict": "HOLDS"
+    },
+    "U1": {
+      "check_process_exit_code": 0,
+      "claim": "If a save fails and the saved generation cannot be re-read, the object refuses every operation until it is reloaded.",
+      "evidence": {
+        "attest": {
+          "exception": "OSError",
+          "message": "injected directory fsync failure after replace"
+        },
+        "audit_without_reload": {
+          "returned": true
+        },
+        "before_checkpoint": 0,
+        "caveat": "State-mutating seed operations and attest refuse; audit and read-only methods still work on the unusable object. load is the explicit recovery exception.",
+        "disk_checkpoint": 1,
+        "disk_generation": 2,
+        "dwell_after_load": {
+          "returned": {
+            "distribution": {
+              "confound": 0.25,
+              "preference": 0.35,
+              "unmodeled_cause": 0.4
+            },
+            "message": "Holding in basin. Owner authorization required for permanent change.",
+            "status": "dwelling"
+          }
+        },
+        "explicit_load": {
+          "returned": null
+        },
+        "injected": {
+          "fsync": true,
+          "reread": true
+        },
+        "memory_checkpoint": 1,
+        "memory_generation": -1,
+        "read_only_without_reload": {
+          "checkpoint_request": {
+            "sequence": 2
+          },
+          "verify": {
+            "returned": true
+          }
+        },
+        "refused_operations": {
+          "_save": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          },
+          "attest": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          },
+          "authorize_and_apply": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          },
+          "dwell": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          },
+          "hatch": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          },
+          "install_checkpoint": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          },
+          "owner_answer": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it. The answer was not recorded anywhere: reload the organism and answer again"
+          },
+          "record_owner_answer": {
+            "exception": "StaleOrganism",
+            "message": "organism object is unusable: a save failed and whether it landed could not be confirmed; reload it"
+          }
+        }
+      },
+      "seconds": 0.02,
+      "verdict": "HOLDS WITH CAVEATS"
+    },
+    "U2": {
+      "check_process_exit_code": 0,
+      "claim": "install_checkpoint does not roll memory back on a guess.",
+      "evidence": "AssertionError: ",
+      "seconds": 0.02,
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 758, in _run_inline\n    r = fn(d)\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 461, in check_U2\n    assert interrupted['memory_checkpoint'] == 0 and interrupted['disk_checkpoint'] == 1\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "verdict": "ERROR"
+    }
+  },
+  "cryptography": "50.0.1",
+  "extra": {
+    "extra_lock_inversion": {
+      "check_process_exit_code": 0,
+      "evidence": "AssertionError: ('OWNER_LOCK_HELD_WAITING_FOR_ORGANISM\\nREADER_HOLDS_ORGANISM_WAITING_FOR_OWNER\\nFINISHED\\n', '')",
+      "seconds": 0.09,
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 758, in _run_inline\n    r = fn(d)\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 739, in extra_lock_inversion\n    assert timed_out and 'OWNER_LOCK_HELD_WAITING_FOR_ORGANISM' in out and 'READER_HOLDS_ORGANISM_WAITING_FOR_OWNER' in out,(out,err)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('OWNER_LOCK_HELD_WAITING_FOR_ORGANISM\\nREADER_HOLDS_ORGANISM_WAITING_FOR_OWNER\\nFINISHED\\n', '')\n",
+      "verdict": "ERROR"
+    }
+  },
+  "open_questions": {
+    "QA": {
+      "check_process_exit_code": 0,
+      "claim": "Is there any interleaving of processes, threads or organism objects that loses a saved update, or leaves the witness and the saved file in a state that neither recovery nor restore can resolve?",
+      "evidence": "AssertionError: ({'delivered': False, 'restoring': False}, {'returned': {'status': 'dwelling', 'distribution': {'preference': 0.35, 'confound': 0.25, 'unmodeled_cause': 0.4}, 'message': 'Holding in basin. Owner authorization required for permanent change.'}})",
+      "seconds": 0.02,
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 758, in _run_inline\n    r = fn(d)\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 669, in check_QA\n    return answer('FOUND',saved_update_loss=_late_signal(d/'lost_update'),\n                                            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 290, in _late_signal\n    assert observed['delivered'] and observed['handler_lock_owned'] and 'returned' in outer, (observed, outer)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ({'delivered': False, 'restoring': False}, {'returned': {'status': 'dwelling', 'distribution': {'preference': 0.35, 'confound': 0.25, 'unmodeled_cause': 0.4}, 'message': 'Holding in basin. Owner authorization required for permanent change.'}})\n",
+      "verdict": "ERROR"
+    },
+    "QB": {
+      "check_process_exit_code": 0,
+      "claim": "Is there any failed or interrupted save, or any use of restore, that leaves a state that can never be signed off, or that lets something be signed off that the owner did not approve?",
+      "evidence": "AssertionError: {'returned': {'status': 'restored', 'checkpoint_sequence': 1, 'discarded_entries': 2, 'kept_as': 'pre_restore_gen6_7d1af8c700ae.json', 'owner_no_outstanding': []}}",
+      "seconds": 0.05,
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 758, in _run_inline\n    r = fn(d)\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 675, in check_QB\n    pending = _pending_tail(d/'pending')\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 230, in _pending_tail\n    if key != 'reload': require_exception(blocked[key], 'RollbackDetected')\n                        ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 157, in require_exception\n    assert r.get('exception') == kind, r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'returned': {'status': 'restored', 'checkpoint_sequence': 1, 'discarded_entries': 2, 'kept_as': 'pre_restore_gen6_7d1af8c700ae.json', 'owner_no_outstanding': []}}\n",
+      "verdict": "ERROR"
+    },
+    "QC": {
+      "check_process_exit_code": 0,
+      "claim": "Can restore be made to bring back anything other than the witness head, or to discard something the owner signed off?",
+      "evidence": "AssertionError: ({'delivered': False, 'restoring': True}, {'returned': {'status': 'restored', 'checkpoint_sequence': 0, 'discarded_entries': 2, 'kept_as': 'pre_restore_gen2_897ebb700019.json', 'owner_no_outstanding': []}})",
+      "seconds": 0.02,
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 758, in _run_inline\n    r = fn(d)\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 700, in check_QC\n    return answer('FOUND',**_late_signal(d,restoring=True),\n                            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/regression_round8/chatgpt_claims/claims_battery_chatgpt_on_v0_8_8.py\", line 290, in _late_signal\n    assert observed['delivered'] and observed['handler_lock_owned'] and 'returned' in outer, (observed, outer)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ({'delivered': False, 'restoring': True}, {'returned': {'status': 'restored', 'checkpoint_sequence': 0, 'discarded_entries': 2, 'kept_as': 'pre_restore_gen2_897ebb700019.json', 'owner_no_outstanding': []}})\n",
+      "verdict": "ERROR"
+    }
+  },
+  "python": "3.13.16"
+}

@@ -1,0 +1,2 @@
+candidate: fresh session at t0+11 -> refused: trace index 2: reading is past its lifetime by the owner's clock
+XS2 mutant: fresh session at t0+11 -> ACCEPTED (True)

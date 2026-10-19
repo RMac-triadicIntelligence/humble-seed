@@ -1,0 +1,60 @@
+{
+ "switch_interval": 1e-06,
+ "seconds_per_run": 15.0,
+ "runs": [
+  {
+   "A_dwells_returned": 536,
+   "A_errors": {},
+   "B_attests_returned": 141,
+   "B_errors": {},
+   "formality_dwellings_saved": 536,
+   "lost_dwellings": 0,
+   "saved_checkpoint": 141,
+   "witness": 141,
+   "fresh_load": {
+    "returned": null
+   },
+   "fresh_audit": {
+    "returned": true
+   }
+  },
+  {
+   "A_dwells_returned": 566,
+   "A_errors": {
+    "RuntimeError: dictionary changed size during iteration": 14
+   },
+   "B_attests_returned": 28,
+   "B_errors": {
+    "AttestationRefused: trace chain does not verify: Hash chain broken at index 151: prev_hash mismatch": 132
+   },
+   "formality_dwellings_saved": 580,
+   "lost_dwellings": -14,
+   "saved_checkpoint": 28,
+   "witness": 28,
+   "fresh_load": {
+    "exception": "IntegrityError",
+    "message": "Hash chain broken at index 151: prev_hash mismatch"
+   },
+   "fresh_audit": null
+  },
+  {
+   "A_dwells_returned": 588,
+   "A_errors": {
+    "RuntimeError: dictionary changed size during iteration": 15
+   },
+   "B_attests_returned": 34,
+   "B_errors": {
+    "AttestationRefused: trace chain does not verify: Hash chain broken at index 189: prev_hash mismatch": 133
+   },
+   "formality_dwellings_saved": 603,
+   "lost_dwellings": -15,
+   "saved_checkpoint": 34,
+   "witness": 34,
+   "fresh_load": {
+    "exception": "IntegrityError",
+    "message": "Hash chain broken at index 189: prev_hash mismatch"
+   },
+   "fresh_audit": null
+  }
+ ]
+}

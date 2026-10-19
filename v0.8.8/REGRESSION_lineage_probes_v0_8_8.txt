@@ -1,0 +1,67 @@
+===== probe7_merge.py
+==========================================================================
+v0.7 MERGE PROBE — same attack against Kernel P, Kernel A, and the merge
+==========================================================================
+kernels loaded: Kernel P, Kernel A, v0.7 merge
+
+M1  identity substitution on the witness
+    Kernel P     rejected: Identity fork: checkpoint genesis does not match witness
+    Kernel A     ACCEPTED
+    v0.7 merge   rejected: Identity fork: checkpoint birth root does not match witness
+
+M2  record() stores a checkpoint it should refuse
+    Kernel P     rejected: Checkpoint gap: organism presents sequence 99, expected 1
+    Kernel A     ACCEPTED
+    v0.7 merge   rejected: Non-successor checkpoint: organism presents sequence 99, expecte
+
+M3  a second birth event in the trace
+    Kernel P     rejected: Trace must contain exactly one birth event at index zero
+    Kernel A     rejected: No owner checkpoint
+    v0.7 merge   rejected: Trace must contain exactly one birth event at index zero
+
+M4  enrollment at sequence 0 with a nonzero parent
+    Kernel P     rejected: Invalid enrollment: genesis checkpoint has a nonzero parent
+    Kernel A     ACCEPTED
+    v0.7 merge   rejected: Invalid enrollment: genesis checkpoint has a nonzero parent
+
+==========================================================================
+  MERGE ADDS COVERAGE  M1  identity substitution on the witness
+  MERGE ADDS COVERAGE  M2  record() stores a checkpoint it should refuse
+  DIAGNOSIS ONLY       M3  a second birth event in the trace
+       Kernel A refuses on an unrelated earlier check, never reaching this property
+  MERGE ADDS COVERAGE  M4  enrollment at sequence 0 with a nonzero parent
+
+  3/4 arms: the merge catches what a base kernel accepts.
+  1/4 arms: same verdict, but only the merge names the actual cause.
+==========================================================================
+===== probe7_m5_r10.py
+==========================================================================
+M5 + R10 — reverse differential arm and sole-objector ablation
+==========================================================================
+kernels loaded: Kernel P, Kernel A, v0.7 merge
+
+M5  unwitnessed advance presented as the current state
+    Kernel P     ACCEPTED
+    Kernel A     rejected: Unwitnessed advance: organism presents sequence 1, witness holds
+    v0.7 merge   rejected: Unwitnessed advance: organism presents sequence 1, witness holds
+
+--------------------------------------------------------------------------
+R10  sole-objector ablation on v0.7 (constitution swapped, re-chained, resealed)
+--------------------------------------------------------------------------
+  [0] swap constitution only
+      objector: rejected: Constitution does not match birth commitment
+  [1] + repair birth.constitution_hash
+      objector: rejected: Genesis hash does not re-derive from birth record
+  [2] + repair birth.genesis_hash
+      objector: rejected: Constitution genesis_character must cover exactly the allowed fields
+  [3] + repair birth trace entry
+      objector: rejected: Constitution genesis_character must cover exactly the allowed fields
+
+  constitution_root never fired. Final objector on the fully-repaired path:
+    Constitution genesis_character must cover exactly the allowed fields
+  -> R10 confirmed empirically: the constitution is bound into the birth
+     record, so birth_root reaches the attacker first on every local path.
+     constitution_root is implemented and shadowed, not independently
+     exercised. Repairing birth_root requires the owner key, which is
+     the property actually doing the work.
+==========================================================================

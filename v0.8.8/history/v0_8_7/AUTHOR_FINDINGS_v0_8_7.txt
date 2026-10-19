@@ -1,0 +1,52 @@
+Author findings on v0.8.7, from post-freeze probes (author_probe_v0_8_7.py -> AUTHOR_PROBE_v0_8_7.txt).
+Sealed before any reviewer has seen v0.8.7.
+
+A1 (low-medium) Restore forgets the owner's answers, and the owner cannot repeat them (P1).
+   Restore discards every event after the attested checkpoint. That includes the organism's copy of any
+   owner answer given since, and every pending reading. The owner's ledger keeps those answers.
+   P1:
+   - the owner says 'no' to reading Y;
+   - an unrelated crossing is applied, then restored away;
+   - a new verbosity reading Z is issued; the organism applies it (it no longer sees the 'no');
+   - attest refuses it ("its latest answer in verbosity since its record began is 'no'");
+   - the owner cannot answer Y again ("No pending reading with that id": restore cleared it).
+   The owner's 'no' is honoured, so there is no unauthorized state. But the first crossing in that category
+   after a restore is wasted, and getting out needs another restore plus an answer to a new reading.
+   Fix direction: restore carries the discarded owner_answer events (and their basin evidence) into the restored
+   trace after the "restored" event. They are non-authorizing.
+A2 (low) A reader callback that calls an owner operation can deadlock against attest in another thread (P5).
+   v0.8.7 runs the reader under the organism lock (R35). Lock order is otherwise owner -> organism. A reader that
+   calls an owner operation (P5: sign_proposal) takes them organism -> owner. With another thread inside attest
+   (owner lock held, waiting for the organism lock), both threads wait forever. P5: neither finished within 5 s.
+   v0.8.6 did not hold the organism lock during the reader, so this is new in v0.8.7.
+   Fix direction: refuse an owner operation from a thread that already holds an organism lock, or document the
+   order and enforce it.
+A3 (low) A symlinked path to the same organism deadlocks one thread against itself (P6).
+   Locks are keyed by os.path.abspath, which does not resolve symlinks. Inside an operation on an object opened
+   at the real path, a callback writes through an object opened via a symlink to the same directory. The
+   in-thread reentrancy does not apply (a different key), and flock on a second descriptor of the same file
+   blocks. P6 timed out after 20 s. Across processes, serialization still holds.
+   Fix direction: key the lock registry by os.path.realpath.
+A4 (note) Cost. ms per dwell, back to back on one machine:
+
+   | Trace length | v0.8.6 | v0.8.7 |
+   |---|---|---|
+   | ~22 | 2.9 | 2.6 |
+   | ~500 | 11.5 | 13.7 |
+   | ~2000 | 41.0 | 46.9 |
+
+   About 15% at 2000 entries, within run-to-run noise at small sizes. Kept restore files accumulate, one
+   per restore, with no limit (P2).
+
+Confirmed as documented, not findings:
+   P2 (R). Restoring twice in a row works. Restoring through a stale object works (from disk), and that object
+       is then current. An object loaded before the restore is refused as stale.
+   P3 (Q across processes). 4 processes x 50 dwells plus 10 attests from a 5th: 200 of 200 dwellings saved,
+       witness 10, fresh audit True.
+   P4 (Q, mixed threads). Dwell, cross+attest, answer and audit threads ran for 6 s on one object:
+       - 204 dwells, 42 crossings, 83 answers;
+       - saved checkpoint 42 = witness 42; fresh audit True;
+       - the audit thread stopped on IntegrityError when it caught the organism between an apply and its
+         attest. An unattested state does not verify (T17); audit is not meant to pass there.
+   P8 (R36). A basin edited on disk (resealed) is carried through restore, and the result loads. The basin is
+       unattested evidence (R36), and the edit loaded before the restore as well (R30).

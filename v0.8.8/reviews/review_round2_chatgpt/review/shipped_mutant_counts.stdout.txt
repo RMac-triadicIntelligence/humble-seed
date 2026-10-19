@@ -1,0 +1,11 @@
+X0_NULL_identical_copy {"ERROR": 0, "FAIL": 0, "PASS": 24}
+X10_unattested_tail_check_removed {"ERROR": 0, "FAIL": 1, "PASS": 23}
+X1_K1_trace_head_staleness_restored {"ERROR": 0, "FAIL": 3, "PASS": 21}
+X2_K1_global_sequence_staleness_restored {"ERROR": 0, "FAIL": 2, "PASS": 22}
+X3_K1_category_sequence_check_removed {"ERROR": 0, "FAIL": 3, "PASS": 21}
+X4_K1_prior_value_check_removed {"ERROR": 0, "FAIL": 2, "PASS": 22}
+X5_K2_destination_back_in_payload {"ERROR": 0, "FAIL": 1, "PASS": 23}
+X6_K2_rule_read_from_module_constant {"ERROR": 0, "FAIL": 1, "PASS": 23}
+X7_K2_constitution_pin_removed {"ERROR": 0, "FAIL": 1, "PASS": 23}
+X8_K2_distribution_root_not_rehashed {"ERROR": 0, "FAIL": 1, "PASS": 23}
+X9_C5_unknown_organism_audit_returns {"ERROR": 0, "FAIL": 1, "PASS": 23}

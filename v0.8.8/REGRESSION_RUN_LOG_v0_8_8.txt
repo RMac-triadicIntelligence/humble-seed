@@ -1,0 +1,12 @@
+r6 exit 0
+r5 exit 0
+r4 exit 0
+lineage exit 0
+round7 chatgpt battery exit 0
+round7 grok battery exit 0
+round7 author repro exit 0
+natural 0.005 exit 0
+natural 0.000001 exit 0
+round8 chatgpt battery exit 0
+round8 grok battery exit 0
+round8 author repro exit 0

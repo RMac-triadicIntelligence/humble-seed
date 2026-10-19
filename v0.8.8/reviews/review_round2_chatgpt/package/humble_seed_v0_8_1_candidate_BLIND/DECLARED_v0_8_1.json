@@ -1,0 +1,55 @@
+{
+  "artifact": "humble_seed_v0_8_1_candidate falsification harness",
+  "date": "2026-10-17",
+  "authorship": "Claude (Opus 5.5 session) at Rusty McMurray's direction. T21 and T22 are Grok's (blind review round 1), credited.",
+  "frozen_before": "the v0.8.1 harness code was written. The v0.8 record (DECLARED.json 3aeaf805...) is preserved unchanged in v0_8_record/.",
+  "status_key": {
+    "observed": "Outcome already seen (v0.8 run, Grok's review, or Claude's verification of Grok). Declared as a regression check, NOT a prediction.",
+    "predicted": "Not yet run when this file was frozen."
+  },
+  "rules": [
+    "Same as v0.8: a rejection counts only through its declared mechanism; any other exception is an ERROR.",
+    "A mutant is KILLED when a test that PASSES on the candidate FAILS on the mutant (stated here explicitly; v0.8 did not, see v0.8 DEVIATIONS E2).",
+    "Where exact_kill_set is given, the measured set of newly failing tests must equal it exactly.",
+    "Exit code non-zero on any mismatch. Refuses to run if this file's sha256 differs from DECLARED_v0_8_1.sha256."
+  ],
+  "tests": {
+    "T0_docstring_only_change": {"expect": "PASS", "status": "observed", "asserts": "v0.8.1 and v0.8 candidate files have identical syntax trees once docstrings are removed."},
+    "T1_liveness_intervening_events": {"expect": "PASS", "status": "observed"},
+    "T2_liveness_cross_category": {"expect": "PASS", "status": "observed"},
+    "T3_stale_same_category": {"expect": "PASS", "status": "observed"},
+    "T4_second_crossing_at_clamp_floor": {"expect": "PASS", "status": "observed"},
+    "T5_payload_names_no_destination": {"expect": "PASS", "status": "observed"},
+    "T6_rule_comes_from_constitution": {"expect": "PASS", "status": "observed"},
+    "T7_constitution_pinned_at_apply": {"expect": "PASS", "status": "observed"},
+    "T8_distribution_bound": {"expect": "PASS", "status": "observed"},
+    "T9_evidence_bound": {"expect": "PASS", "status": "observed"},
+    "T10_replay": {"expect": "PASS", "status": "observed"},
+    "T11_expiry": {"expect": "PASS", "status": "observed"},
+    "T12_wrong_key": {"expect": "PASS", "status": "observed"},
+    "T13_forged_first_commit": {"expect": "PASS", "status": "observed"},
+    "T14_forged_character_resealed": {"expect": "PASS", "status": "observed"},
+    "T15_category_sequences_resealed": {"expect": "PASS", "status": "observed"},
+    "T16_permissive_rule_full_birth_repair": {"expect": "PASS", "status": "observed"},
+    "T17_unattested_apply_fails_closed": {"expect": "PASS", "status": "observed", "asserts": "CORRECTED objector: load raises IntegrityError containing 'Category sequences do not match the attested'. v0.8 declared 'Unattested authorizing event' (wrong; the gates root is checked before the tail). Confirmed independently by Grok and ChatGPT."},
+    "T18_rollback_witness_only": {"expect": "PASS", "status": "observed"},
+    "T19_identity_replacement_audit": {"expect": "PASS", "status": "observed"},
+    "T20_realistic_session": {"expect": "PASS", "status": "observed"},
+    "T21_prior_value_detects_independent_change": {"expect": "PASS", "status": "observed", "author": "Grok", "asserts": "Reading issued; live verbosity set to 0.0 in memory; signed apply is rejected with 'category value differs from the value read'."},
+    "T22_unattested_tail_check_reachable": {"expect": "PASS", "status": "observed", "author": "Grok", "asserts": "An extra authorized_mutation entry appended to the trace with every attested root unchanged, re-chained and resealed: load raises IntegrityError containing 'Unattested authorizing event'."},
+    "T23_tamper_evidence_preserved": {"expect": "PASS", "status": "observed", "author": "Claude, from verifying Grok's T21", "asserts": "Reading issued; live verbosity set to 0.0 in memory; apply attempted (owner attests if apply returns a checkpoint). A fresh load must NOT succeed cleanly: it raises IntegrityError containing 'Character does not match the attested'."}
+  },
+  "mutants": {
+    "X0_NULL_identical_copy": {"expect": "SURVIVES", "status": "observed"},
+    "X1_K1_trace_head_staleness_restored": {"expect": "KILLED", "killer": "T1_liveness_intervening_events", "status": "observed"},
+    "X2_K1_global_sequence_staleness_restored": {"expect": "KILLED", "killer": "T2_liveness_cross_category", "status": "observed"},
+    "X3_K1_category_sequence_check_removed": {"expect": "KILLED", "killer": "T4_second_crossing_at_clamp_floor", "status": "observed"},
+    "X4_K1_prior_value_check_removed": {"expect": "KILLED", "killer": "T21_prior_value_detects_independent_change", "exact_kill_set": ["T21_prior_value_detects_independent_change", "T23_tamper_evidence_preserved"], "status": "observed", "note": "Was a declared SURVIVOR in v0.8 (R11). Refuted by Grok."},
+    "X5_K2_destination_back_in_payload": {"expect": "KILLED", "killer": "T5_payload_names_no_destination", "status": "observed"},
+    "X6_K2_rule_read_from_module_constant": {"expect": "KILLED", "killer": "T6_rule_comes_from_constitution", "status": "observed"},
+    "X7_K2_constitution_pin_removed": {"expect": "KILLED", "killer": "T7_constitution_pinned_at_apply", "status": "observed"},
+    "X8_K2_distribution_root_not_rehashed": {"expect": "KILLED", "killer": "T8_distribution_bound", "status": "observed"},
+    "X9_C5_unknown_organism_audit_returns": {"expect": "KILLED", "killer": "T19_identity_replacement_audit", "status": "observed"},
+    "X10_unattested_tail_check_removed": {"expect": "KILLED", "killer": "T22_unattested_tail_check_reachable", "exact_kill_set": ["T22_unattested_tail_check_reachable"], "status": "predicted", "note": "The only genuine prediction in this file: removing the tail check is caught by Grok's T22 and by nothing else, because every other unattested path trips an earlier root check first."}
+  }
+}

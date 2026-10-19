@@ -1,0 +1,64 @@
+# v0.8.2 post-freeze probes, re-run on v0.8.3 (path changed only)
+POST-FREEZE PROBES — v0.8.2 candidate (not scored)
+
+P1_other_owner
+  expect: Expect refused: an owner tool must not attest an organism keyed to someone else.
+  found:  refused: RollbackDetected: Invalid enrollment: first checkpoint sequence is 1, expected 0
+
+P1b_other_owner_at_enrollment
+  expect: Expect refused by the key check: P1 was stopped by the witness first, so try a
+  found:  refused: AttestationRefused: organism is not keyed to this owner
+
+P2_history_rewritten
+  expect: Expect refused: an attested dwelling's reason is rewritten and the chain rebuilt.
+  found:  refused: AttestationRefused: attested history was rewritten
+
+P3_recorded_change_off_rule
+  expect: Expect refused: organism applies a signed reading but lands it at 0.40,
+  found:  refused: AttestationRefused: trace index 2: recorded change is not what the attested rule derives
+
+P4_expired_reading_applied
+  expect: Expect ACCEPTED (a limit, not a fix): the organism's clock is wound back to
+  found:  applied with wound-back clock: True; attest: refused: AttestationRefused: trace index 3: the organism recorded this reading as expired before applying it
+
+P5_destination_derivable_from_what_is_shown
+  expect: D3 says nothing SHOWN names the destination. It does not say the destination
+  found:  computed from prompt + constitution: 0.25; applied: {'verbosity': 0.25}
+
+P6_r10_consistent_constitution_swap
+  expect: Extends lineage R10: the attacker keeps the swapped constitution internally
+  found:  rejected: Birth record does not match the attested checkpoint
+
+
+# ChatGPT round-3 findings (author reproduction script, unchanged), on v0.8.3
+F1a expired reading applied anyway  -> attest: REFUSED: trace index 3: the organism recorded this reading as expired before applying it | reload+audit: None | 'expired' rejection in history: True
+F1b held reading applied anyway     -> attest: REFUSED: trace index 4: the organism's own record holds this reading (the owner's latest answer to this reading is 'no') | reload+audit: None | 'no' + hold in history: True True
+F2 honest consequence : I'll keep my answers shorter. (verbosity 0.50 → 0.25; lead read: preference 0.68; rule step -0.25). This was the first change ever made to verbosity.
+F2 after record edit -> attest: REFUSED: trace index 2: record fields differ from the replay: ['prior_value', 'first_commit', 'prior_character_snapshot'] | reload+audit: None
+F2 rendered consequence: None
+
+# Corrected-answer probe (sealed author finding #2, unchanged), on v0.8.3
+after no -> yes, signed apply: APPLIED
+any way to retract the 'no'? trace is append-only; reader checks for ANY 'no' since issuance
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/probe_corrected_answer.py", line 17, in <module>
+    s.authorize_and_apply(pid, sig)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs083/humble_seed_v0_8_3_candidate.py", line 1168, in authorize_and_apply
+    self._reject(proposal_id, "unknown or already-consumed proposal_id")
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs083/humble_seed_v0_8_3_candidate.py", line 1281, in _reject
+    "timestamp": self.clock(),
+                 ~~~~~~~~~~^^
+  File "/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/probe_corrected_answer.py", line 16, in <lambda>
+    s.clock = lambda: s.pending[pid].expires_at + 1
+                      ~~~~~~~~~^^^^^
+KeyError: '9b83b7a0-b8fc-48fe-9e95-05a6d75292f1'
+
+NOTE: the corrected-answer probe above was written for v0.8.2, where the reading stayed held.
+On v0.8.3 it APPLIES (the fix); the probe's later lines then look up a reading that is no
+longer pending and crash. Its 'checks for ANY no' line is stale v0.8.2 text.
+
+# Follow-up on v0.8.3: same case through attestation
+answers no->yes via organism only: applied True, attested True, reload+audit True, verbosity 0.25
+answers no->yes via owner tool: applied True, attested True, reload+audit True, verbosity 0.25

@@ -1,0 +1,3 @@
+salt    6f03aa9986ca486f8e10a343fc246a76
+receipt 22d9e8eb964fdf7860e8c6f909bc9cd78c5b3d178105bf8e2a675fe7ce35ad36
+commitment = sha256(salt + receipt) = 9348f503aa8efbf80630e26055dd0ce114d94ea86b27a8aafe869ab6ce48a114

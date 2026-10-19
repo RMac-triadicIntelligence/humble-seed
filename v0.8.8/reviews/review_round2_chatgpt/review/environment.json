@@ -1,0 +1,7 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "cryptography": "50.0.2",
+  "baseline_exit_code": 0,
+  "independent_exit_code": 0,
+  "original_zip_sha256": "c41f3d08cecaa18dde98ba4ca0f537c83912af980266895e523548a66542ae52"
+}

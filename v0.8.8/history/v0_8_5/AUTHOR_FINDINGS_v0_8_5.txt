@@ -1,0 +1,19 @@
+Author findings on v0.8.5, from post-freeze probes (author_probe_v0_8_5.py -> AUTHOR_PROBE_v0_8_5.txt).
+Sealed before any reviewer has seen v0.8.5.
+
+A1 (low) Recovery completes an intent from a saved file that does not load.
+   If the pending checkpoint and signature are copied into the organism's saved file while its content is
+   tampered with (probe P2b), audit completes the intent: the witness advances to the owner-approved
+   checkpoint, and the organism's file then fails to load (seal mismatch). This needs write access to the
+   organism's file. The result is denial, never an unauthorized state, so R30 holds. But the advance cannot
+   be undone, and restoring the file afterwards does not recover the organism.
+   Fix direction: treat an intent as installed only if the saved state loads and verifies.
+A2 (cosmetic) The owner's refusal text contradicts itself: answer_position's shared phrase "since the
+   reading was taken" is followed by the owner's actual window.
+A3 (note) The apply-side check re-verifies the whole trace chain on every apply: 0.1 ms at 2 entries,
+   2 ms at 500, 8.6 ms at 2000. Linear per apply.
+Confirmed as documented, not findings:
+   P1, R18 (revised): an earlier owner "no" in the category blocks the first crossing until the owner
+   answers again.
+   P2a: a copied pending checkpoint over the approved content simply completes the install.
+   P3: a batch attestation does not leak past the owner window.

@@ -1,0 +1,30 @@
+POST-FREEZE PROBES — v0.8.2 candidate (not scored)
+
+P1_other_owner
+  expect: Expect refused: an owner tool must not attest an organism keyed to someone else.
+  found:  refused: RollbackDetected: Invalid enrollment: first checkpoint sequence is 1, expected 0
+
+P1b_other_owner_at_enrollment
+  expect: Expect refused by the key check: P1 was stopped by the witness first, so try a
+  found:  refused: AttestationRefused: organism is not keyed to this owner
+
+P2_history_rewritten
+  expect: Expect refused: an attested dwelling's reason is rewritten and the chain rebuilt.
+  found:  refused: AttestationRefused: attested history was rewritten
+
+P3_recorded_change_off_rule
+  expect: Expect refused: organism applies a signed reading but lands it at 0.40,
+  found:  refused: AttestationRefused: trace index 2: recorded change is not what the attested rule derives
+
+P4_expired_reading_applied
+  expect: Expect ACCEPTED (a limit, not a fix): the organism's clock is wound back to
+  found:  applied with wound-back clock: True; attest: ACCEPTED (True)
+
+P5_destination_derivable_from_what_is_shown
+  expect: D3 says nothing SHOWN names the destination. It does not say the destination
+  found:  computed from prompt + constitution: 0.25; applied: {'verbosity': 0.25}
+
+P6_r10_consistent_constitution_swap
+  expect: Extends lineage R10: the attacker keeps the swapped constitution internally
+  found:  rejected: Birth record does not match the attested checkpoint
+

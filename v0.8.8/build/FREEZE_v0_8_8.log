@@ -1,0 +1,7 @@
+88 tests; 87 mutants; declared 21626b3fc98ceae561223bdd539ec2b9db4c7f4d6ce691c3943249484e4e824d frozen 2026-10-19T18:41:24Z
+  T82 -> attest -> organism lock -> _recover: the saved checkpoint is the pending one -> _saved_state_refusal -> load -> verify: the category-sequence check raises IntegrityError (L920) -> strict route (allow_
+  T83 -> the live object's dwell -> _save -> organism lock -> _save_mark (marked) -> _save_locked -> _durable_write (the test's wrapper) -> other.dwell_or_propose -> _organism_op (reentrant lock; other is curr
+  T84 -> restore -> _restore_attested -> r._save -> _save_mark (marked) -> _durable_write (the test's wrapper) -> owner.attest: owner lock re-entered by the thread that holds it (LOCK-ORDER allows it), organis
+  T85 -> attest -> install_checkpoint -> _save -> _save_locked -> _durable_write: the injected directory fsync raises after os.replace (L247) -> the re-read raises KeyboardInterrupt (injected) -> object marked
+  T87 -> thread A: authorize_and_apply -> _organism_op (organism lock held) -> the reader -> owner.sign_proposal -> _owner_locked -> _OwnerLock.__enter__: the thread holds an organism lock and the owner lock i
+  T88 -> the live object's apply -> _organism_op (lock keyed by the real path, L262) -> the reader -> b.dwell_or_propose: b's lock path resolves to the same key, so the RLock is reentrant and no second flock i

@@ -1,0 +1,31 @@
+Humble Seed v0.8.6 claims battery  (Python 3.12.14, cryptography 50.0.2)
+  O1                           HOLDS
+  O2                           HOLDS
+  O3                           HOLDS
+  O4                           HOLDS
+  O5                           HOLDS
+  O6                           HOLDS
+  I1                           HOLDS
+  I2                           WRONG
+  C1                           HOLDS
+  C2                           HOLDS
+  C3                           HOLDS
+  M1                           HOLDS
+  R30a                         HOLDS
+  R30b                         HOLDS
+  R30c                         HOLDS
+  R31a                         HOLDS WITH CAVEATS
+  R31b                         HOLDS WITH CAVEATS
+  R31c                         WRONG
+  R32a                         HOLDS
+  R32b                         HOLDS
+  R33a                         HOLDS
+  R33b                         HOLDS WITH CAVEATS
+  R34                          HOLDS
+  W1                           HOLDS
+  Q1                           FOUND
+  Q2                           FOUND
+  extra_checkpoint_failure_controls PASS
+  extra_input_integrity        PASS
+  extra_two_objects_control    PASS
+written CLAIMS_RESULTS_v0_8_6.json

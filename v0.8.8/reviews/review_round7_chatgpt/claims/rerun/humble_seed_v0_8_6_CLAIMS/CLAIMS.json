@@ -1,0 +1,135 @@
+{
+  "source": "humble_seed_v0_8_6_candidate.py",
+  "claims": [
+    {
+      "id": "O1",
+      "group": "O",
+      "text": "The saved state carries a generation number."
+    },
+    {
+      "id": "O2",
+      "group": "O",
+      "text": "Every save runs under the organism's own lock (organism.lock, POSIX flock, reentrant within a thread)."
+    },
+    {
+      "id": "O3",
+      "group": "O",
+      "text": "It writes only if the saved generation is still the one this object last loaded or wrote. Otherwise it raises StaleOrganism, and the object must reload."
+    },
+    {
+      "id": "O4",
+      "group": "O",
+      "text": "A new hatch cannot overwrite an existing organism."
+    },
+    {
+      "id": "O5",
+      "group": "O",
+      "text": "attest holds the organism lock from recovery to the witness commit."
+    },
+    {
+      "id": "O6",
+      "group": "O",
+      "text": "It refuses a stale object before signing anything."
+    },
+    {
+      "id": "I1",
+      "group": "I",
+      "text": "A save can fail after its replace has already landed: the directory fsync comes last. On a failure, the saved generation is re-read."
+    },
+    {
+      "id": "I2",
+      "group": "I",
+      "text": "install_checkpoint rolls memory back only if the new state did not land, so memory always matches disk."
+    },
+    {
+      "id": "C1",
+      "group": "C",
+      "text": "A pending intent counts as installed only if the saved state names it and also loads and verifies on its own."
+    },
+    {
+      "id": "C2",
+      "group": "C",
+      "text": "A saved state that claims the intent but does not verify is neither completed nor abandoned."
+    },
+    {
+      "id": "C3",
+      "group": "C",
+      "text": "Abandoning still requires the saved checkpoint to be the witness head."
+    },
+    {
+      "id": "M1",
+      "group": "M",
+      "text": "The owner's refusal names its own window (\"its latest answer in verbosity since it signed the previous verbosity crossing is 'no'\"), not the organism's."
+    },
+    {
+      "id": "R30a",
+      "group": "R30",
+      "text": "Recovery completes an intent only from a saved state that verifies, and abandons one only if the saved checkpoint is the witness head."
+    },
+    {
+      "id": "R30b",
+      "group": "R30",
+      "text": "An edit made outside the protocol (writing the file directly) is not prevented."
+    },
+    {
+      "id": "R30c",
+      "group": "R30",
+      "text": "A rewind to the exact pre-install file looks the same as an install that never happened, and is abandoned."
+    },
+    {
+      "id": "R31a",
+      "group": "R31",
+      "text": "Only install_checkpoint is transactional in memory."
+    },
+    {
+      "id": "R31b",
+      "group": "R31",
+      "text": "If another operation's save fails before landing, the object is ahead of its disk and its next save writes that state."
+    },
+    {
+      "id": "R31c",
+      "group": "R31",
+      "text": "Because of the generation check, no other object can write over it."
+    },
+    {
+      "id": "R32a",
+      "group": "R32",
+      "text": "The organism lock is POSIX flock, like the owner lock (R26)."
+    },
+    {
+      "id": "R32b",
+      "group": "R32",
+      "text": "Writers that bypass HumbleSeed._save are not serialized."
+    },
+    {
+      "id": "R33a",
+      "group": "R33",
+      "text": "A stale object must reload, and its unsaved changes are lost."
+    },
+    {
+      "id": "R33b",
+      "group": "R33",
+      "text": "An answer given through a stale object reaches the owner's ledger, which is authoritative, but not the organism."
+    },
+    {
+      "id": "R34",
+      "group": "R34",
+      "text": "Every save re-reads the saved state to check its generation, a cost that grows with the trace"
+    },
+    {
+      "id": "W1",
+      "group": "W",
+      "text": "answers given before the owner signed the previous crossing were already checked when that crossing was attested, so the window holds without assuming when the organism issued the reading."
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "Q1",
+      "text": "Is there any interleaving of processes, threads or organism objects that loses a saved update, or leaves the witness and the saved file in a state that recovery cannot resolve?"
+    },
+    {
+      "id": "Q2",
+      "text": "Is there any failed or interrupted save that leaves a state that can never be signed off, or that lets something be signed off that the owner did not approve?"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+OPENING OF THE v0.8.5 SEALS (after both round-6 reports, 2026-10-19)
+
+Receipt commitment 9348f503aa8efbf80630e26055dd0ce114d94ea86b27a8aafe869ab6ce48a114
+  salt 6f03aa9986ca486f8e10a343fc246a76
+  receipt 22d9e8eb964fdf7860e8c6f909bc9cd78c5b3d178105bf8e2a675fe7ce35ad36  (author, author clean copy, Grok, ChatGPT: all identical)
+  sha256(salt + receipt) == commitment: True
+
+Author findings commitment 1f4c8b1d7c8f3a73ad237d4a199505b3033ba3af3fdf2fe341be49bd9d7769cb  (sealed 2026-10-19T12:34Z; ChatGPT's first in-progress screen 12:53Z)
+  salt 69b6beb5db5c3b7f93d4c04803d97d52
+  sha256(salt + AUTHOR_FINDINGS_v0_8_5.txt) == commitment: True

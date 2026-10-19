@@ -1,0 +1,53 @@
+Author findings on v0.8.6, from post-freeze probes (author_probe_v0_8_6.py -> AUTHOR_PROBE_v0_8_6.txt).
+Sealed before any reviewer has seen v0.8.6.
+
+A1 (low) A hatch overwrites a saved state that has no generation field (probe P1b).
+   The save check reads a missing generation as None, which is also how it reads "no file". So
+   when v0.8.6 is pointed at a v0.8.5-era data directory, or at a file whose generation was removed,
+   a new hatch passes the check and replaces the organism file with a different organism. The old
+   file is gone. The owner's witness and ledger still hold the old organism, so the owner side can
+   tell, but the organism cannot be recovered from its own directory. With a v0.8.6 file, the
+   overwrite is refused (P1a, T67).
+   Fix direction: a file that exists but has no valid generation refuses every write.
+A2 (cosmetic, documentation) R31 (revised) overstates what happens after a failed save. It says that
+   when a non-install save fails before landing, "its next save writes that state" and "no other
+   object can write over it". P6b: the failed save does not advance the generation, so another
+   object that was already current can still write. The first object's next save is then refused as
+   stale, and its unsaved change is lost (R33). The disk is safe: nothing is overwritten, and the
+   stale write is refused. Only the limit's wording is wrong.
+   Fix: reword R31.
+A3 (cosmetic) OwnerTool.answer records the answer in the owner's ledger and then saves the organism.
+   Through a stale object (P7), the ledger keeps the answer (it counts: attest later refuses with
+   "its latest answer to this reading is 'no'"), but the owner sees a StaleOrganism exception that
+   does not say the answer was recorded. R33 documents the behaviour; the exception text does not.
+A4 (note) Save cost. Every save re-reads the saved state to check its generation (R34). Measured back to
+   back on the same machine, ms per dwell:
+
+   | Trace length | v0.8.5 | v0.8.6 |
+   |---|---|---|
+   | ~22 | ~2.4 | ~3.0 |
+   | ~500 | ~10 | ~12 |
+   | ~2000 | ~33 | ~43 |
+
+   Both are linear. v0.8.5 was already linear, from whole-file writes; v0.8.6 adds about 20-35%.
+   Source: baseline/SAVE_COST_BASELINE.txt.
+
+Confirmed as documented, not findings:
+   P2 (C). After an interrupted install, a current object writes the pending checkpoint and
+       signature through the protocol, so the CAS passes and the save recomputes the seal.
+       (a) With the approved content, recovery completes.
+       (b) With the character changed, recovery refuses: "claims it but does not verify (IntegrityError:
+           Character does not match the attested checkpoint ...)". The witness stays at 0 and the
+           intent stays pending.
+   P3 (O under real contention). 4 processes dwell 50 times each, reloading on StaleOrganism, while
+       a 5th attests 10 times.
+       - Both runs: 200 of 200 dwelling events saved, witness at 10, fresh audit True.
+       - 48-91 stale retries per dweller; 24-36 for the attester. No deadlock, no lost update.
+   P4 (M). The refusal names the reading's own 'no' in case (a), and the category's in case (b).
+   P6a (I, non-install save). The directory fsync fails after the replace. The object records the
+       landed generation, and its next dwell succeeds.
+
+Probe errata: in run 1, P2 errored. The probe loaded a fresh object from an applied-but-unattested
+state, which does not load by design (T17). The fixed probe uses the live object, which is the
+current writer. Both runs are kept: author_probe_v0_8_6_run1.py with AUTHOR_PROBE_v0_8_6_run1.txt,
+and author_probe_v0_8_6.py with AUTHOR_PROBE_v0_8_6.txt.

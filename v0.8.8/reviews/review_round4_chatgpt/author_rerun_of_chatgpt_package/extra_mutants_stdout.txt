@@ -1,0 +1,3 @@
+XM1_invalid_authorized_at: {"baseline_passes": 47, "new_errors": [], "new_failures": [], "status": "SURVIVES"}
+XM2_forged_owner_note: {"baseline_passes": 47, "new_errors": [], "new_failures": [], "status": "SURVIVES"}
+XM3_inconsistent_event_timestamp: {"baseline_passes": 47, "new_errors": [], "new_failures": [], "status": "SURVIVES"}

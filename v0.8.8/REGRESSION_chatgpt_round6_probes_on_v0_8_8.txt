@@ -1,0 +1,166 @@
+{
+  "advanced_memory_save_during_attest": {
+    "returned": {
+      "after_attest": {
+        "intent_pending": true,
+        "saved_sequence": 1,
+        "witness_sequence": 0
+      },
+      "after_audit": {
+        "intent_pending": false,
+        "saved_sequence": 1,
+        "verbosity": 0.25,
+        "witness_sequence": 1
+      },
+      "attest": {
+        "exception": "StaleOrganism",
+        "message": "stale organism object: the saved state is at generation 4, this object last saw 1; reload it"
+      },
+      "fresh_audit": {
+        "returned": true
+      }
+    }
+  },
+  "authority_controls": {
+    "returned": {
+      "normal_crossings": {
+        "audit": {
+          "returned": true
+        },
+        "character": {
+          "curiosity": 0.35,
+          "formality": 0.25,
+          "verbosity": 0.0
+        },
+        "mutation_sequence": 4
+      },
+      "rewrite_save": {
+        "returned": null
+      },
+      "rewritten_attested_history": {
+        "exception": "AttestationRefused",
+        "message": "attested history was rewritten"
+      },
+      "wrong_owner": {
+        "exception": "AttestationRefused",
+        "message": "organism is not keyed to this owner"
+      }
+    }
+  },
+  "interrupted_commit_stale_write": {
+    "returned": {
+      "after_stale_write_and_recovery": {
+        "intent_pending": false,
+        "saved_sequence": 1,
+        "verbosity": 0.25,
+        "witness_sequence": 1
+      },
+      "before_stale_write": {
+        "saved_sequence": 1,
+        "witness_sequence": 0
+      },
+      "fresh_audit": {
+        "returned": true
+      },
+      "injected_interruption": {
+        "exception": "OSError",
+        "message": "interrupted before witness advance"
+      },
+      "stale_write": {
+        "exception": "StaleOrganism",
+        "message": "stale organism object: the saved state is at generation 4, this object last saw 1; reload it"
+      }
+    }
+  },
+  "pending_recovery_refusals": {
+    "returned": {
+      "neither": {
+        "audit": {
+          "exception": "RollbackDetected",
+          "message": "A pending checkpoint commit matches neither the organism's saved state nor the witness head"
+        },
+        "intent_pending": true,
+        "witness_sequence": 0
+      },
+      "unreadable": {
+        "audit": {
+          "exception": "RollbackDetected",
+          "message": "A pending checkpoint commit cannot be resolved: the organism's saved state is unreadable (JSONDecodeError)"
+        },
+        "intent_pending": true,
+        "witness_sequence": 0
+      }
+    }
+  },
+  "post_replace_fsync_failure": {
+    "returned": {
+      "after_failure": {
+        "intent_pending": true,
+        "memory_sequence": 1,
+        "saved_sequence": 1,
+        "witness_sequence": 0
+      },
+      "after_retry": {
+        "intent_pending": false,
+        "memory_sequence": 2,
+        "saved_sequence": 2,
+        "witness_sequence": 2
+      },
+      "fault_reached": [
+        "organism replacement visible before directory fsync"
+      ],
+      "first_attest": {
+        "exception": "OSError",
+        "message": "injected directory fsync failure AFTER organism os.replace"
+      },
+      "reloaded_attest": {
+        "returned": true
+      },
+      "reloaded_audit": {
+        "returned": true
+      },
+      "same_object_retry": {
+        "returned": true
+      }
+    }
+  },
+  "stale_public_write": {
+    "returned": {
+      "after": {
+        "saved_sequence": 1,
+        "verbosity": 0.25,
+        "witness_sequence": 1
+      },
+      "before": {
+        "saved_sequence": 1,
+        "verbosity": 0.25,
+        "witness_sequence": 1
+      },
+      "fresh_attest": {
+        "returned": true
+      },
+      "fresh_audit": {
+        "returned": true
+      },
+      "stale_ordinary_write": {
+        "exception": "StaleOrganism",
+        "message": "stale organism object: the saved state is at generation 4, this object last saw 1; reload it"
+      }
+    }
+  },
+  "window_orderings": {
+    "returned": {
+      "audit": {
+        "returned": true
+      },
+      "fresh_reading_apply": "applied",
+      "genuine_owner_yes_releases": {
+        "returned": true
+      },
+      "owner_no_before_issuance_attest": {
+        "exception": "AttestationRefused",
+        "message": "trace index 3: owner's position: its latest answer in verbosity since its record began is 'no'"
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+attest interrupted: interrupted before the witness wrote
+organism checkpoint seq: 1 | witness seq: 0
+organism loads on its own: True
+audit -> RollbackDetected: Unwitnessed advance: organism presents sequence 1, witness holds 0
+retry attest -> RollbackDetected: Non-successor checkpoint: organism presents sequence 2, expected 1
+next crossing attest -> RollbackDetected: Non-successor checkpoint: organism presents sequence 2, expected 1

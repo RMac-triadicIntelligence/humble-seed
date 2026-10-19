@@ -1,0 +1,188 @@
+{
+  "candidate_sha256": "9f8f6510458dd5ef2230f7907368e3216ad5a180cf85d4eba544c2d9ccf63d26",
+  "declared_sha256": "665c0939a3213644de9b04513ec84f020cc5bff0d9d4c6c069b62d2505de8dfd",
+  "mismatches": 0,
+  "mutants": {
+    "X0_NULL_identical_copy": {
+      "killer_detail": null,
+      "new_failures": [],
+      "status": "SURVIVES"
+    },
+    "X10_unattested_tail_check_removed": {
+      "killer_detail": "ACCEPTED \u2014 FAIL",
+      "new_failures": [
+        "T22_unattested_tail_check_reachable"
+      ],
+      "status": "KILLED"
+    },
+    "X1_K1_trace_head_staleness_restored": {
+      "killer_detail": "expected apply, rejected: 'stale proposal: trace has advanced since issuance'",
+      "new_failures": [
+        "T1_liveness_intervening_events",
+        "T20_realistic_session",
+        "T2_liveness_cross_category"
+      ],
+      "status": "KILLED"
+    },
+    "X2_K1_global_sequence_staleness_restored": {
+      "killer_detail": "verbosity reading rejected after formality commit: 'stale proposal: mutation sequence has advanced'",
+      "new_failures": [
+        "T20_realistic_session",
+        "T2_liveness_cross_category"
+      ],
+      "status": "KILLED"
+    },
+    "X3_K1_category_sequence_check_removed": {
+      "killer_detail": "expected rejection, but the reading was APPLIED",
+      "new_failures": [
+        "T20_realistic_session",
+        "T3_stale_same_category",
+        "T4_second_crossing_at_clamp_floor"
+      ],
+      "status": "KILLED"
+    },
+    "X4_K1_prior_value_check_removed": {
+      "killer_detail": "expected rejection, but the reading was APPLIED",
+      "new_failures": [
+        "T21_prior_value_detects_independent_change",
+        "T23_tamper_evidence_preserved"
+      ],
+      "status": "KILLED"
+    },
+    "X5_K2_destination_back_in_payload": {
+      "killer_detail": "payload names a destination: ['destination']",
+      "new_failures": [
+        "T5_payload_names_no_destination"
+      ],
+      "status": "KILLED"
+    },
+    "X6_K2_rule_read_from_module_constant": {
+      "killer_detail": "destination 0.0 did not use the constitution's rule",
+      "new_failures": [
+        "T6_rule_comes_from_constitution"
+      ],
+      "status": "KILLED"
+    },
+    "X7_K2_constitution_pin_removed": {
+      "killer_detail": "expected rejection, but the reading was APPLIED",
+      "new_failures": [
+        "T7_constitution_pinned_at_apply"
+      ],
+      "status": "KILLED"
+    },
+    "X8_K2_distribution_root_not_rehashed": {
+      "killer_detail": "expected rejection, but the reading was APPLIED",
+      "new_failures": [
+        "T8_distribution_bound"
+      ],
+      "status": "KILLED"
+    },
+    "X9_C5_unknown_organism_audit_returns": {
+      "killer_detail": "audit ACCEPTED",
+      "new_failures": [
+        "T19_identity_replacement_audit"
+      ],
+      "status": "KILLED"
+    }
+  },
+  "parent_sha256": "08a756043a6500fcda85fc2795471b4e8659de5364424c035aa5c6aa91cb3707",
+  "receipt": "853ddfc9d5be9f0778077eb432b9a804d37f57b60c98f842fefdd7ce9029ee19",
+  "tests": {
+    "T0_docstring_only_change": {
+      "detail": "syntax trees identical with docstrings removed",
+      "status": "PASS"
+    },
+    "T10_replay": {
+      "detail": "replay of consumed proposal/nonce",
+      "status": "PASS"
+    },
+    "T11_expiry": {
+      "detail": "proposal expired",
+      "status": "PASS"
+    },
+    "T12_wrong_key": {
+      "detail": "invalid signature",
+      "status": "PASS"
+    },
+    "T13_forged_first_commit": {
+      "detail": "first-commit mismatch: signed reading does not match live gate",
+      "status": "PASS"
+    },
+    "T14_forged_character_resealed": {
+      "detail": "rejected: Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+      "status": "PASS"
+    },
+    "T15_category_sequences_resealed": {
+      "detail": "rejected: Category sequences do not match the attested checkpoint",
+      "status": "PASS"
+    },
+    "T16_permissive_rule_full_birth_repair": {
+      "detail": "rejected: Birth record does not match the attested checkpoint",
+      "status": "PASS"
+    },
+    "T17_unattested_apply_fails_closed": {
+      "detail": "Category sequences do not match the attested checkpoint",
+      "status": "PASS"
+    },
+    "T18_rollback_witness_only": {
+      "detail": "Rollback: organism presents sequence 1, witness holds 2",
+      "status": "PASS"
+    },
+    "T19_identity_replacement_audit": {
+      "detail": "Unknown organism: explicit sequence-zero enrollment is required",
+      "status": "PASS"
+    },
+    "T1_liveness_intervening_events": {
+      "detail": "applied after 5 dwellings, 1 rejection event, 1 checkpoint; verbosity 0.25",
+      "status": "PASS"
+    },
+    "T20_realistic_session": {
+      "detail": "v0.8 applied 3/4 (rejected: 'stale reading: this category has advanced since issuance'); parent v0.7 applied 0/4 (first reason: 'stale proposal: trace has advanced since issuance')",
+      "status": "PASS"
+    },
+    "T21_prior_value_detects_independent_change": {
+      "detail": "stale reading: category value differs from the value read",
+      "status": "PASS"
+    },
+    "T22_unattested_tail_check_reachable": {
+      "detail": "rejected: Unattested authorizing event at trace index 2: authorized_mutation \u2014 owner checkpoint required",
+      "status": "PASS"
+    },
+    "T23_tamper_evidence_preserved": {
+      "detail": "Character does not match the attested checkpoint \u2014 unattested mutation or forged character",
+      "status": "PASS"
+    },
+    "T2_liveness_cross_category": {
+      "detail": "verbosity reading applied after a formality commit; both 0.25",
+      "status": "PASS"
+    },
+    "T3_stale_same_category": {
+      "detail": "stale reading: this category has advanced since issuance",
+      "status": "PASS"
+    },
+    "T4_second_crossing_at_clamp_floor": {
+      "detail": "stale reading: this category has advanced since issuance",
+      "status": "PASS"
+    },
+    "T5_payload_names_no_destination": {
+      "detail": "16 signed fields; no destination field",
+      "status": "PASS"
+    },
+    "T6_rule_comes_from_constitution": {
+      "detail": "module constant edited to -0.5; destination still 0.25",
+      "status": "PASS"
+    },
+    "T7_constitution_pinned_at_apply": {
+      "detail": "derivation rule changed since the reading was signed",
+      "status": "PASS"
+    },
+    "T8_distribution_bound": {
+      "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+      "status": "PASS"
+    },
+    "T9_evidence_bound": {
+      "detail": "envelope inconsistency (evidence, distribution, or reading altered)",
+      "status": "PASS"
+    }
+  }
+}

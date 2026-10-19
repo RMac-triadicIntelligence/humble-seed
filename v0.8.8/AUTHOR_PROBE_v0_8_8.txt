@@ -1,0 +1,124 @@
+{
+  "P1_real_signal_reentry": {
+    "handler_catches": {
+      "fresh_audit": "returned True",
+      "generation_delta": 1,
+      "handler": "ReentryRefused: a save re-entered another save of this organism in the same thread (a signal handler or callback); refused, nothing written",
+      "outer": "returned 'dwelling'",
+      "outer_object_next_dwell": "returned 'dwelling'",
+      "saved_dwellings": [
+        "formality"
+      ]
+    },
+    "handler_propagates": {
+      "fresh_audit": "returned True",
+      "generation_delta": 0,
+      "handler": "ReentryRefused: a save re-entered another save of this organism in the same thread (a signal handler or callback); refused, nothing written",
+      "outer": "ReentryRefused: re-raised by the handler",
+      "outer_object_next_dwell": "returned 'dwelling'",
+      "saved_dwellings": []
+    }
+  },
+  "P2_prefix_route_refuses_what_it_should": {
+    "file_unchanged": true,
+    "restore": "RollbackDetected: A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)",
+    "setup_attest": "OSError: injected",
+    "still_pending": true,
+    "witness": 0
+  },
+  "P3_outstanding_no_window": {
+    "no_after_it": "returned ['verbosity']",
+    "no_before_last_attested_signing": "returned []"
+  },
+  "P4_cross_process_contention": {
+    "expected": 200,
+    "fresh_audit": "returned True",
+    "new_dwellings_saved": 200,
+    "seconds": 2.1,
+    "witness": 10,
+    "workers": [
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 71
+      },
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 49
+      },
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 29
+      },
+      {
+        "done": 50,
+        "role": "dweller",
+        "stale_retries": 56
+      },
+      {
+        "done": 10,
+        "role": "attester",
+        "stale_retries": 59
+      }
+    ]
+  },
+  "P5_threads_mixed_operations": {
+    "counts": {
+      "answer": 85,
+      "audit": 2,
+      "cross": 43,
+      "dwell": 182
+    },
+    "errors": [
+      "audit: IntegrityError: Category sequences do not match the attested checkpoint"
+    ],
+    "fresh_audit": "returned True",
+    "lock_order_refusals": 0,
+    "saved_checkpoint": 43,
+    "witness": 43
+  },
+  "P6_thread_state_after_refusals": {
+    "ERROR": "Fail: state does not load: Category sequences do not match the attested checkpoint",
+    "tb": "sted checkpoint\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/author_probe_v0_8_8.py\", line 304, in <module>\n    try: out[fn.__name__] = fn(dd)\n                            ~~^^^^\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/author_probe_v0_8_8.py\", line 211, in P6_thread_state_after_refusals\n    other = H.expect_loads(K, s.data_dir)\n  File \"/tmp/claude-0/-home-claude/e5241810-d4d8-50e2-8494-4b1204f90c6a/scratchpad/hs088/falsify_v0_8_8.py\", line 154, in expect_loads\n    raise Fail(f\"state does not load: {e}\")\nap_harness.Fail: state does not load: Category sequences do not match the attested checkpoint\n"
+  },
+  "P7_lock_order_with_a_second_owner_tool": {
+    "apply": "returned True",
+    "attest": "returned True",
+    "reader": {
+      "other_lock_file": "LockOrderRefused: an owner operation was started while this thread holds an organism lock; the order is owner, then organism",
+      "same_lock_file": "LockOrderRefused: an owner operation was started while this thread holds an organism lock; the order is owner, then organism"
+    }
+  },
+  "P8_interrupt_points_in_a_save": {
+    "after_replace": {
+      "attest": "KeyboardInterrupt: injected after the replace",
+      "disk_checkpoint": 1,
+      "fresh_audit": "returned True",
+      "memory_checkpoint": 1,
+      "next_dwell": "returned 'dwelling'",
+      "witness": 1
+    },
+    "before_replace": {
+      "attest": "KeyboardInterrupt: injected before the replace",
+      "disk_checkpoint": 0,
+      "fresh_audit": "returned True",
+      "memory_checkpoint": 0,
+      "next_dwell": "returned 'dwelling'",
+      "witness": 0
+    }
+  },
+  "P9_operation_cost": {
+    "v0.8.7": [
+      "len 22: 2.30 ms",
+      "len 500: 13.86 ms",
+      "len 2000: 45.27 ms"
+    ],
+    "v0.8.8": [
+      "len 22: 2.50 ms",
+      "len 500: 16.70 ms",
+      "len 2000: 44.53 ms"
+    ]
+  }
+}

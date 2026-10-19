@@ -1,0 +1,19 @@
+== manifest
+manifest OK (467 files)
+== python 3.13.16 50.0.1
+== quickstart
+proposal
+0.25
+restored
+0.5
+== harnesses from the extracted copy
+falsify_v0_8_8.py exit=1 mismatches=3 receipt_recorded=3d3b3d1afa93 receipt_now=3d3b3d1afa93 REPRODUCED 330s
+falsify_v0_8.py exit=1 mismatches=1 receipt_recorded=52083c473056 receipt_now=52083c473056 REPRODUCED 1s
+falsify_v0_8_1.py exit=0 mismatches=0 receipt_recorded=853ddfc9d5be receipt_now=853ddfc9d5be REPRODUCED 2s
+falsify_v0_8_2.py exit=0 mismatches=0 receipt_recorded=498e2ff340f4 receipt_now=498e2ff340f4 REPRODUCED 9s
+falsify_v0_8_3.py exit=1 mismatches=2 receipt_recorded=27214795c8e2 receipt_now=27214795c8e2 REPRODUCED 14s
+falsify_v0_8_4.py exit=1 mismatches=2 receipt_recorded=223278777c96 receipt_now=223278777c96 REPRODUCED 97s
+falsify_v0_8_5.py exit=1 mismatches=4 receipt_recorded=22d9e8eb964f receipt_now=22d9e8eb964f REPRODUCED 119s
+falsify_v0_8_6.py exit=0 mismatches=0 receipt_recorded=6230c43e5df3 receipt_now=6230c43e5df3 REPRODUCED 163s
+falsify_v0_8_7.py exit=1 mismatches=1 receipt_recorded=8bbf49c074e5 receipt_now=8bbf49c074e5 REPRODUCED 276s
+== done

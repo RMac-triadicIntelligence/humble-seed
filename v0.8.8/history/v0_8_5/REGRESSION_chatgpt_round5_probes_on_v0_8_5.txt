@@ -1,0 +1,81 @@
+{
+  "failed_install_then_ram_recovery": {
+    "after_recovery": {
+      "disk": 0,
+      "ram": 0,
+      "witness": 0
+    },
+    "audit_same_object": {
+      "exception": "IntegrityError",
+      "message": "Category sequences do not match the attested checkpoint"
+    },
+    "before_recovery": {
+      "disk": 0,
+      "ram": 0,
+      "witness": 0
+    },
+    "interruption": {
+      "exception": "OSError",
+      "message": "injected state-save failure before durable write"
+    },
+    "restart_audit_after_retry": {
+      "returned": true
+    },
+    "restart_load_after_retry": {
+      "returned": null
+    },
+    "restart_load_before_retry": {
+      "exception": "IntegrityError",
+      "message": "Category sequences do not match the attested checkpoint"
+    },
+    "retry_attest_same_object": {
+      "returned": true
+    }
+  },
+  "long_annotation_strands_valid_crossing": {
+    "apply": null,
+    "attest": {
+      "returned": true
+    },
+    "last_event": "authorization_rejected",
+    "proposal_still_pending": true,
+    "reason": "replay would refuse this crossing: trace index 2: record metadata invalid: ['unverified_annotation is not a short string']",
+    "restart_load": {
+      "returned": null
+    }
+  },
+  "pre_sign_category_no_bypass": {
+    "apply_X": "applied",
+    "attest": {
+      "exception": "AttestationRefused",
+      "message": "trace index 4: owner's position: the owner's latest answer in this category since the reading was taken is 'no' (owner's window: its answers in verbosity since its record began)"
+    },
+    "authoritative_owner_answers_to_Y": [
+      "no"
+    ],
+    "witness": 0
+  },
+  "stale_object_abandons_installed_intent": {
+    "after": {
+      "disk": 1,
+      "pending": false,
+      "witness": 1
+    },
+    "audit_actual_disk_state": {
+      "returned": true
+    },
+    "audit_stale": {
+      "exception": "RollbackDetected",
+      "message": "Rollback: organism presents sequence 0, witness holds 1"
+    },
+    "before": {
+      "disk": 1,
+      "pending": true,
+      "witness": 0
+    },
+    "interruption": {
+      "exception": "OSError",
+      "message": "injected interruption after durable organism install"
+    }
+  }
+}

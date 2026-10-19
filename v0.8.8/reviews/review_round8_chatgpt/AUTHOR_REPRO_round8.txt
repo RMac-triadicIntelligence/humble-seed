@@ -1,0 +1,104 @@
+{
+  "F1_failed_commit_then_crossing": {
+    "attest": {
+      "exception": "OSError",
+      "message": "injected witness commit failure"
+    },
+    "second_crossing": {
+      "returned": "applied"
+    },
+    "saved_checkpoint": 1,
+    "witness": 0,
+    "pending": true,
+    "attest_after": {
+      "exception": "RollbackDetected",
+      "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+    },
+    "audit_after": {
+      "exception": "RollbackDetected",
+      "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+    },
+    "restore_after": {
+      "exception": "RollbackDetected",
+      "message": "A pending checkpoint commit cannot be completed: the saved state claims it but does not verify (IntegrityError: Category sequences do not match the attested checkpoint)"
+    },
+    "still_pending": true
+  },
+  "F2_reentry_between_check_and_write": {
+    "outer": {
+      "returned": "dwelling"
+    },
+    "nested": {
+      "nested_generation": 2,
+      "nested_dwellings": [
+        "curiosity"
+      ]
+    },
+    "final_generation": 2,
+    "final_dwellings": [
+      "formality"
+    ],
+    "fresh_audit": {
+      "returned": true
+    }
+  },
+  "F3_restore_overwrites_a_signoff_made_inside_it": {
+    "restore": {
+      "returned": {
+        "status": "restored",
+        "checkpoint_sequence": 0,
+        "discarded_entries": 2,
+        "kept_as": "pre_restore_gen2_bcd666bdb930.json"
+      }
+    },
+    "nested_attest": {
+      "returned": true
+    },
+    "witness_after_nested": 1,
+    "saved_checkpoint": 0,
+    "witness": 1,
+    "pending": false,
+    "fresh_load_checkpoint": {
+      "returned": 0
+    },
+    "fresh_audit": {
+      "exception": "RollbackDetected",
+      "message": "Rollback: organism presents sequence 0, witness holds 1"
+    }
+  },
+  "F4_interrupt_during_reread": {
+    "attest": {
+      "exception": "KeyboardInterrupt",
+      "message": "injected interrupt during re-read"
+    },
+    "memory_checkpoint": 0,
+    "disk_checkpoint": 1,
+    "memory_generation": 1,
+    "disk_generation": 2,
+    "next_dwell": {
+      "exception": "StaleOrganism",
+      "message": "stale organism object: the saved state is at generation 2, this object last saw 1; reload it"
+    }
+  },
+  "G1_grok_unfixable_case": {
+    "attest": {
+      "exception": "OSError",
+      "message": "injected"
+    },
+    "reload": {
+      "exception": "Fail",
+      "message": "state does not load: Category sequences do not match the attested checkpoint"
+    },
+    "restore_from_unloaded_object": {
+      "returned": {
+        "status": "restored",
+        "checkpoint_sequence": 0,
+        "discarded_entries": 2,
+        "kept_as": "pre_restore_gen3_9644f0c5419a.json"
+      }
+    },
+    "fresh_audit_after": {
+      "returned": true
+    }
+  }
+}

@@ -1,0 +1,24 @@
+Humble Seed v0.8.7 claims battery  (Python 3.12.14, cryptography 50.0.2)
+  Q1                           HOLDS WITH CAVEATS
+  Q2                           HOLDS
+  Q3                           WRONG
+  Q4                           HOLDS
+  Q5                           HOLDS
+  U1                           HOLDS WITH CAVEATS
+  U2                           WRONG
+  G1                           HOLDS
+  A1                           HOLDS
+  R1                           HOLDS WITH CAVEATS
+  R2                           WRONG
+  R20                          WRONG
+  R31a                         HOLDS
+  R31b                         WRONG
+  R33                          HOLDS WITH CAVEATS
+  R35a                         HOLDS WITH CAVEATS
+  R35b                         HOLDS
+  R36                          HOLDS
+  QA                           FOUND
+  QB                           FOUND
+  QC                           FOUND
+  extra_lock_inversion         FOUND
+written CLAIMS_RESULTS_v0_8_7.json

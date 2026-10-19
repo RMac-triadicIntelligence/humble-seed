@@ -1,0 +1,155 @@
+==============================================================================
+Humble Seed v0.8.6 CANDIDATE — falsification harness
+declared f5e4bc48f49d994d… frozen 2026-10-19T13:22:02Z
+candidate 3711074f42902178…  parent v0.7 08a756043a6500fc…
+==============================================================================
+
+TEST                                             DECLARED  MEASURED  VERDICT
+T1_liveness_intervening_events                   PASS      PASS      MATCH
+T2_liveness_cross_category                       PASS      PASS      MATCH
+T3_stale_same_category                           PASS      PASS      MATCH
+T4_second_crossing_at_clamp_floor                PASS      PASS      MATCH
+T5_payload_carries_no_destination_information    PASS      PASS      MATCH
+T6_rule_comes_from_constitution                  PASS      PASS      MATCH
+T7_constitution_pinned_at_apply                  PASS      PASS      MATCH
+T8_distribution_bound                            PASS      PASS      MATCH
+T9_evidence_bound                                PASS      PASS      MATCH
+T10_replay                                       PASS      PASS      MATCH
+T11_expiry                                       PASS      PASS      MATCH
+T12_wrong_key                                    PASS      PASS      MATCH
+T13_forged_first_commit                          PASS      PASS      MATCH
+T14_forged_character_resealed                    PASS      PASS      MATCH
+T15_category_sequences_resealed                  PASS      PASS      MATCH
+T16_permissive_rule_full_birth_repair            PASS      PASS      MATCH
+T17_unattested_apply_fails_closed                PASS      PASS      MATCH
+T18_rollback_witness_only                        PASS      PASS      MATCH
+T19_identity_replacement_audit                   PASS      PASS      MATCH
+T20_realistic_session                            PASS      PASS      MATCH
+T21_prior_value_detects_independent_change       PASS      PASS      MATCH
+T22_unattested_tail_check_reachable              PASS      PASS      MATCH
+T23_tamper_evidence_preserved                    PASS      PASS      MATCH
+T24_nonfinite_reading_refused                    PASS      PASS      MATCH
+T25_clamp_comes_from_constitution                PASS      PASS      MATCH
+T26_attest_refuses_unsigned_change               PASS      PASS      MATCH
+T27_checkpoint_built_at_signing_time             PASS      PASS      MATCH
+T28_reading_survives_a_day                       PASS      PASS      MATCH
+T29_allowed_fields_come_from_constitution        PASS      PASS      MATCH
+T30_D1_owner_no_holds                            PASS      PASS      MATCH
+T31_D1_hold_never_crosses_or_reproposes          PASS      PASS      MATCH
+T32_D1_reader_failure_holds                      PASS      PASS      MATCH
+T33_D1_reader_cannot_alter_reading               PASS      PASS      MATCH
+T34_D1_unrelated_answers_do_not_hold             PASS      PASS      MATCH
+T35_D2_answer_is_evidence_not_authority          PASS      PASS      MATCH
+T36_D2_prompts_separate_and_deterministic        PASS      PASS      MATCH
+T37_D3_nothing_before_signing_depends_on_rule    PASS      PASS      MATCH
+T38_D3_consequence_rendered_from_record          PASS      PASS      MATCH
+T39_D4_attest_refuses_forged_reading             PASS      PASS      MATCH
+T40_nonfinite_never_parsed_or_written            PASS      PASS      MATCH
+T41_owner_ledger_refuses_held_crossing           PASS      PASS      MATCH
+T42_owner_clock_lifetime                         PASS      PASS      MATCH
+T43_organism_expiry_record_honored               PASS      PASS      MATCH
+T44_replay_checks_every_record_field             PASS      PASS      MATCH
+T45_D2_corrected_answer_releases_hold            PASS      PASS      MATCH
+T46_reading_must_be_signed_through_owner_tool    PASS      PASS      MATCH
+T47_forged_yes_does_not_reach_attestation        PASS      PASS      MATCH
+T48_organism_recorded_no_honored                 PASS      PASS      MATCH
+T49_stale_session_cannot_bypass_owner_no         PASS      PASS      MATCH
+T50_stale_session_keeps_other_sessions_records   PASS      PASS      MATCH
+T51_stale_witness_cannot_fork                    PASS      PASS      MATCH
+T52_record_metadata_validated                    PASS      PASS      MATCH
+T53_lifetime_runs_from_first_signing             PASS      PASS      MATCH
+T54_commit_recovers_after_organism_install       PASS      PASS      MATCH
+T55_commit_recovers_before_organism_install      PASS      PASS      MATCH
+T56_owner_lock_excludes_other_processes          PASS      PASS      MATCH
+T57_failed_checkpoint_save_changes_nothing       PASS      PASS      MATCH
+T58_stale_object_cannot_abandon_an_installed_intent PASS      PASS      MATCH
+T59_apply_refuses_what_replay_would_refuse       PASS      PASS      MATCH
+T60_owner_no_before_signing_holds_first_crossing PASS      PASS      MATCH
+T61_owner_no_before_signing_holds_later_crossing PASS      PASS      MATCH
+T62_stale_object_cannot_overwrite_newer_state    PASS      PASS      MATCH
+T63_stale_write_during_attest_is_refused         PASS      PASS      MATCH
+T64_interrupted_commit_then_stale_write_keeps_signoff PASS      PASS      MATCH
+T65_failure_after_replace_keeps_memory_with_disk PASS      PASS      MATCH
+T66_recovery_refuses_a_saved_state_that_does_not_verify PASS      PASS      MATCH
+T67_hatch_cannot_overwrite_an_existing_organism  PASS      PASS      MATCH
+T68_attest_refuses_a_stale_object_before_signing PASS      PASS      MATCH
+T69_organism_lock_held_for_saves_and_attest      PASS      PASS      MATCH
+
+MUTANT                                       DECLARED  MEASURED  VERDICT   killed by (crashed)
+X0_NULL_identical_copy                       SURVIVES  SURVIVES  MATCH     -
+X1_K1_trace_head_staleness_restored          KILLED    KILLED    MATCH     T1, T20, T28, T2, T30, T31, T32, T34, T35, T41, T43, T45, T47, T48, T49, T50, T59, T60, T61
+X2_K1_global_sequence_staleness_restored     KILLED    KILLED    MATCH     T20, T28, T2
+X3_K1_category_sequence_check_removed        KILLED    KILLED    MATCH     T20, T28, T3, T4
+X4_K1_prior_value_check_removed              KILLED    KILLED    MATCH     T21
+X5_K2_destination_back_in_payload            KILLED    KILLED    MATCH     T5
+X5b_K2_destination_alias_in_payload          KILLED    KILLED    MATCH     T5
+X5c_K2_destination_digest_in_payload         KILLED    KILLED    MATCH     T5
+X6_K2_rule_read_from_module_constant         KILLED    KILLED    MATCH     T6
+X7_K2_constitution_pin_removed               KILLED    KILLED    MATCH     T7
+X8_K2_distribution_root_not_rehashed         KILLED    KILLED    MATCH     T8
+X9_C5_unknown_organism_audit_returns         KILLED    KILLED    MATCH     T19
+X10_unattested_tail_check_removed            KILLED    KILLED    MATCH     T22
+XF1a_validator_accepts_nonfinite             KILLED    KILLED    MATCH     T24
+XF1b_strict_parse_removed                    KILLED    KILLED    MATCH     T40
+XF1c_canonical_json_allows_nan               KILLED    KILLED    MATCH     T40
+XF2a_clamp_read_from_module_constant         KILLED    KILLED    MATCH     T25
+XF2b_fields_read_from_module_constant        KILLED    KILLED    MATCH     T29
+XF2c_ttl_read_from_module_constant           KILLED    KILLED    MATCH     T28, T53
+XD1a_hold_ignored                            KILLED    KILLED    MATCH     T30, T31, T32, T41, T45, T48
+XD1b_reader_failure_fails_open               KILLED    KILLED    MATCH     T32
+XD1c_hold_reproposes                         KILLED    KILLED    MATCH     T30, T31
+XD1d_reader_gets_live_reading                KILLED    KILLED    MATCH     T33
+XD2a_owner_answer_counted_as_authorizing     KILLED    KILLED    MATCH     T30, T34, T35, T41, T45, T47, T48, T49, T50, T60, T61
+XD2b_answer_not_deposited_as_evidence        KILLED    KILLED    MATCH     T35
+XD3a_preview_destination_returned            KILLED    KILLED    MATCH     T37
+XD3b_destination_in_authorization_prompt     KILLED    KILLED    MATCH     T36, T37
+XD4a_attest_without_replay                   KILLED    KILLED    MATCH     T26, T39, T41, T42, T43, T44, T46, T47, T48, T49, T52, T53, T60, T61
+XD4b_replay_skips_signature_check            KILLED    KILLED    MATCH     T39
+XH_unrelated_crash_injected                  CRASHED   CRASHED   MATCH     -  (63 crashed)
+XD2c_answer_is_a_permanent_event             KILLED    KILLED    MATCH     T45, T47, T49, T60, T61
+XD2e_per_reading_clause_removed              KILLED    KILLED    MATCH     T45
+XD2f_category_clause_removed                 KILLED    KILLED    MATCH     T45, T60, T61
+XL1_owner_position_check_removed             KILLED    KILLED    MATCH     T41, T47, T49, T60, T61
+XL5_unknown_readings_skip_owner_checks       KILLED    KILLED    MATCH     T46
+XL6_answer_not_recorded_by_owner             KILLED    KILLED    MATCH     T41, T47, T49, T60, T61
+XL7_signature_not_recorded_by_owner          KILLED    KILLED    MATCH     T10, T14, T15, T18, T1, T20, T25, T27, T28, T29, T2, T33, T34, T35, T38, T3, T41, T42, T43, T45, T47, T48, T49, T4, T50, T51, T53, T56, T59, T60, T61, T62, T63, T6  (7 crashed)
+XL8_organism_recorded_no_ignored             KILLED    KILLED    MATCH     T48
+XL2_owner_clock_lifetime_check_removed       KILLED    KILLED    MATCH     T42, T53
+XL3_organism_expiry_record_ignored           KILLED    KILLED    MATCH     T43
+XL4_record_field_check_removed               KILLED    KILLED    MATCH     T26, T44
+XS1_owner_lock_not_taken                     KILLED    KILLED    MATCH     T56, T69
+XS2_ledger_not_reread                        KILLED    KILLED    MATCH     T49, T50, T53
+XS3_witness_not_reread                       KILLED    KILLED    MATCH     T51
+XR1_recovery_never_completes                 KILLED    KILLED    MATCH     T54, T58, T64, T65
+XR2_recovery_never_abandons                  KILLED    KILLED    MATCH     T55, T57, T66
+XR3_no_write_ahead_intent                    KILLED    KILLED    MATCH     T54, T58, T63, T64, T65, T66
+XP1_finite_check_removed_window_still_refuses KILLED    KILLED    MATCH     T52
+XP2_event_timestamp_unbound                  KILLED    KILLED    MATCH     T52
+XP3_annotation_type_unchecked                KILLED    KILLED    MATCH     T52, T59
+XP4_authorized_at_window_unchecked           KILLED    KILLED    MATCH     T52, T59
+XM1_invalid_authorized_at                    KILLED    KILLED    MATCH     T10, T14, T15, T17, T18, T1, T20, T25, T26, T27, T28, T29, T2, T33, T34, T35, T38, T3, T41, T42, T43, T44, T45, T46, T47, T48, T49, T4, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T6
+XM2_forged_annotation                        KILLED    KILLED    MATCH     T10, T14, T15, T17, T18, T1, T20, T25, T26, T27, T28, T29, T2, T33, T34, T35, T38, T3, T41, T42, T43, T44, T45, T46, T47, T48, T49, T4, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T6
+XM3_inconsistent_event_timestamp             KILLED    KILLED    MATCH     T10, T14, T15, T17, T18, T1, T20, T25, T26, T27, T28, T29, T2, T33, T34, T35, T38, T3, T41, T42, T43, T44, T45, T46, T47, T48, T49, T4, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T6
+XR4_install_keeps_memory_on_failed_save      KILLED    KILLED    MATCH     T57
+XR5_recovery_trusts_the_object               KILLED    KILLED    MATCH     T58, T66
+XA1_apply_skips_replay_check                 KILLED    KILLED    MATCH     T59
+XP1b_finite_and_window_checks_removed        KILLED    KILLED    MATCH     T52, T59
+X4b_prior_value_unchecked_at_apply           KILLED    KILLED    MATCH     T21, T23, T59
+XW1a_first_crossing_window_from_own_signing  KILLED    KILLED    MATCH     T60
+XW1b_later_crossing_window_from_own_signing  KILLED    KILLED    MATCH     T61
+XO1_save_skips_generation_check              KILLED    KILLED    MATCH     T62, T63, T64, T67
+XO2_attest_skips_currency_check              KILLED    KILLED    MATCH     T68
+XO3_attest_without_organism_lock             KILLED    KILLED    MATCH     T69
+XO4_organism_lock_is_a_no_op                 KILLED    KILLED    MATCH     T69
+XI1_install_rolls_back_even_when_saved       KILLED    KILLED    MATCH     T65
+XG1_landed_save_not_recorded                 KILLED    KILLED    MATCH     T65
+XC1_recovery_completes_without_verifying     KILLED    KILLED    MATCH     T66
+
+==============================================================================
+mismatches vs declared: 0
+receipt (statuses only, run-independent): 6230c43e5df366cbb6e4e728258f337346ed8f5b44f76fdc8471c0e8b0ab7ca2
+RESULTS_v0_8_6.json written. Exit code is non-zero if any mismatch.
+
+real	2m43.733s
+user	0m39.027s
+sys	0m15.380s

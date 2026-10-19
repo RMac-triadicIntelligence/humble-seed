@@ -1,0 +1,29 @@
+Humble Seed v0.8.6 claims battery  (Python 3.13.16, cryptography 50.0.1)
+  O1                           HOLDS
+  O2                           HOLDS
+  O3                           HOLDS
+  O4                           HOLDS
+  O5                           HOLDS
+  O6                           HOLDS
+  I1                           HOLDS
+  I2                           HOLDS
+  C1                           HOLDS
+  C2                           HOLDS
+  C3                           HOLDS
+  M1                           HOLDS
+  R30a                         HOLDS
+  R30b                         HOLDS
+  R30c                         HOLDS
+  R31a                         HOLDS
+  R31b                         HOLDS
+  R31c                         HOLDS
+  R32a                         HOLDS
+  R32b                         HOLDS
+  R33a                         HOLDS
+  R33b                         HOLDS WITH CAVEATS
+  R34                          HOLDS
+  W1                           HOLDS
+  Q1                           NOT FOUND
+  Q2                           NOT FOUND
+  extra_generation_monotonic   HOLDS
+written CLAIMS_RESULTS_v0_8_6.json

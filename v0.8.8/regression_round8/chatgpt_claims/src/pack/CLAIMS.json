@@ -1,0 +1,109 @@
+{
+  "source": "humble_seed_v0_8_7_candidate.py",
+  "claims": [
+    {
+      "id": "Q1",
+      "group": "Q",
+      "text": "hatch, load, dwell_or_propose, record_owner_answer, authorize_and_apply and install_checkpoint each hold the organism lock (organism.lock: POSIX flock across processes, serialized across threads, reentrant within a thread) from a currency check, through every change to memory, to the save."
+    },
+    {
+      "id": "Q2",
+      "group": "Q",
+      "text": "A save takes its snapshot and its new generation under the lock."
+    },
+    {
+      "id": "Q3",
+      "group": "Q",
+      "text": "A stale object is refused before it changes anything in memory."
+    },
+    {
+      "id": "Q4",
+      "group": "Q",
+      "text": "The owner's answer, attest, audit and restore hold the same lock."
+    },
+    {
+      "id": "Q5",
+      "group": "Q",
+      "text": "The save's own generation check stays: it catches a write that lands during an operation through a callback in the same thread (the reader)."
+    },
+    {
+      "id": "U1",
+      "group": "U",
+      "text": "If a save fails and the saved generation cannot be re-read, the object refuses every operation until it is reloaded."
+    },
+    {
+      "id": "U2",
+      "group": "U",
+      "text": "install_checkpoint does not roll memory back on a guess."
+    },
+    {
+      "id": "G1",
+      "group": "G",
+      "text": "A SAVED FILE WITHOUT A VALID GENERATION REFUSES EVERY WRITE, including a new hatch"
+    },
+    {
+      "id": "A1",
+      "group": "A",
+      "text": "Neither the owner's ledger nor the organism records it, and the error says so."
+    },
+    {
+      "id": "R1",
+      "group": "R",
+      "text": "OwnerTool.restore first resolves any pending commit, then rebuilds the organism at the witness head from the attested prefix of its saved trace (replayed and verified before anything is written), discards everything after it and every pending reading, keeps the discarded file beside the state, and records a non-authorizing \"restored\" event."
+    },
+    {
+      "id": "R2",
+      "group": "R",
+      "text": "The witness does not move."
+    },
+    {
+      "id": "R20",
+      "group": "R20",
+      "text": "If it is not, OwnerTool.restore brings the organism back to its last attested state; the crossing must be read and signed again."
+    },
+    {
+      "id": "R31a",
+      "group": "R31",
+      "text": "If another operation's save fails before landing, the object is ahead of its disk; its next operation writes that state unless another object has saved first, in which case it is refused as stale and the unsaved change is lost on reload."
+    },
+    {
+      "id": "R31b",
+      "group": "R31",
+      "text": "No object writes over a newer saved state."
+    },
+    {
+      "id": "R33",
+      "group": "R33",
+      "text": "It is refused before it changes anything. An answer given through a stale object is recorded nowhere."
+    },
+    {
+      "id": "R35a",
+      "group": "R35",
+      "text": "Operations are serialized per organism data directory."
+    },
+    {
+      "id": "R35b",
+      "group": "R35",
+      "text": "A callback that runs inside an operation (the reader) runs under the lock; a write it makes through another object is caught by the save's generation check, and the operation is refused as stale."
+    },
+    {
+      "id": "R36",
+      "group": "R36",
+      "text": "Restore needs the attested prefix intact in the saved file. An unreadable file, or one truncated below the prefix, cannot be restored; no separate backup is kept. The basin (unattested evidence) is kept."
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "QA",
+      "text": "Is there any interleaving of processes, threads or organism objects that loses a saved update, or leaves the witness and the saved file in a state that neither recovery nor restore can resolve?"
+    },
+    {
+      "id": "QB",
+      "text": "Is there any failed or interrupted save, or any use of restore, that leaves a state that can never be signed off, or that lets something be signed off that the owner did not approve?"
+    },
+    {
+      "id": "QC",
+      "text": "Can restore be made to bring back anything other than the witness head, or to discard something the owner signed off?"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "artifact": "humble_seed_v0_8_candidate falsification harness",
+  "date": "2026-10-17",
+  "authorship": "Claude (Opus 5.5 session) at Rusty McMurray's direction ('do what you think best next')",
+  "frozen_before": "any harness/test code was written. The candidate module existed and passed one smoke run (hatch, propose, intervening message, apply, attest, reload, audit).",
+  "parent": "humble_seed_v0_7.py 'Canonical Converged Constitutional Core' sha256 08a756043a6500fcda85fc2795471b4e8659de5364424c035aa5c6aa91cb3707",
+  "rules": [
+    "A rejection counts only through its declared mechanism: authorize_and_apply returns None AND the last trace event is authorization_rejected AND its reason contains the declared substring; or load() raises IntegrityError containing the substring; or audit raises RollbackDetected containing the substring. Any other exception is an ERROR, never a rejection.",
+    "Every verdict printed is computed by comparing MEASURED to this file. The harness exits non-zero on any mismatch.",
+    "The harness refuses to run if this file's sha256 differs from DECLARED.sha256."
+  ],
+  "tests": {
+    "T1_liveness_intervening_events": {"expect": "PASS", "asserts": "A verbosity reading survives 5 ambiguous messages (dwelling, same and other categories), one authorization_rejected event, and one checkpoint attestation, then applies; verbosity 0.5 -> 0.25."},
+    "T2_liveness_cross_category": {"expect": "PASS", "asserts": "Readings in verbosity and formality issued at the same state; formality applied and attested first; the verbosity reading still applies. Both end at 0.25."},
+    "T3_stale_same_category": {"expect": "PASS", "asserts": "Two verbosity readings at one state; the newer applies; the older is rejected with 'category has advanced'."},
+    "T4_second_crossing_at_clamp_floor": {"expect": "PASS", "asserts": "Verbosity driven to 0.0; two readings at 0.0; one applies (0.0 -> 0.0, sequence advances); the other is rejected with 'category has advanced' even though the value did not change."},
+    "T5_payload_names_no_destination": {"expect": "PASS", "asserts": "Signed payload has none of change, change_hash, destination, preview_destination; has evidence_root, distribution_root, prior_value, category_sequence, constitution_root."},
+    "T6_rule_comes_from_constitution": {"expect": "PASS", "asserts": "After hatch, the module constant GENESIS_DERIVATION is edited to delta -0.5; the applied destination still uses the constitution's -0.25 (0.5 -> 0.25)."},
+    "T7_constitution_pinned_at_apply": {"expect": "PASS", "asserts": "After signing, the in-memory constitution delta is edited to +0.25; apply is rejected with 'derivation rule changed'."},
+    "T8_distribution_bound": {"expect": "PASS", "asserts": "After signing, the distribution is re-weighted (lead unchanged, still sums to 1); apply is rejected with 'envelope inconsistency'."},
+    "T9_evidence_bound": {"expect": "PASS", "asserts": "After signing, the evidence is replaced; apply is rejected with 'envelope inconsistency'."},
+    "T10_replay": {"expect": "PASS", "asserts": "A consumed reading re-inserted into pending with its original signature is rejected with 'replay'."},
+    "T11_expiry": {"expect": "PASS", "asserts": "A reading issued with ttl=-1 is rejected with 'expired'."},
+    "T12_wrong_key": {"expect": "PASS", "asserts": "A signature from a different key is rejected with 'invalid signature'."},
+    "T13_forged_first_commit": {"expect": "PASS", "asserts": "first_commit flipped to False on a first reading, payload rebuilt and genuinely signed; rejected with 'first-commit mismatch'."},
+    "T14_forged_character_resealed": {"expect": "PASS", "asserts": "Character edited, trace re-chained, seal recomputed; load raises IntegrityError containing 'Character does not match'."},
+    "T15_category_sequences_resealed": {"expect": "PASS", "asserts": "Category sequences swapped (sum preserved), resealed; load raises IntegrityError containing 'Category sequences do not match the attested'."},
+    "T16_permissive_rule_full_birth_repair": {"expect": "PASS", "asserts": "Constitution delta set to +0.25 with birth.constitution_hash, genesis_hash and birth trace entry repaired, re-chained and resealed; load raises IntegrityError containing 'Birth record does not match the attested checkpoint'."},
+    "T17_unattested_apply_fails_closed": {"expect": "PASS", "asserts": "Applied but not attested; load raises IntegrityError containing 'Unattested authorizing event'."},
+    "T18_rollback_witness_only": {"expect": "PASS", "asserts": "Whole-file rollback to an older attested state loads cleanly (the organism cannot see it); the owner's audit raises RollbackDetected containing 'Rollback'."},
+    "T19_identity_replacement_audit": {"expect": "PASS", "asserts": "A different organism with its own key is dropped in place; the real owner's audit raises RollbackDetected containing 'Unknown organism'."},
+    "T20_realistic_session": {"expect": "PASS", "asserts": "Eight messages (4 readings across 3 categories, 4 dwellings), owner signs every reading at session end in issue order. v0.8: 3 of 4 apply (one per category); the second verbosity reading is rejected with 'category has advanced'; final character verbosity 0.25, formality 0.25, curiosity 0.35. Parent v0.7 on the same script: 0 of 4 apply."}
+  },
+  "mutants": {
+    "X0_NULL_identical_copy": {"expect": "SURVIVES", "why": "No change; proves the suite does not fail spuriously."},
+    "X1_K1_trace_head_staleness_restored": {"expect": "KILLED", "killer": "T1_liveness_intervening_events"},
+    "X2_K1_global_sequence_staleness_restored": {"expect": "KILLED", "killer": "T2_liveness_cross_category"},
+    "X3_K1_category_sequence_check_removed": {"expect": "KILLED", "killer": "T4_second_crossing_at_clamp_floor"},
+    "X4_K1_prior_value_check_removed": {"expect": "SURVIVES", "why": "R11: redundant with category_sequence on every path found. Declared in advance as a survivor."},
+    "X5_K2_destination_back_in_payload": {"expect": "KILLED", "killer": "T5_payload_names_no_destination"},
+    "X6_K2_rule_read_from_module_constant": {"expect": "KILLED", "killer": "T6_rule_comes_from_constitution"},
+    "X7_K2_constitution_pin_removed": {"expect": "KILLED", "killer": "T7_constitution_pinned_at_apply"},
+    "X8_K2_distribution_root_not_rehashed": {"expect": "KILLED", "killer": "T8_distribution_bound"},
+    "X9_C5_unknown_organism_audit_returns": {"expect": "KILLED", "killer": "T19_identity_replacement_audit"}
+  }
+}
